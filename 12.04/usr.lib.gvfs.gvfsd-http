@@ -1,0 +1,8 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/lib/gvfs/gvfsd-http {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+}
