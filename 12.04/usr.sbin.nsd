@@ -1,0 +1,33 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/sbin/nsd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+  capability chown,
+  capability dac_override,
+
+  # for networking
+  owner @{PROC}/[0-9]*/net/if_inet6 r,
+  owner @{PROC}/[0-9]*/net/ipv6_route r,
+
+  /etc/nsd3/**     r,
+  /var/lib/nsd3/   r,
+  /var/lib/nsd3/** r,
+  owner /var/lib/nsd3/ixfr.db    rw,
+  owner /var/lib/nsd3/xfrd.state rw,
+  /var/log/nsd.log w,
+
+  /usr/sbin/nsd mr,
+
+  /{,var/}run/nsd3/nsd.pid rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.nsd>
+}

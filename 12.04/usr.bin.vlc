@@ -1,0 +1,58 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/vlc {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+  #include <abstractions/kde>
+  #include <abstractions/nameservice>
+  #include <abstractions/private-files-strict>
+  #include <abstractions/user-tmp>
+
+  # allow directory listings (ie 'r' on directories) so browsing via the file
+  # dialog works
+  / r,
+  /**/ r,
+
+  /etc/mtab   r,
+  /etc/vlc/** r,
+  /etc/xdg/** rk,
+
+  /var/lib/dbus/machine-id r,
+  owner @{PROC}/[0-9]*/cmdline r,
+  owner @{PROC}/[0-9]*/auxv r,
+
+  # Convenient for transcoding
+  owner @{HOME}/**                  rw,
+  owner @{HOME}/.config/vlc/**      rwk,
+  owner @{HOME}/.local/vlc/**       rwk,
+  owner @{HOME}/.local/share/vlc/** rwk,
+
+  # Locations that commonly contains media files
+  /{data,media,mnt,opt,srv}/** r,
+  owner /{data,media,mnt,opt,srv}/** rw,
+
+  # Reading physical disks
+  /dev/sr[0-9]  r,
+  /dev/sg[0-9]  r,
+
+  /usr/bin/vlc         mr,
+  /usr/lib/vlc/**      mr,
+  deny /usr/lib/vlc/** w,
+  /usr/lib/libproxy*/*/modules/     r,
+  /usr/lib/libproxy*/*/modules/*.so mr,
+  /usr/share/glib-2.0/schemas/* r,
+  /usr/share/icons/** rk,
+
+  /etc/udev/udev.conf r,
+
+  # VLC can turn off the screensaver
+  /usr/bin/xdg-screensaver PUx,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.vlc>
+}

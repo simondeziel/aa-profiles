@@ -1,0 +1,41 @@
+# vim:syntax=apparmor
+# Last Modified: Wed Jun 20 13:34:25 2007
+#include <tunables/global>
+
+/usr/sbin/smbd {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/consoles>
+  #include <abstractions/cups-client>
+  #include <abstractions/nameservice>
+  #include <abstractions/samba>
+  #include <abstractions/user-tmp>
+  #include <abstractions/wutmp>
+
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_resource,
+  capability sys_tty_config,
+
+  /etc/mtab r,
+  /etc/printcap r,
+  /proc/*/mounts r,
+  /usr/sbin/smbd mr,
+  /var/cache/samba/** rwk,
+  /var/cache/samba/printing/printers.tdb mrw,
+  /var/lib/samba/** rwk,
+  /var/lib/samba/printers/** rw,
+  /var/run/cups/cups.sock rw,
+  /var/run/dbus/system_bus_socket rw,
+  /var/run/samba/** rk,
+  /var/run/samba/smbd.pid rw,
+  /var/log/samba/cores/smbd/ rw,
+  /var/log/samba/cores/smbd/** rw,
+  /var/spool/samba/** rw,
+
+  @{HOMEDIRS}/** lrwk,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.smbd>
+}

@@ -1,0 +1,38 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/sbin/unbound {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+  capability sys_resource,
+  capability chown,
+  capability dac_override,
+
+  # for networking
+  owner @{PROC}/[0-9]*/net/if_inet6 r,
+  owner @{PROC}/[0-9]*/net/ipv6_route r,
+
+
+  # non-chrooted paths
+  /etc/unbound/** r,
+  owner /etc/unbound/*.key rw,
+  owner /var/lib/unbound/root.key rw,
+  audit deny /etc/unbound/unbound_{control,server}.key w,
+
+  # chrooted paths
+  /var/lib/unbound/** r,
+  owner /var/lib/unbound/**/*.key rw,
+  audit deny /var/lib/unbound/unbound_{control,server}.key w,
+
+  /etc/ssl/openssl.cnf r,
+
+  /usr/sbin/unbound mr,
+
+  /{,var/}run/unbound.pid rw,
+}

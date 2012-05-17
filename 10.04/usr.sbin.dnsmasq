@@ -1,0 +1,60 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2009 John Dong <jdong@ubuntu.com>
+#    Copyright (C) 2010 Canonical Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+@{TFTP_DIR}=/var/tftp
+
+#include <tunables/global>
+/usr/sbin/dnsmasq {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability dac_override,
+  capability net_admin,         # for DHCP server
+  capability net_raw,           # for DHCP server ping checks
+  network inet raw,
+
+  /etc/dnsmasq.conf r,
+  /etc/dnsmasq.d/ r,
+  /etc/dnsmasq.d/* r,
+  /etc/ethers r,
+
+  /usr/sbin/dnsmasq mr,
+
+  /{,var/}run/*dnsmasq*.pid w,
+  /{,var/}run/dnsmasq-forwarders.conf r,
+  /{,var/}run/dnsmasq/ r,
+  /{,var/}run/dnsmasq/* rw,
+
+  /var/lib/misc/dnsmasq.leases rw, # Required only for DHCP server usage
+
+  # for the read-only TFTP server
+  @{TFTP_DIR}/ r,
+  @{TFTP_DIR}/** r,
+
+  # libvirt lease and hosts files for dnsmasq
+  /var/lib/libvirt/dnsmasq/            r,
+  /var/lib/libvirt/dnsmasq/*.leases rw,
+  /var/lib/libvirt/dnsmasq/*.hostsfile r,
+
+  # libvirt pid files for dnsmasq
+  /{,var/}run/libvirt/network/      r,
+  /{,var/}run/libvirt/network/*.pid rw,
+
+  # NetworkManager integration
+  /{,var/}run/nm-dns-dnsmasq.conf r,
+  /{,var/}run/sendsigs.omit.d/*dnsmasq.pid w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.dnsmasq>
+}
