@@ -1,0 +1,137 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel at gmail_com>
+# This apparmor profile is provided as-is
+
+#include <tunables/global>
+/usr/lib/thunderbird-*/thunderbird-bin {
+  #include <abstractions/audio>
+  #include <abstractions/aspell>
+  #include <abstractions/base>
+  #include <abstractions/cups-client>
+  #include <abstractions/dbus-session>
+  #include <abstractions/fonts>
+  #include <abstractions/freedesktop.org>
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/user-tmp>
+  #include <abstractions/user-download>
+  #include <abstractions/ubuntu-browsers>
+
+  # for networking
+  @{PROC}/[0-9]*/net/if_inet6 r,
+  @{PROC}/[0-9]*/net/ipv6_route r,
+
+  # should maybe be in abstractions
+  /etc/ r,
+  /etc/mime.types r,
+  /etc/mailcap r,
+  /etc/xdg/*buntu/applications/defaults.list    r, # for all derivatives
+  /usr/share/xubuntu/applications/defaults.list r,
+  owner @{HOME}/.local/share/applications/defaults.list r,
+  owner @{HOME}/.local/share/applications/mimeapps.list r,
+  owner @{HOME}/.local/share/applications/mimeinfo.cache r,
+  /tmp/.X[0-9]*-lock r,
+
+  /etc/timezone r,
+  /etc/wildmidi/wildmidi.cfg r,
+
+  # thunderbird specific
+  /etc/thunderbird/ r,
+  /etc/thunderbird/** r,
+  /etc/xul-ext/** r,
+  /etc/gre.d/ r,
+  /etc/gre.d/* r,
+
+  # noisy
+  deny /usr/lib/thunderbird-*/** w,
+  deny /boot/initrd.img* r,
+  deny /boot/vmlinuz* r,
+  deny @{HOME}/.* r,
+
+  # These are needed when a new user starts thunderbird and thunderbird.sh is used
+  /usr/lib/thunderbird-*/** ixr,
+  /usr/bin/basename ixr,
+  /usr/bin/dirname ixr,
+  /usr/bin/pwd ixr,
+  /sbin/killall5 ixr,
+  /bin/which ixr,
+  /usr/bin/tr ixr,
+  @{PROC}/ r,
+  owner @{PROC}/[0-9]*/cmdline r,
+  owner @{PROC}/[0-9]*/stat r,
+  owner @{PROC}/[0-9]*/status r,
+  @{PROC}/filesystems r,
+
+  /etc/mtab r,
+  /etc/fstab r,
+
+  # Needed for the crash reporter
+  owner @{PROC}/[0-9]*/environ r,
+  owner @{PROC}/[0-9]*/auxv r,
+  /etc/lsb-release r,
+  /usr/bin/expr ix,
+  /sys/devices/system/cpu/ r,
+  /sys/devices/system/cpu/** r,
+
+  # Miscellaneous (to be abstracted)
+  /bin/uname Uxr,       # TODO: child profile
+
+  # allow access to documentation and other files the user may want to look
+  # at in /usr
+  /usr/ r,
+  /usr/** r,
+
+  # so browsing directories works
+  / r,
+  /**/ r,
+
+  # per-user thunderbird configuration
+  owner @{HOME}/.thunderbird/ rw,
+  owner @{HOME}/.thunderbird/** rw,
+  owner @{HOME}/.thunderbird/**/.parentlock k,
+  owner @{HOME}/.thunderbird/**/storage.sdb k,
+  owner @{HOME}/.thunderbird/**/*.{db,sqlite}* k,
+  owner @{HOME}/.thunderbird/plugins/** rm,
+  owner @{HOME}/.thunderbird/**/plugins/** rm,
+
+  # Extensions
+  # /usr/share/.../extensions/... is already covered by '/usr/** r', above.
+  # Allow 'x' for downloaded extensions, but inherit policy for safety
+  owner @{HOME}/.thunderbird/**/extensions/** mixrw,
+  owner @{HOME}/.mozilla/extensions/**        mixr,
+  /usr/share/xul-ext/**/*.sqlite              rk,
+  /usr/lib/xul-ext/**/*.sqlite                rk,
+
+  deny /usr/lib/mozilla/extensions/**/        w,
+  deny /usr/share/mozilla/extensions/**/      w,
+  deny /usr/share/mozilla/                    w,
+
+  /usr/bin/gpg Cx -> gpg,
+
+  profile gpg {
+    #include <abstractions/base>
+
+    # Required to import keys from keyservers
+    #include <abstractions/nameservice>
+
+    /usr/bin/gpg mr,
+    /usr/lib/gnupg/gpgkeys_* ix,
+    owner @{HOME}/.gnupg r,
+    owner @{HOME}/.gnupg/gpg.conf r,
+    owner @{HOME}/.gnupg/random_seed rwk,
+    owner @{HOME}/.gnupg/pubring.gpg{,~} rw,
+    owner @{HOME}/.gnupg/secring.gpg rw,
+    owner @{HOME}/.gnupg/trustdb.gpg rw,
+    owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
+    owner @{HOME}/.gnupg/.#*[0-9] rw,
+
+    owner @{HOME}/* r,
+    owner /tmp/** r,
+    owner /tmp/encfile* wr,
+  }
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.thunderbird.thunderbird-bin>
+}
