@@ -1,0 +1,47 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel at gmail_com>
+# This apparmor profile is provided as-is
+
+#include <tunables/global>
+/usr/bin/transmission {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/dbus>
+  #include <abstractions/dbus-session>
+  #include <abstractions/fonts>
+  #include <abstractions/nameservice>
+  #include <abstractions/gnome>
+
+  # Use abstractions/private-files instead if using gpg plugin/addons
+  #include <abstractions/private-files-strict>
+
+  /home/         r,
+  owner @{HOME}/ r,
+  owner @{HOME}/** r,
+  owner @{HOME}/.cache/transmission/favicons/** rw,
+  owner @{HOME}/.config/ibus/bus/   rw,
+  owner @{HOME}/.config/ibus/bus/** rw,
+  owner @{HOME}/.config/gtk-2.0/** rw,
+  owner @{HOME}/.config/transmission/ rw,
+  owner @{HOME}/.config/transmission/lock rwk,
+  owner @{HOME}/.config/transmission/** rw,
+  owner @{HOME}/.recently-used.* krw,
+  owner @{HOME}/Downloads/ rw,
+  owner @{HOME}/Downloads/** rw,
+
+  @{PROC}/[0-9]*/fd/ r,
+
+  /usr/bin/transmission rix,
+  /usr/lib/ r,
+  /usr/local/share/** r,
+  /usr/share/ r,
+  /usr/share/** r,
+
+  # From evince's profile
+  /dev/.udev/db/* r,
+  /etc/udev/udev.conf r,
+  /sys/devices/**/block/**/uevent r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.transmission>
+}

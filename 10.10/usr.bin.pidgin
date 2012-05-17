@@ -1,0 +1,87 @@
+# 
+#    AppArmor Pidgin profile for Ubuntu 9.04 Jaunty
+#    
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+
+#include <tunables/global>
+/usr/bin/pidgin {
+	#include <abstractions/audio>
+	#include <abstractions/aspell>
+	#include <abstractions/bash>
+	#include <abstractions/consoles>
+	#include <abstractions/dbus>
+	#include <abstractions/gnome>
+	#include <abstractions/nameservice>
+	#include <abstractions/launchpad-integration>
+	#include <abstractions/user-download>
+
+	capability sys_ptrace,
+
+	deny @{HOME}/.bash* rw,
+	deny @{HOME}/.cshrc rw,
+	deny @{HOME}/.profile rw,
+	deny @{HOME}/.ssh/* rw,
+	deny @{HOME}/.zshrc rw,
+
+	owner @{HOME}/.config/enchant/ rw,
+	owner @{HOME}/.config/enchant/* rwk,
+	owner @{HOME}/.thumbnails/normal/*.png r,
+	owner @{HOME}/.local/share/icons/ r,
+	owner @{HOME}/.local/share/mime/* r,
+	owner @{HOME}/.gnome2/nautilus-sendto/** rw,
+	owner @{HOME}/.gstreamer*/ rw,
+	owner @{HOME}/.gstreamer*/** rw,
+	owner @{HOME}/.pulse/ rw,
+	owner @{HOME}/.pulse/** rw,
+	owner @{HOME}/.pulse-cookie rwk,
+	owner @{HOME}/.purple/ rw,
+	owner @{HOME}/.purple/** rwk,
+
+	/bin/dash rix,
+
+	/dev/shm/ r,
+	/dev/shm/* rw,
+
+	/etc/ r,
+	/etc/pulse/client.conf r,
+	/etc/ssl/certs/* r,
+	/etc/ssl/certs/ssl-cert-snakeoil.pem r,
+
+	owner /tmp/orbit-*/* w,
+	owner /tmp/pulse-*/* w,
+    owner /tmp/orcexec.orc_process_int16.[0-9A-Za-z]*  m,  # investigate
+
+	/usr/bin/gconftool-2 rix,
+	/usr/bin/gnome-default-applications-properties ix,
+	/usr/bin/gnome-network-preferences ix,
+	/usr/bin/gnome-open rmix,
+	/usr/bin/pidgin r,
+	/usr/bin/xdg-open rmix,
+
+	/usr/lib/ r,
+	/usr/lib/firefox-*/firefox.sh Px,
+	/usr/lib/libvisual-*/**.so rm,
+	/usr/lib/pidgin/*.so rm,
+	/usr/lib/purple*/*.so rm,
+
+	/usr/share/ca-certificates/*/** r,
+	/usr/share/enchant/enchant.ordering r,
+	/usr/share/locale-langpack/** rm,
+	/usr/share/purple/ca-certs/ r,
+	/usr/share/purple/ca-certs/** r,
+	/usr/share/myspell/dicts/ r,
+	/usr/share/myspell/dicts/** r,
+	/usr/share/tcltk/** r,
+
+	# sdeziel
+	#include <abstractions/dbus-session>
+	owner @{PROC}/[0-9]*/fd/ r,
+	owner @{HOME}/.config/ibus/bus/  w,
+	/usr/share/hunspell/	r,
+	/usr/share/hunspell/**	r,
+	/usr/share/themes/	r,
+	/usr/share/themes/**	r,
+}

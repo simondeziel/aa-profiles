@@ -1,0 +1,61 @@
+# vim:syntax=apparmor
+# Source: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/662861/+attachment/1700207/+files/apparmor-openvpn-reproducer.sh
+#include <tunables/global>
+
+/usr/sbin/openvpn {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_admin,
+  capability setuid,
+  capability setgid,
+  capability sys_chroot,
+  capability dac_override,
+  capability dac_read_search,
+
+  # For mlock support
+  capability ipc_lock,
+
+  # Interactive authentication requires this
+  /dev/tty  rw,
+
+  /usr/lib/openvpn/*.so mr,
+  /dev/net/tun rw,
+  @{PROC}/[0-9]*/net/route r,
+
+  # helpers
+  /usr/bin/openssl-vulnkey Cx -> vulnkey,
+  /usr/sbin/openvpn-vulnkey Cx -> vulnkey,
+  /sbin/ifconfig ix,
+  /sbin/route ix,
+
+  /etc/openvpn/*.conf r,
+  /etc/openvpn/** r,
+  audit deny /etc/openvpn/easy-rsa/* r,
+  audit deny /etc/openvpn/**/easy-rsa/* r,
+  /{,var/}run/openvpn.*.{pid,status} rw,
+  /var/log/openvpn/*.log w,
+
+  /etc/openvpn/update-resolv-conf ix,
+
+  profile vulnkey {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    #include <abstractions/python>
+    # Apparently not included in <abstractions/python>
+    /usr/bin/python2.[67] ixr,
+    /usr/include/python2.[67]/** r,   # needed ?
+
+    capability sys_tty_config,
+
+    /usr/bin/openssl-vulnkey r,
+    /usr/sbin/openvpn-vulnkey r,
+    /usr/share/open{ssl,vpn}-blacklist/** r,
+    /etc/openvpn/*.{crt,key} r,
+    /etc/openvpn/**/*.{crt,key} r,
+    /var/log/openvpn/*.log w,
+  }
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.openvpn>
+}

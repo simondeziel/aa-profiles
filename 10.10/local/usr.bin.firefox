@@ -1,0 +1,25 @@
+# Site-specific additions and overrides for usr.bin.firefox.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  # Prevent Flash/Macromedia cookie storage
+  deny @{HOME}/.adobe/** rw,
+  deny @{HOME}/.macromedia/** rw,
+
+  # Fireclam addon
+  #/usr/bin/clamscan Ux,
+
+  # Google Talk (LP: #626451)
+  owner @{HOME}/.config/google-googletalkplugin    rw,
+  owner @{HOME}/.config/google-googletalkplugin/** rw,
+  owner @{PROC}/[0-9]*/net/route r,
+  /opt/google/talkplugin/*.so mr,
+  /opt/google/talkplugin/lib/*.so mr,
+  /opt/google/talkplugin/GoogleTalkPlugin ixr,
+  /usr/bin/lsb_release Ux,
+  /etc/udev/udev.conf r,
+  /sys/devices/system/cpu/cpu[0-9]*/cpufreq/cpuinfo_max_freq r,
+
+  # NX plugin
+  #/bin/chmod ix,
+  #owner @{HOME}/.nx/plugin/Linux/client.jar    mr,
+  owner @{HOME}/.nx/plugin/Linux/bin/nxclient   ix,
