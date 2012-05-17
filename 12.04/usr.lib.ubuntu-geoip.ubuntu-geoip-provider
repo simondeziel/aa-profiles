@@ -1,0 +1,9 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/lib/ubuntu-geoip/ubuntu-geoip-provider {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/user-tmp>
+}
