@@ -1,0 +1,28 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/rdesktop {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/freedesktop.org>
+  #include <abstractions/nameservice>
+  #include <abstractions/private-files-strict>
+  #include <abstractions/user-tmp>
+
+  # allow directory listings (ie 'r' on directories) so browsing via the file
+  # dialog works
+  / r,
+  /**/ r,
+
+  /etc/mtab r,
+
+  owner @{HOME}/**           rw,
+  owner @{HOME}/.rdesktop/** rwk,
+
+  /usr/share/rdesktop/**	r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.rdesktop>
+}

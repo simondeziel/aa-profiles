@@ -1,0 +1,5 @@
+# Site-specific additions and overrides for usr.bin.pidgin.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  owner @{HOME}/work/   rw,
+  owner @{HOME}/work/** rw,

@@ -1,0 +1,59 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/rhythmbox {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/gnome>
+  #include <abstractions/nameservice>
+  #include <abstractions/python>
+
+  # allow directory listings (ie 'r' on directories) so browsing via the file
+  # dialog works
+  / r,
+  /**/ r,
+
+  /etc/mtab   r,
+  /var/lib/dbus/machine-id r,
+  owner @{PROC}/[0-9]*/cmdline r,
+  owner /tmp/orcexec.*                    mr,
+  owner @{HOME}/orcexec.*                 mr,
+  owner @{HOME}/**                        rw,
+  owner @{HOME}/.cache/rhythmbox/**       rwk,
+  owner @{HOME}/.local/share/rhythmbox/** rwk,
+
+  # apport
+  /etc/default/apport r,
+
+  # Locations that commonly contains media files
+  /{data,media,mnt,opt,srv}/** r,
+  owner /{data,media,mnt,opt,srv}/** rw,
+
+  # Reading/burning physical disks
+  /dev/sr[0-9]  rw,
+  /dev/sg[0-9]  rw,
+
+  /usr/bin/rhythmbox         mr,
+  /usr/lib/rhythmbox/**      mr,
+  /usr/lib/rhythmbox/rhythmbox-metadata ixr,
+  /usr/share/glib-*/schemas/   r,
+  /usr/share/glib-*/schemas/** r,
+  /usr/share/rhythmbox/**      r,
+  /usr/share/quvi/lua/**       r,
+
+  # Apparently not included in <abstractions/python>
+  /usr/include/python{2,3}*/pyconfig.h r,
+
+  # From evince's profile
+  /dev/.udev/{data,db}/* r,
+  /etc/udev/udev.conf r,
+  /sys/devices/**/block/**/uevent r,
+
+  # For mobile devices
+  /sys/devices/**/usb[0-9]*/** r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.rhythmbox>
+}
