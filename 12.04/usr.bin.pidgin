@@ -87,6 +87,7 @@
   /usr/share/hunspell/** r,
   /usr/share/themes/	r,
   /usr/share/themes/**	r,
+  /usr/share/glib-2.0/schemas/   r,
   /usr/share/glib-2.0/schemas/** r,
 
   # abstraction/python misses this

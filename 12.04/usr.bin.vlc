@@ -41,12 +41,15 @@
   /dev/sg[0-9]  r,
 
   /usr/bin/vlc         mr,
+  /usr/lib/vlc/        r,
   /usr/lib/vlc/**      mr,
   deny /usr/lib/vlc/** w,
   /usr/lib/libproxy*/*/modules/     r,
   /usr/lib/libproxy*/*/modules/*.so mr,
-  /usr/share/glib-2.0/schemas/* r,
+  /usr/share/icons/   r,
   /usr/share/icons/** rk,
+  /usr/share/glib-2.0/schemas/   r,
+  /usr/share/glib-2.0/schemas/** r,
 
   /etc/udev/udev.conf r,
 
