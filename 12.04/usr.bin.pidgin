@@ -90,9 +90,6 @@
   /usr/share/glib-2.0/schemas/   r,
   /usr/share/glib-2.0/schemas/** r,
 
-  # abstraction/python misses this
-  /usr/include/python2.7/** r,
-
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.pidgin>
 }

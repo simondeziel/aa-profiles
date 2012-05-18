@@ -53,9 +53,6 @@
   /usr/lib/gstreamer0.10/gstreamer-0.10/gst-plugin-scanner ix,
   /usr/lib/@{multiarch}/gstreamer0.10/gstreamer-0.10/gst-plugin-scanner ix,
 
-  # Apparently not included in <abstractions/python>
-  /usr/include/python{2,3}*/pyconfig.h r,
-
   # From abstractions/evince
   # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
   # Possibly move to an abstraction if anything else needs it.
