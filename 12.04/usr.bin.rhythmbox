@@ -56,9 +56,13 @@
   # Apparently not included in <abstractions/python>
   /usr/include/python{2,3}*/pyconfig.h r,
 
-  # From evince's profile
+  # From abstractions/evince
+  # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
+  # Possibly move to an abstraction if anything else needs it.
+  deny /run/udev/data/** r,
+
+  # move out to the gnome abstraction if anyone else needs these
   /dev/.udev/{data,db}/* r,
-  /run/udev/{data,db}/* r,
   /etc/udev/udev.conf r,
   /sys/devices/**/block/**/uevent r,
 
