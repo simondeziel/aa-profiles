@@ -42,8 +42,7 @@
   owner @{HOME}/.pulse-cookie rwk,
   owner @{HOME}/.purple/ rw,
   owner @{HOME}/.purple/** rwk,
-  owner @{HOME}/.cache/dconf/user rwk,
-  owner @{HOME}/.config/dconf/user rwk,
+  owner @{HOME}/.{cache,config}/dconf/user rw,
   owner @{HOME}/.config/indicators/ rw,
   owner @{HOME}/.config/indicators/** rw,
 

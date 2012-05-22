@@ -6,7 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
-  owner @{HOME}/.cache/dconf/user rwk,
+  owner @{HOME}/.{cache,config}/dconf/user rw,
 
   /usr/share/glib-2.0/schemas/   r,
   /usr/share/glib-2.0/schemas/** r,
