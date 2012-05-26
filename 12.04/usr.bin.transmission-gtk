@@ -6,27 +6,36 @@
 /usr/bin/transmission-gtk {
   #include <abstractions/audio>
   #include <abstractions/base>
-  #include <abstractions/dbus>
   #include <abstractions/dbus-session>
   #include <abstractions/fonts>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
+  #include <abstractions/p11-kit>
   #include <abstractions/nameservice>
   #include <abstractions/user-download>
 
   # Use abstractions/private-files instead if using gpg plugin/addons
   #include <abstractions/private-files-strict>
 
-  /home/         r,
+  # allow directory listings (ie 'r' on directories) so browsing via the file
+  # dialog works
+  / r,
+  /**/ r,
+
+  @{HOME}/ r,
+
   owner @{HOME}/ r,
   owner @{HOME}/** r,
-  owner @{HOME}/.cache/transmission/favicons/** rw,
+  owner @{HOME}/.cache/transmission/ rw,
+  owner @{HOME}/.cache/transmission/** rw,
   owner @{HOME}/.config/gtk-2.0/** rw,
   owner @{HOME}/.config/transmission/ rw,
   owner @{HOME}/.config/transmission/lock rwk,
   owner @{HOME}/.config/transmission/** rw,
+  owner @{HOME}/.{cache,config}/dconf/user rw,
   owner @{HOME}/.recently-used.* krw,
 
+  /etc/fstab r,
   @{PROC}/[0-9]*/fd/ r,
 
   /usr/bin/transmission rix,
