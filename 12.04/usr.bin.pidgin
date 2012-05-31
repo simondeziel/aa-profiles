@@ -54,8 +54,6 @@
   /etc/ r,
   /etc/pulse/client.conf r,
 
-  /dev/shm/ r,
-  owner /dev/shm/* rw,
   owner /tmp/orbit-*/* w,
   owner /tmp/pulse-*/* w,
   owner /tmp/orcexec.* m,
