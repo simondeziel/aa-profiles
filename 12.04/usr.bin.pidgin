@@ -56,7 +56,8 @@
 
   owner /tmp/orbit-*/* w,
   owner /tmp/pulse-*/* w,
-  owner /tmp/orcexec.* m,
+  owner /tmp/orcexec.* mr,
+  owner @{HOME}/orcexec.* mr,
   owner @{PROC}/[0-9]*/fd/ r,
   owner @{PROC}/[0-9]*/auxv r,
 
