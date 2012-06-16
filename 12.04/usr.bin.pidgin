@@ -17,7 +17,7 @@
   #include <abstractions/dbus-session>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
-  #include <abstractions/launchpad-integration>
+  ##include <abstractions/launchpad-integration>
   #include <abstractions/python>
   #include <abstractions/private-files>
   #include <abstractions/nameservice>
