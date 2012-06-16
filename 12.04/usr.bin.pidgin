@@ -1,6 +1,6 @@
-# 
+#
 #    AppArmor Pidgin profile for Ubuntu 11.04 Natty
-#    
+#
 #    This program is free software; you can redistribute it and/or
 #    modify it under the terms of version 2 of the GNU General Public
 #    License published by the Free Software Foundation.
@@ -25,8 +25,6 @@
   #include <abstractions/user-download>
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
-
-  capability sys_ptrace,
 
   owner @{HOME}/ r,
   owner @{HOME}/.config/enchant/ rw,
