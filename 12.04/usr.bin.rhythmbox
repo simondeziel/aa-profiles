@@ -8,6 +8,7 @@
   #include <abstractions/base>
   #include <abstractions/gnome>
   #include <abstractions/nameservice>
+  #include <abstractions/p11-kit>
   #include <abstractions/python>
 
   # allow directory listings (ie 'r' on directories) so browsing via the file
@@ -47,6 +48,7 @@
   /usr/share/glib-*/schemas/** r,
   /usr/share/rhythmbox/**      r,
   /usr/share/quvi/lua/**       r,
+  /usr/share/libquvi-scripts/lua/** r,
 
   /etc/apt/** r,
 
