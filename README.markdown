@@ -1,6 +1,6 @@
 # aa-profiles
 
-This is a collections of Ubuntu profiles that were collected from various sources or that I wrote myself.
+This is a collection of Ubuntu profiles that were collected from various sources or that I wrote myself.
 
 ## Puppet integration
 
