@@ -1,0 +1,35 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/sbin/amavisd-new flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/perl>
+
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+  capability sys_resource,
+
+  ## for networking
+  #owner @{PROC}/[0-9]*/net/if_inet6 r,
+  #owner @{PROC}/[0-9]*/net/ipv6_route r,
+
+  # config
+  /etc/amavis/** r,
+  /etc/mailname  r,
+
+  /usr/sbin/amavisd-new r,
+  /usr/share/amavis/**  r,
+  /var/lib/amavis/**    rw,
+
+  /{,var/}run/amavis/amavisd.{pid,lock} rwlk,
+
+  /bin/dash      ixr,
+  /bin/hostname  ixr,
+  /usr/bin/head  ixr,
+  /bin/run-parts PUx,
+  /usr/bin/pyzor PUx,
+}
