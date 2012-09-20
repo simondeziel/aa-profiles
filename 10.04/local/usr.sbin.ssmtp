@@ -1,0 +1,7 @@
+# Site-specific additions and overrides for usr.sbin.ssmtp.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  # logcheck
+  owner /var/lib/logcheck/dead.letter rw,
+  # nagios
+  owner /var/lib/nagios/dead.letter rw,
