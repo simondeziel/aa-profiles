@@ -11,4 +11,6 @@
   /etc/ssmtp/* r,
 
   owner @{HOME}/dead.letter rw,
+
+  #include <local/usr.sbin.ssmtp>
 }
