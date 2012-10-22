@@ -5,4 +5,5 @@
   deny @{HOME}/.adobe/** rw,
   deny @{HOME}/.macromedia/** rw,
 
+  # Required until LP: #1042771 is fixed
   /usr/lib/thunderbird/thunderbird.sh PUx,
