@@ -7,3 +7,6 @@
 
   # Required until LP: #1042771 is fixed
   /usr/lib/thunderbird/thunderbird.sh PUx,
+
+  # Silence noise
+  deny /tmp/unity_support_test.[0-9] r,
