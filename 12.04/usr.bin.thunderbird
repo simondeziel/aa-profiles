@@ -141,6 +141,9 @@
     # Required to import keys from keyservers
     #include <abstractions/nameservice>
 
+    # LDAP key servers
+    /etc/ldap/ldap.conf r,
+
     /usr/bin/gpg mr,
     /usr/lib/gnupg/gpgkeys_* ix,
     owner @{HOME}/.gnupg r,
