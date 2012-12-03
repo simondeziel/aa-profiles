@@ -12,6 +12,8 @@
   capability sys_chroot,
   capability dac_override,
   capability dac_read_search,
+  capability fowner,
+  capability fsetid,
 
   @{PROC}/[0-9]*/net/route r,
 
