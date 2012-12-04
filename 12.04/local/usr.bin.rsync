@@ -1,2 +1,12 @@
 # Site-specific additions and overrides for usr.bin.rsync.
 # For more details, please see /etc/apparmor.d/local/README.
+
+  # Enable if owner/group should be modifiable
+  #capability chown,
+
+  # Enable chmod/utime on files not owned by the running process
+  # or set extended attributes or ACLs
+  #capability fowner,
+
+  # Enable to presert setuid,setgid on file modification
+  #capability fsetid,
