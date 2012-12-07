@@ -1,0 +1,21 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/sbin/nginx flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  capability setuid,
+  capability setgid,
+  capability dac_override,
+
+  /etc/nginx/**             r,
+  owner @{PROC}/[0-9]*/auxv r,
+  /var/log/nginx/*.log      w,
+  /{,var/}run/nginx.pid     rw,
+
+  #include <local/usr.sbin.nginx>
+}
