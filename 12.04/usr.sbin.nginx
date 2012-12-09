@@ -8,6 +8,9 @@
   #include <abstractions/ssl_certs>
   #include <abstractions/ssl_keys>
 
+  network inet stream,
+  network inet6 stream,
+
   capability setuid,
   capability setgid,
   capability dac_override,
@@ -16,6 +19,13 @@
   owner @{PROC}/[0-9]*/auxv r,
   /var/log/nginx/*.log      w,
   /{,var/}run/nginx.pid     rw,
+
+  # document root
+  /var/www/**               r,
+  /usr/share/nginx/**       r,
+
+  # documentation
+  /usr/share/doc/**         r,
 
   #include <local/usr.sbin.nginx>
 }
