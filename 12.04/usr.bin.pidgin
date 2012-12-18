@@ -35,9 +35,6 @@
   owner @{HOME}/.gnome2/nautilus-sendto/** rw,
   owner @{HOME}/.gstreamer*/ rw,
   owner @{HOME}/.gstreamer*/** rw,
-  owner @{HOME}/.pulse/ rw,
-  owner @{HOME}/.pulse/** rw,
-  owner @{HOME}/.pulse-cookie rwk,
   owner @{HOME}/.purple/ rw,
   owner @{HOME}/.purple/** rwk,
   owner @{HOME}/.{cache,config}/dconf/user rw,
@@ -49,11 +46,7 @@
   # Helpers
   /usr/bin/gvfs-open ixr,
 
-  /etc/ r,
-  /etc/pulse/client.conf r,
-
   owner /tmp/orbit-*/* w,
-  owner /tmp/pulse-*/* w,
   owner /tmp/orcexec.* mr,
   owner @{HOME}/orcexec.* mr,
   owner @{PROC}/[0-9]*/fd/ r,
