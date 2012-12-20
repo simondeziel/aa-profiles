@@ -129,9 +129,9 @@
   deny /usr/share/mozilla/ w,
 
   # Miscellaneous (to be abstracted)
-  /usr/bin/mkfifo Uxr,	# TODO: investigate
-  /bin/ps Uxr,		# TODO: child profile
-  /bin/uname Uxr,	# TODO: child profile
+  /usr/bin/mkfifo PUxr,	# TODO: investigate
+  /bin/ps PUxr,		# TODO: child profile
+  /bin/uname PUxr,	# TODO: child profile
 
   /usr/bin/gpg Cx -> gpg,
 
