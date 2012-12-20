@@ -1,0 +1,52 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+# Declare an apparmor variable to help with overrides
+@{MOZ_LIBDIR}=/usr/lib/firefox
+
+/usr/lib/firefox/plugin-container {
+  #include <abstractions/base>
+  #include <abstractions/consoles>
+  #include <abstractions/nameservice>
+
+  # These are needed when a new user starts firefox and firefox.sh is used
+  @{MOZ_LIBDIR}/** ixr,
+
+  # allow access to documentation and other files the user may want to look
+  # at in /usr and /opt
+  /usr/ r,
+  /usr/** r,
+  /opt/ r,
+  /opt/** r,
+
+  # so browsing directories works
+  / r,
+  /**/ r,
+
+
+  # Flash
+  # TODO: move to a subprofile?
+  /usr/lib/adobe-flashplugin/libflashplayer.so mixr,
+
+  # Google Talk
+  /opt/google/talkplugin/GoogleTalkPlugin Cx -> googletalk,
+
+  profile googletalk {
+    #include <abstractions/base>
+
+    /opt/google/talkplugin/         r,
+    /opt/google/talkplugin/**       r,
+    /opt/google/talkplugin/*.so     mixr,
+    /opt/google/talkplugin/lib/*.so mixr,
+
+    owner @{PROC}/[0-9]*/cmdline r,
+
+    /sys/devices/system/cpu/ r,
+    /sys/devices/system/cpu/** r,
+  }
+
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.firefox.plugin-container>
+}
