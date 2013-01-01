@@ -12,7 +12,7 @@
   /etc/nut/ups.conf r,
 
   owner /var/lib/nut/* r,
-  owner /{,var/}run/nut/*.pid r,
+  /{,var/}run/nut/*.pid r,
 
   # drivers
   /lib/nut/usbhid-ups PUx,
