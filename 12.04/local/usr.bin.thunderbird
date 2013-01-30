@@ -3,3 +3,6 @@
 
   # Silence noise
   deny /tmp/unity_support_test.[0-9] r,
+
+  # Personal safe tmpfs
+  owner @{HOME}/safe/**
