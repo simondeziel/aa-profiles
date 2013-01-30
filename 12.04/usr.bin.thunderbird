@@ -155,7 +155,7 @@
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.#*[0-9] rw,
 
-    owner @{HOME}/* r,
+    owner @{HOME}/** r,
     owner /tmp/** r,
     owner /tmp/encfile* wr,
   }
