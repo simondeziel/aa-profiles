@@ -24,6 +24,8 @@
   /var/www/**               r,
   /usr/share/nginx/**       r,
 
+  /var/lib/nginx/**         rw,
+
   # documentation
   /usr/share/doc/**         r,
 
