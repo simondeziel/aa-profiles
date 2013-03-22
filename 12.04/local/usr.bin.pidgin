@@ -4,8 +4,10 @@
   owner @{HOME}/work/   rw,
   owner @{HOME}/work/** rw,
 
-  # XXX: for the truely paranoiac
-  # Lockdown unused protocols
+  # XXX: prevent blacklisting pidgin, needs investigation
+  audit deny @{HOME}/.config/indicators/messages/applications-blacklist/** w,
+
+  # Lockdown unused protocols (for the truely paranoiac)
   #deny /usr/lib/purple*/libaim.so      rm,
   #deny /usr/lib/purple*/libbonjour.so  rm,
   #deny /usr/lib/purple*/libgg.so       rm,
