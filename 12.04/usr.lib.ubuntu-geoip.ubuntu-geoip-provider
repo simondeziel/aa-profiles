@@ -6,4 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
+
+  /usr/share/glib-*/schemas/   r,
+  /usr/share/glib-*/schemas/** r,
 }
