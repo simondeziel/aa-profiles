@@ -7,7 +7,7 @@
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
 
-  owner @{HOME}/.cache/dconf/user rw,
+  owner @{HOME}/.{cache,config}/dconf/user rw,
   /usr/share/glib-*/schemas/   r,
   /usr/share/glib-*/schemas/** r,
 }
