@@ -18,10 +18,13 @@
   /etc/udev/udev.conf r,
   /etc/timidity/.pulse_cookie w,
 
-  @{HOME}/.esd_auth rwk,
-  @{HOME}/.pulse-cookie rwk,
-  @{HOME}/.pulse/ rw,
-  @{HOME}/.pulse/* rw,
+  owner @{HOME}/.esd_auth rwk,
+  owner @{HOME}/.pulse-cookie rwk,
+  owner @{HOME}/.pulse/ rw,
+  owner @{HOME}/.pulse/* rwk,
+  owner /{,var/}run/user/*/pulse/  rw,
+  owner /{,var/}run/user/*/pulse/* rwk,
+  owner @{HOME}/.config/pulse/cookie rwk,
 
   /run/pulse/ rw,
   /run/pulse/.pulse-cookie rwk,
@@ -46,7 +49,7 @@
   /usr/share/applications/ r,
   /usr/share/applications/* r,
   /usr/share/pulseaudio/** r,
-	/usr/lib/pulse-1.[0-9]/modules/*.so mr,
+  /usr/lib/pulse-1.[0-9]/modules/*.so mr,
   /usr/lib/pulse-2.[0-9]/modules/*.so mr,
   /usr/lib/pulseaudio/pulse/gconf-helper Cx,
 
