@@ -18,6 +18,7 @@
   /etc/nginx/**             r,
   owner @{PROC}/[0-9]*/auxv r,
   /var/log/nginx/*.log      w,
+  /var/log/nginx/**/*.log   w,
   /{,var/}run/nginx.pid     rw,
 
   # document root
