@@ -8,5 +8,5 @@
   # or set extended attributes or ACLs
   #capability fowner,
 
-  # Enable to presert setuid,setgid on file modification
+  # Enable to preserve setuid,setgid on file modification
   #capability fsetid,
