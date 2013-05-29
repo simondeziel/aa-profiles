@@ -15,11 +15,12 @@
   capability setgid,
   capability dac_override,
 
-  /etc/nginx/**             r,
-  owner @{PROC}/[0-9]*/auxv r,
-  /var/log/nginx/*.log      w,
-  /var/log/nginx/**/*.log   w,
-  /{,var/}run/nginx.pid     rw,
+  /etc/nginx/**                r,
+  owner @{PROC}/[0-9]*/auxv    r,
+  /var/log/nginx/*.log         w,
+  /var/log/nginx/**/*.log      w,
+  /{,var/}run/nginx.pid        rw,
+  /{,var/}run/nginx.pid.oldbin rw,
 
   # document root
   /var/www/**               r,
