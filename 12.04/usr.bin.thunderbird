@@ -14,7 +14,6 @@
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   #include <abstractions/nameservice>
-  #include <abstractions/p11-kit>
   #include <abstractions/ssl_certs>
   #include <abstractions/user-tmp>
   #include <abstractions/user-download>
@@ -141,6 +140,7 @@
 
     # Required to import keys from keyservers
     #include <abstractions/nameservice>
+    #include <abstractions/p11-kit>
 
     # LDAP key servers
     /etc/ldap/ldap.conf r,
