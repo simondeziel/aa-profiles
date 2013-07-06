@@ -8,11 +8,10 @@
 
   /usr/local/bin/backuppc-wrapper r,
 
+  /bin/kill         ix,
   /usr/bin/basename ix,
   /usr/bin/nice     ix,
   /usr/bin/logger   ix,
-
-  owner @{PROC}/[0-9]*/loginuid r,
 
   /usr/bin/sudo Cx -> sudo_rsync,
 
