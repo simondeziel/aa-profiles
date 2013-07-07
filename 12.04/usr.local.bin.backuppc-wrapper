@@ -8,6 +8,7 @@
 
   /usr/local/bin/backuppc-wrapper r,
 
+  @{PROC}/version   r,
   /bin/kill         ix,
   /usr/bin/basename ix,
   /usr/bin/nice     ix,
