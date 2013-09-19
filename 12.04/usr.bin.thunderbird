@@ -114,6 +114,8 @@
   owner @{HOME}/.thunderbird/**/plugins/** rm,
   owner @{HOME}/.config/ibus/bus/ w,
   owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner @{HOME}/.cache/thunderbird/ rw,
+  owner @{HOME}/.cache/thunderbird/** rw,
 
   # Extensions
   # /usr/share/.../extensions/... is already covered by '/usr/** r', above.
@@ -122,6 +124,7 @@
   owner @{HOME}/.mozilla/extensions/**        mixr,
   /usr/share/xul-ext/**/*.sqlite              rk,
   /usr/lib/xul-ext/**/*.sqlite                rk,
+  /usr/lib/thunderbird-addons/extensions/**/*.sqlite rk,
 
   deny /usr/lib/mozilla/extensions/**/ w,
   deny /usr/lib/xulrunner-addons/extensions/**/ w,
