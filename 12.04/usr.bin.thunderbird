@@ -114,6 +114,13 @@
   owner @{HOME}/.thunderbird/**/plugins/** rm,
   owner @{HOME}/.config/ibus/bus/ w,
   owner @{HOME}/.{cache,config}/dconf/user rw,
+  
+  # necessary for Thunderbird 24
+  owner @{HOME}/.cache/thunderbird**/ r,
+  owner @{HOME}/.cache/thunderbird/*.default/* rw,
+  owner @{HOME}/.cache/thunderbird/*.default/**/* rw,
+  
+  
 
   # Extensions
   # /usr/share/.../extensions/... is already covered by '/usr/** r', above.
