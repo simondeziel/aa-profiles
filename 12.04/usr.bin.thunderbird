@@ -2,7 +2,15 @@
 # Author: Simon Deziel <simon.deziel at gmail_com>
 # This apparmor profile is provided as-is
 
+# Declare an apparmor variable to help with overrides
+@{MOZ_LIBDIR}=/usr/lib/thunderbird
+
 #include <tunables/global>
+# We want to confine the binaries that match:
+#  /usr/lib/thunderbird/thunderbird
+#  /usr/lib/thunderbird/thunderbird
+# but not:
+#  /usr/lib/thunderbird/thunderbird.sh
 /usr/lib/thunderbird/thunderbird{,*[^s][^h]} {
   #include <abstractions/audio>
   #include <abstractions/aspell>
@@ -14,6 +22,7 @@
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   #include <abstractions/nameservice>
+  #include <abstractions/p11-kit>
   #include <abstractions/ssl_certs>
   #include <abstractions/user-tmp>
   #include <abstractions/user-download>
@@ -25,11 +34,15 @@
   network inet6 stream,
   @{PROC}/[0-9]*/net/if_inet6 r,
   @{PROC}/[0-9]*/net/ipv6_route r,
+  @{PROC}/[0-9]*/net/dev r,
+  @{PROC}/[0-9]*/net/wireless r,
 
   # should maybe be in abstractions
   /etc/ r,
   /etc/mime.types r,
   /etc/mailcap r,
+  /etc/xdg/*buntu/applications/defaults.list    r, # for all derivatives
+  /usr/share/xubuntu/applications/defaults.list r,
   owner @{HOME}/.local/share/applications/defaults.list r,
   owner @{HOME}/.local/share/applications/mimeapps.list r,
   owner @{HOME}/.local/share/applications/mimeinfo.cache r,
@@ -50,7 +63,7 @@
   /etc/gre.d/* r,
 
   # noisy
-  deny /usr/lib/thunderbird/** w,
+  deny @{MOZ_LIBDIR}/** w,
   deny /usr/lib/thunderbird-addons/** w,
   deny /.suspended r,
   deny /boot/initrd.img* r,
@@ -60,7 +73,7 @@
   deny @{HOME}/.* r,
 
   # These are needed when a new user starts thunderbird and thunderbird.sh is used
-  /usr/lib/thunderbird/** ixr,
+  @{MOZ_LIBDIR}/** ixr,
   /usr/bin/basename ixr,
   /usr/bin/dirname ixr,
   /usr/bin/pwd ixr,
@@ -126,15 +139,19 @@
   /usr/lib/xul-ext/**/*.sqlite                rk,
   /usr/lib/thunderbird-addons/extensions/**/*.sqlite rk,
 
+  deny @{MOZ_LIBDIR}/update.test w,
   deny /usr/lib/mozilla/extensions/**/ w,
   deny /usr/lib/xulrunner-addons/extensions/**/ w,
   deny /usr/share/mozilla/extensions/**/ w,
   deny /usr/share/mozilla/ w,
 
   # Miscellaneous (to be abstracted)
-  /usr/bin/mkfifo PUxr,	# TODO: investigate
-  /bin/ps PUxr,		# TODO: child profile
-  /bin/uname PUxr,	# TODO: child profile
+  # Ideally these would use a child profile. They are all ELF executables
+  # so running with 'Ux', while not ideal, is ok because we will at least
+  # benefit from glibc's secure execute.
+  /usr/bin/mkfifo Uxr,  # investigate
+  /bin/ps Uxr,
+  /bin/uname Uxr,
 
   /usr/bin/gpg Cx -> gpg,
 
