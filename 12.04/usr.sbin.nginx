@@ -26,6 +26,8 @@
   /var/www/**               r,
   /usr/share/nginx/**       r,
 
+  # reexec during upgrade
+  /usr/sbin/nginx           ix,
   /var/lib/nginx/**         rw,
 
   # documentation
