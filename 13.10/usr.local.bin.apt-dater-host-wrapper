@@ -10,7 +10,7 @@
 
   @{PROC}/version   r,
   /bin/kill         ix,
-  /bin/sleep        ix,
+  /bin/sleep        ixr,
   /usr/bin/basename ix,
   /usr/bin/logger   ix,
 
