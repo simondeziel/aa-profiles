@@ -3,7 +3,7 @@
 # vim:syntax=apparmor
 #include <tunables/global>
 
-/sbin/upsd flags=(complain) {
+/sbin/upsd {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
