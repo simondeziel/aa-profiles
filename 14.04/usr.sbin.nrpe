@@ -6,6 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  capability dac_override,
   capability setuid,
   capability setgid,
 
