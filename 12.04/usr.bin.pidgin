@@ -64,7 +64,6 @@
   /usr/lib/pidgin/*.so rm,
   /usr/lib/purple*/*.so rm,
 
-  /usr/share/ca-certificates/*/** r,
   /usr/share/enchant/enchant.ordering r,
   /usr/share/locale-langpack/** rm,
   /usr/share/purple/ca-certs/ r,
