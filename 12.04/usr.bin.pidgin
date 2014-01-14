@@ -19,7 +19,7 @@
   #include <abstractions/ibus>
   ##include <abstractions/launchpad-integration>
   #include <abstractions/python>
-  #include <abstractions/private-files>
+  #include <abstractions/private-files-strict>
   #include <abstractions/nameservice>
   #include <abstractions/ssl_certs>
   #include <abstractions/user-download>
