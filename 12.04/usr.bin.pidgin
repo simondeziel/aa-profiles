@@ -9,12 +9,11 @@
 #include <tunables/global>
 /usr/bin/pidgin {
   #include <abstractions/audio>
-  #include <abstractions/aspell>
   #include <abstractions/base>
   #include <abstractions/bash>
-  #include <abstractions/consoles>
   #include <abstractions/dbus>
   #include <abstractions/dbus-session>
+  #include <abstractions/enchant>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   ##include <abstractions/launchpad-integration>
@@ -24,11 +23,8 @@
   #include <abstractions/ssl_certs>
   #include <abstractions/user-download>
   #include <abstractions/ubuntu-browsers>
-  #include <abstractions/ubuntu-helpers>
 
   owner @{HOME}/ r,
-  owner @{HOME}/.config/enchant/ rw,
-  owner @{HOME}/.config/enchant/* rwk,
   owner @{HOME}/.thumbnails/normal/*.png r,
   owner @{HOME}/.local/share/icons/ r,
   owner @{HOME}/.local/share/mime/* r,
@@ -46,7 +42,6 @@
   # Helpers
   /usr/bin/gvfs-open ixr,
 
-  owner /tmp/orbit-*/* w,
   owner /tmp/orcexec.* mr,
   owner @{HOME}/orcexec.* mr,
   owner @{PROC}/[0-9]*/fd/ r,
@@ -59,22 +54,16 @@
   /usr/bin/pidgin r,
   /usr/bin/xdg-open rmix,
 
-  /usr/lib/ r,
-  /usr/lib/libvisual-*/**.so rm,
+  /usr/lib/@{multiarch}/libvisual-*/**.so rm,
   /usr/lib/pidgin/*.so rm,
   /usr/lib/purple*/*.so rm,
 
-  /usr/share/enchant/enchant.ordering r,
-  /usr/share/locale-langpack/** rm,
   /usr/share/purple/ca-certs/ r,
   /usr/share/purple/ca-certs/** r,
-  /usr/share/myspell/dicts/ r,
-  /usr/share/myspell/dicts/** r,
   /usr/share/tcltk/** r,
-  /usr/share/hunspell/	r,
-  /usr/share/hunspell/** r,
-  /usr/share/themes/	r,
-  /usr/share/themes/**	r,
+  /usr/share/themes/ r,
+
+  # XXX: replace by "/usr/share/glib-2.0/schemas/gschemas.compiled r," ?
   /usr/share/glib-2.0/schemas/   r,
   /usr/share/glib-2.0/schemas/** r,
 
