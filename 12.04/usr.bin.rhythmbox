@@ -56,7 +56,7 @@
   /usr/lib/@{multiarch}/gstreamer0.10/gstreamer-0.10/gst-plugin-scanner ix,
   /usr/share/gstreamer-0.10/** r,
 
-  /usr/lib/@{multiarch}/libvisual-0.4/actor/*.so mr,
+  /usr/lib/@{multiarch}/libvisual-*/**.so mr,
 
   # From abstractions/evince
   # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
