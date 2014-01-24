@@ -48,8 +48,8 @@
   owner @{PROC}/[0-9]*/auxv r,
 
   /usr/bin/gconftool-2 rix,
-  /usr/bin/gnome-default-applications-properties ix,
-  /usr/bin/gnome-network-preferences ix,
+  /usr/bin/gnome-default-applications-properties Pix,
+  /usr/bin/gnome-network-preferences Pix,
   /usr/bin/gnome-open rmix,
   /usr/bin/pidgin r,
   /usr/bin/xdg-open rmix,
