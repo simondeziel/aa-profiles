@@ -1,0 +1,22 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/lib/postgresql/9.1/bin/postgres flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  /etc/postgresql/9.1/main/* r,
+  /usr/share/postgresql/9.1/** r,
+
+  owner /var/lib/postgresql/9.1/main/** rw,
+  owner /{,var/}run/postgresql/.s.PGSQL.* rw,
+  owner /{,var/}run/postgresql/9.1-main.pid rw,
+
+  owner @{PROC}/*/oom_adj rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.postgresql.9.1.bin.postgres>
+}

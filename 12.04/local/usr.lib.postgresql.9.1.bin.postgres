@@ -1,0 +1,2 @@
+# Site-specific additions and overrides for usr.lib.postgresql.9.1.bin.postgres.
+# For more details, please see /etc/apparmor.d/local/README.
