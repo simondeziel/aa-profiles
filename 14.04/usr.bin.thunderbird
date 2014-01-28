@@ -1,0 +1,197 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel at gmail_com>
+# This apparmor profile is provided as-is
+
+# Declare an apparmor variable to help with overrides
+@{MOZ_LIBDIR}=/usr/lib/thunderbird
+
+#include <tunables/global>
+
+# We want to confine the binaries that match:
+#  /usr/lib/thunderbird/thunderbird
+#  /usr/lib/thunderbird/thunderbird
+# but not:
+#  /usr/lib/thunderbird/thunderbird.sh
+/usr/lib/thunderbird/thunderbird{,*[^s][^h]} {
+  #include <abstractions/audio>
+  #include <abstractions/aspell>
+  #include <abstractions/base>
+  #include <abstractions/cups-client>
+  # TODO: finetune this for required accesses
+  #include <abstractions/dbus>
+  #include <abstractions/dbus-accessibility>
+  #include <abstractions/dbus-session>
+  #include <abstractions/fonts>
+  #include <abstractions/freedesktop.org>
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+  #include <abstractions/nameservice>
+  #include <abstractions/p11-kit>
+  #include <abstractions/private-files>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/user-tmp>
+  #include <abstractions/user-download>
+  #include <abstractions/ubuntu-browsers>
+  #include <abstractions/ubuntu-helpers>
+
+  owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner /run/user/[0-9]*/dconf/user rw,
+  owner @{HOME}/.config/gtk-3.0/bookmarks r,
+
+  # potentially extremely sensitive files
+  audit deny @{HOME}/.gnupg/** mrwkl,
+  audit deny @{HOME}/.ssh/** mrwkl,
+
+  # for networking
+  network inet stream,
+  network inet6 stream,
+  @{PROC}/[0-9]*/net/if_inet6 r,
+  @{PROC}/[0-9]*/net/ipv6_route r,
+  @{PROC}/[0-9]*/net/dev r,
+  @{PROC}/[0-9]*/net/wireless r,
+
+  # should maybe be in abstractions
+  /etc/ r,
+  /etc/mime.types r,
+  /etc/mailcap r,
+  /etc/xdg/*buntu/applications/defaults.list    r, # for all derivatives
+  /usr/share/xubuntu/applications/defaults.list r,
+  owner @{HOME}/.local/share/applications/defaults.list r,
+  owner @{HOME}/.local/share/applications/mimeapps.list r,
+  owner @{HOME}/.local/share/applications/mimeinfo.cache r,
+  owner /tmp/** m,
+  owner /var/tmp/** m,
+  /tmp/.X[0-9]*-lock r,
+
+  /etc/timezone r,
+  /etc/wildmidi/wildmidi.cfg r,
+
+  # thunderbird specific
+  /etc/thunderbird/ r,
+  /etc/thunderbird/** r,
+  /etc/xul-ext/** r,
+  /etc/xulrunner-2.0*/ r,
+  /etc/xulrunner-2.0*/** r,
+  /etc/gre.d/ r,
+  /etc/gre.d/* r,
+
+  # noisy
+  deny @{MOZ_LIBDIR}/** w,
+  deny /usr/lib/thunderbird-addons/** w,
+  deny /.suspended r,
+  deny /boot/initrd.img* r,
+  deny /boot/vmlinuz* r,
+  deny /var/cache/fontconfig/ w,
+  deny @{HOME}/.local/share/recently-used.xbel r,
+  deny @{HOME}/.* r,
+
+  # These are needed when a new user starts thunderbird and thunderbird.sh is used
+  @{MOZ_LIBDIR}/** ixr,
+  /usr/bin/basename ixr,
+  /usr/bin/dirname ixr,
+  /usr/bin/pwd ixr,
+  /sbin/killall5 ixr,
+  /bin/which ixr,
+  /usr/bin/tr ixr,
+  @{PROC}/ r,
+  @{PROC}/[0-9]*/cmdline r,
+  @{PROC}/[0-9]*/mountinfo r,
+  @{PROC}/[0-9]*/stat r,
+  owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
+  @{PROC}/[0-9]*/status r,
+  @{PROC}/filesystems r,
+  owner @{HOME}/.thumbnails/*/*.png r,
+
+  /etc/mtab r,
+  /etc/fstab r,
+
+  # Needed for the crash reporter
+  owner @{PROC}/[0-9]*/environ r,
+  owner @{PROC}/[0-9]*/auxv r,
+  /etc/lsb-release r,
+  /usr/bin/expr ix,
+  /sys/devices/system/cpu/ r,
+  /sys/devices/system/cpu/** r,
+
+  # about:memory
+  owner @{PROC}/[0-9]*/statm r,
+  owner @{PROC}/[0-9]*/smaps r,
+
+  # Needed for container to work in xul builds
+  /usr/lib/xulrunner-*/plugin-container ixr,
+
+  # allow access to documentation and other files the user may want to look
+  # at in /usr and /opt
+  /usr/ r,
+  /usr/** r,
+  /opt/ r,
+  /opt/** r,
+
+  # so browsing directories works
+  / r,
+  /**/ r,
+
+  # per-user thunderbird configuration
+  owner @{HOME}/.thunderbird/ rw,
+  owner @{HOME}/.thunderbird/** rw,
+  owner @{HOME}/.thunderbird/**/*.{db,parentlock,sqlite}* k,
+  owner @{HOME}/.thunderbird/plugins/** rm,
+  owner @{HOME}/.thunderbird/**/plugins/** rm,
+  owner @{HOME}/.cache/thunderbird/ rw,
+  owner @{HOME}/.cache/thunderbird/** rw,
+
+  # Extensions
+  # /usr/share/.../extensions/... is already covered by '/usr/** r', above.
+  # Allow 'x' for downloaded extensions, but inherit policy for safety
+  owner @{HOME}/.thunderbird/**/extensions/** mixrw,
+  owner @{HOME}/.mozilla/extensions/**        mixr,
+  /usr/share/xul-ext/**/*.sqlite              rk,
+  /usr/lib/xul-ext/**/*.sqlite                rk,
+  /usr/lib/thunderbird-addons/extensions/**/*.sqlite rk,
+
+  deny @{MOZ_LIBDIR}/update.test w,
+  deny /usr/lib/mozilla/extensions/**/ w,
+  deny /usr/lib/xulrunner-addons/extensions/**/ w,
+  deny /usr/share/mozilla/extensions/**/ w,
+  deny /usr/share/mozilla/ w,
+
+  # Miscellaneous (to be abstracted)
+  # Ideally these would use a child profile. They are all ELF executables
+  # so running with 'Ux', while not ideal, is ok because we will at least
+  # benefit from glibc's secure execute.
+  /usr/bin/mkfifo Uxr,  # investigate
+  /bin/ps Uxr,
+  /bin/uname Uxr,
+
+  /usr/bin/gpg Cx -> gpg,
+
+  profile gpg {
+    #include <abstractions/base>
+
+    # Required to import keys from keyservers
+    #include <abstractions/nameservice>
+    #include <abstractions/p11-kit>
+
+    # LDAP key servers
+    /etc/ldap/ldap.conf r,
+
+    /usr/bin/gpg mr,
+    /usr/lib/gnupg/gpgkeys_* ix,
+    owner @{HOME}/.gnupg r,
+    owner @{HOME}/.gnupg/gpg.conf r,
+    owner @{HOME}/.gnupg/random_seed rwk,
+    owner @{HOME}/.gnupg/pubring.gpg{,~} rw,
+    owner @{HOME}/.gnupg/secring.gpg rw,
+    owner @{HOME}/.gnupg/trustdb.gpg rw,
+    owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
+    owner @{HOME}/.gnupg/.#*[0-9]  rw,
+    owner @{HOME}/.gnupg/.#*[0-9]x rwl,
+
+    owner @{HOME}/** r,
+    owner /tmp/** r,
+    owner /tmp/encfile* wr,
+  }
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.thunderbird>
+}

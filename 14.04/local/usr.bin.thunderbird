@@ -1,0 +1,8 @@
+# Site-specific additions and overrides for usr.bin.thunderbird.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  # Silence noise
+  deny /tmp/unity_support_test.[0-9] r,
+
+  # Personal safe tmpfs
+  owner @{HOME}/safe/** r,
