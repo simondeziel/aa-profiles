@@ -1,0 +1,40 @@
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/keepassx {
+  #include <abstractions/base>
+  #include <abstractions/ibus>
+  #include <abstractions/kde>
+  #include <abstractions/nameservice>
+  #include <abstractions/private-files>
+
+  /etc/xdg/sni-qt.conf rk,
+  /etc/xdg/Trolltech.conf rk,
+  /usr/share/themes/** r,
+  /usr/share/glib-2.0/schemas/gschemas.compiled r,
+  /usr/lib/@{multiarch}/gtk-[0-9]*/**.so mr,
+
+  owner @{HOME}/.config/gtk-[0-9]*/* rw,
+  owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner /{,var/}run/user/*/dconf/user rwk,
+
+  # gvfs
+  /usr/share/gvfs/remote-volume-monitors/  r,
+  /usr/share/gvfs/remote-volume-monitors/* r,
+
+  # usb
+  /media/   r,
+  /media/** r,
+
+  owner @{HOME}/.config/keepassx/ rw,
+  owner @{HOME}/.config/keepassx/config.ini rwk,
+
+  /usr/share/keepassx/** r,
+  /var/lib/dbus/machine-id r,
+
+  owner @{PROC}/[0-9]*/cmdline r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.keepassx>
+}
