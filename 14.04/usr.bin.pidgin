@@ -15,6 +15,7 @@
   #include <abstractions/nameservice>
   #include <abstractions/private-files-strict>
   #include <abstractions/ssl_certs>
+  #include <abstractions/ubuntu-helpers>
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/user-download>
 
@@ -28,6 +29,8 @@
   owner /run/user/[0-9]*/dconf/user rw,
   owner @{HOME}/.config/indicators/ rw,
   owner @{HOME}/.config/indicators/** rw,
+  owner @{HOME}/.local/share/applications/ r,
+  owner @{HOME}/.local/share/applications/* r,
 
   /bin/dash rix,
   /bin/which rix,
@@ -41,6 +44,12 @@
   /usr/bin/gvfs-open rmix,
   /usr/bin/pidgin r,
   /usr/bin/xdg-open rmix,
+
+  /etc/gnome/* r,
+  /usr/share/gnome/applications/ r,
+  /usr/share/gnome/applications/** r,
+  /usr/share/applications/ r,
+  /usr/share/applications/** r,
 
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
 
