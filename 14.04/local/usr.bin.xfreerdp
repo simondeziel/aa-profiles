@@ -1,0 +1,5 @@
+# Site-specific additions and overrides for usr.bin.xfreerdp.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  # For remote printing
+  #/bin/dash        Pix,
