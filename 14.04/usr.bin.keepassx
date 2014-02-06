@@ -4,10 +4,14 @@
 
 /usr/bin/keepassx {
   #include <abstractions/base>
+  #include <abstractions/dbus-session>
   #include <abstractions/ibus>
   #include <abstractions/kde>
   #include <abstractions/nameservice>
   #include <abstractions/private-files>
+
+  # missing from dbus abstractions?
+  audit /usr/bin/dbus-send ix, 
 
   /etc/xdg/sni-qt.conf rk,
   /etc/xdg/Trolltech.conf rk,
@@ -31,7 +35,6 @@
   owner @{HOME}/.config/keepassx/config.ini rwk,
 
   /usr/share/keepassx/** r,
-  /var/lib/dbus/machine-id r,
 
   owner @{PROC}/[0-9]*/cmdline r,
 
