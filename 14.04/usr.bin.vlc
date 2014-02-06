@@ -24,6 +24,7 @@
   /etc/mtab   r,
   /etc/vlc/** r,
   /etc/xdg/** rk,
+  /tmp/.X[0-9]*-lock r,
 
   # noisy
   deny /boot/** r,
