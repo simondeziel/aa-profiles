@@ -37,10 +37,15 @@
   owner @{HOME}/.{cache,config}/dconf/user rw,
   owner /run/user/[0-9]*/dconf/user rw,
   owner @{HOME}/.config/gtk-3.0/bookmarks r,
+  owner @{HOME}/.local/share/gvfs-metadata/root r r,
 
   # potentially extremely sensitive files
   audit deny @{HOME}/.gnupg/** mrwkl,
   audit deny @{HOME}/.ssh/** mrwkl,
+
+  # Required for LVM setups
+  /etc/udev/udev.conf r,
+  /sys/devices/virtual/block/dm-13/uevent r,
 
   # for networking
   network inet stream,
@@ -134,6 +139,7 @@
   # per-user thunderbird configuration
   owner @{HOME}/.thunderbird/ rw,
   owner @{HOME}/.thunderbird/** rw,
+  owner @{HOME}/.thunderbird/**/storage.sdb k,
   owner @{HOME}/.thunderbird/**/*.{db,parentlock,sqlite}* k,
   owner @{HOME}/.thunderbird/plugins/** rm,
   owner @{HOME}/.thunderbird/**/plugins/** rm,
