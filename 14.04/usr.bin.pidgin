@@ -26,7 +26,7 @@
   owner @{HOME}/.purple/ rw,
   owner @{HOME}/.purple/** rwk,
   owner @{HOME}/.{cache,config}/dconf/user rw,
-  owner /run/user/[0-9]*/dconf/user rw,
+  owner /{,var/}run/user/[0-9]*/dconf/user rw,
   owner @{HOME}/.config/indicators/ rw,
   owner @{HOME}/.config/indicators/** rw,
   owner @{HOME}/.local/share/applications/ r,
@@ -70,8 +70,8 @@
   owner /tmp/orcexec.* mr,
   # ... if /tmp is mounted noexec
   owner @{HOME}/orcexec.* mr,
-  owner /run/user/[0-9]*/ r,
-  owner /run/user/[0-9]*/orcexec.* mrw,
+  owner /{,var/}run/user/[0-9]*/ r,
+  owner /{,var/}run/user/[0-9]*/orcexec.* mrw,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.pidgin>
