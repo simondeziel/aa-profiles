@@ -30,7 +30,6 @@
   owner @{HOME}/.config/indicators/ rw,
   owner @{HOME}/.config/indicators/** rw,
   owner @{HOME}/.local/share/applications/ r,
-  owner @{HOME}/.local/share/applications/* r,
 
   /bin/dash rix,
   /bin/which rix,
@@ -45,12 +44,7 @@
   /usr/bin/pidgin r,
   /usr/bin/xdg-open rmix,
 
-  /etc/gnome/* r,
   /usr/share/gnome/applications/ r,
-  /usr/share/gnome/applications/** r,
-  /usr/share/applications/ r,
-  /usr/share/applications/** r,
-
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
 
   /usr/lib/frei0r-1/*.so rm,
