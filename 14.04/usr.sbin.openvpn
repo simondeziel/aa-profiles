@@ -23,9 +23,8 @@
   /dev/net/tun rw,
 
   # helpers
-  /usr/bin/openssl-vulnkey Cx -> vulnkey,
-  /usr/sbin/openvpn-vulnkey Cx -> vulnkey,
   /bin/ip ix,
+  /etc/openvpn/update-resolv-conf ix,
 
   /etc/openvpn/*.conf r,
   /etc/openvpn/** r,
@@ -33,26 +32,6 @@
   audit deny /etc/openvpn/**/easy-rsa/* r,
   /{,var/}run/openvpn/*.{pid,status} rw,
   /var/log/openvpn/*.log w,
-
-  /etc/openvpn/update-resolv-conf ix,
-
-  profile vulnkey {
-    #include <abstractions/base>
-    #include <abstractions/nameservice>
-    #include <abstractions/python>
-    # Apparently not included in <abstractions/python>
-    /usr/bin/python2.[67] ixr,
-    /usr/include/python2.[67]/** r,   # needed ?
-
-    capability sys_tty_config,
-
-    /usr/bin/openssl-vulnkey r,
-    /usr/sbin/openvpn-vulnkey r,
-    /usr/share/open{ssl,vpn}-blacklist/** r,
-    /etc/openvpn/*.{crt,key} r,
-    /etc/openvpn/**/*.{crt,key} r,
-    /var/log/openvpn/*.log w,
-  }
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.sbin.openvpn>
