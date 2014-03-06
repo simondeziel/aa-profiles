@@ -1,2 +1,85 @@
-# Site-specific additions and overrides for usr.local.bin.apt-dater-host-wrapper.
-# For more details, please see /etc/apparmor.d/local/README.
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/local/bin/apt-dater-host-wrapper {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  /usr/local/bin/apt-dater-host-wrapper ixr,
+
+  @{PROC}/version   r,
+  /bin/kill         ix,
+  /bin/sleep        ixr,
+  /usr/bin/basename ix,
+  /usr/bin/logger   ix,
+
+  /usr/local/bin/apt-dater-host Cx -> aptdater,
+
+  profile aptdater {
+    #include <abstractions/base>
+    #include <abstractions/perl>
+
+    /bin/cat   ix,
+    /bin/dash  ix,
+    /bin/grep  ix,
+    /bin/uname ix,
+
+    /usr/bin/imvirt      PUx,
+    /usr/bin/lsb_release PUx,
+
+    @{PROC}/version           r,
+    @{PROC}/version_signature r,
+
+    /etc/apt/**       r,
+    /var/cache/apt/** r,
+    /var/lib/apt/**   r,
+    /usr/bin/apt-get  ix,
+
+    /etc/dpkg/**        r,
+    /var/lib/dpkg/**    r,
+    /usr/bin/dpkg       ix,
+    /usr/bin/dpkg-query ix,
+
+    /etc/apt-dater-host.conf      r,
+    /etc/apt-dater-host.uuid      r,
+    /usr/local/bin/apt-dater-host r,
+
+    # XXX: Cx doesn't work. For details, see
+    # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
+    #/usr/bin/sudo Cx -> sudo_aptdater,
+    /usr/bin/sudo px -> /usr/local/bin/apt-dater-host-wrapper//sudo_aptdater,
+  }
+
+  profile sudo_aptdater {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    #include <abstractions/authentication>
+    #include <abstractions/wutmp>
+
+    capability audit_write,
+    capability sys_ptrace,
+    capability sys_resource,
+    capability setuid,
+    capability setgid,
+
+    /etc/sudoers r,
+    /etc/sudoers.d/ r,
+    /etc/sudoers.d/* r,
+    /etc/environment r,
+    /etc/default/locale r,
+
+    /usr/bin/sudo r,
+    /usr/lib/sudo/*.so m,
+
+    /dev/tty rw,
+
+    @{PROC}/[0-9]*/stat r,
+    owner @{PROC}/[0-9]*/fd/ r,
+
+    /usr/bin/apt-get PUx,
+  }
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.local.bin.apt-dater-host-wrapper>
+}
