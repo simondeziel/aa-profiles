@@ -1,0 +1,26 @@
+# Author: Felix Geyer <debfx@ubuntu.com>
+
+@{APT_CACHE_DIR}=/var/cache/apt-cacher-ng
+
+#include <tunables/global>
+
+/usr/sbin/apt-cacher-ng {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/user-tmp>
+
+  /etc/apt-cacher-ng/ r,
+  /etc/apt-cacher-ng/** r,
+  /var/lib/apt-cacher-ng/** r,
+  /{,var/}run/apt-cacher-ng/* rw,
+  @{APT_CACHE_DIR}/ r,
+  @{APT_CACHE_DIR}/** rw,
+  /var/log/apt-cacher-ng/ r,
+  /var/log/apt-cacher-ng/* rw,
+
+  /etc/hosts.allow r,
+  /etc/hosts.deny r,
+
+  /bin/dash ixr,
+  /bin/ed ixr,
+}
