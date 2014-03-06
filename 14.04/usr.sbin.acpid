@@ -1,0 +1,18 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel@gmail.com>
+#include <tunables/global>
+
+/usr/sbin/acpid flags=(complain) {
+  #include <abstractions/base>
+
+  /usr/sbin/acpid ix,
+
+  /etc/acpi/events/ r,
+  /etc/acpi/events/** r,
+  /dev/input/ r,
+  /dev/input/event[0-9]* r,
+
+  owner /run/acpid.pid w,
+  owner /run/acpid.socket w,
+  owner @{PROC}/[0-9]*/fd/ r,
+}
