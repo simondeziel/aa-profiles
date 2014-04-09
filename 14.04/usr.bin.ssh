@@ -1,0 +1,20 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/bin/ssh {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+
+  /etc/ssh/ssh_config r,
+
+  owner @{HOME}/.ssh/   rw,
+  owner @{HOME}/.ssh/** rwl,
+  owner /tmp/ssh-*/ rw,
+  owner /tmp/ssh-*/agent.[0-9]* rw,
+  owner /run/user/[0-9]*/keyring-*/ssh rw,
+  owner @{PROC}/[0-9]*/fd/ r,
+
+  #include <local/usr.bin.ssh>
+}
