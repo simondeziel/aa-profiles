@@ -9,6 +9,10 @@
 
   /etc/ssh/ssh_config r,
 
+  # to unlock private keys
+  /dev/tty rw,
+  /usr/lib/openssh/gnome-ssh-askpass mix,
+
   owner @{HOME}/.ssh/   rw,
   owner @{HOME}/.ssh/** rwl,
   owner /tmp/ssh-*/ rw,
