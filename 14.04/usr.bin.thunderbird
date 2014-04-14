@@ -37,7 +37,7 @@
   owner @{HOME}/.{cache,config}/dconf/user rw,
   owner /run/user/[0-9]*/dconf/user rw,
   owner @{HOME}/.config/gtk-3.0/bookmarks r,
-  owner @{HOME}/.local/share/gvfs-metadata/root r r,
+  owner @{HOME}/.local/share/gvfs-metadata/root r,
 
   # potentially extremely sensitive files
   audit deny @{HOME}/.gnupg/** mrwkl,
