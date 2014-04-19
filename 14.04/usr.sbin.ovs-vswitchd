@@ -1,0 +1,24 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel@gmail.com>
+#include <tunables/global>
+
+/usr/sbin/ovs-vswitchd {
+  #include <abstractions/base>
+
+  capability block_suspend,
+  capability ipc_lock,
+  capability net_admin,
+  capability sys_module,
+  network inet dgram,
+
+  /run/openvswitch/*.mgmt rw,
+  /run/openvswitch/*.snoop rw,
+
+  /run/openvswitch/db.sock rw,
+  /run/openvswitch/ovs-vswitchd.[0-9]*.ctl rw,
+  /run/openvswitch/ovs-vswitchd.pid{.tmp,} rwk,
+  /var/log/openvswitch/ovs-vswitchd.log w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.ovs-vswitchd>
+}
