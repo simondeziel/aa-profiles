@@ -26,10 +26,16 @@
   /bin/ip ix,
   /etc/openvpn/update-resolv-conf ix,
 
-  /etc/openvpn/*.conf r,
-  /etc/openvpn/** r,
-  audit deny /etc/openvpn/easy-rsa/* r,
-  audit deny /etc/openvpn/**/easy-rsa/* r,
+  # secret files only readable by root (before setuid)
+  owner /etc/openvpn/*.conf r,
+  owner /etc/openvpn/*/*    r,
+  #owner /etc/openvpn/*/*.conf r,
+  #owner /etc/openvpn/*/*.ovpn r,
+  #owner /etc/openvpn/*/*.key r,
+  /etc/openvpn/*/*.crt r,
+  /etc/openvpn/**/ r,
+  /etc/openvpn/chroot/** r,
+  /etc/openvpn/**/chroot/** r,
   /{,var/}run/openvpn/*.{pid,status} rw,
   /var/log/openvpn/*.log w,
 
