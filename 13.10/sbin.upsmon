@@ -11,6 +11,8 @@
   capability setuid,
   capability sys_chroot,
 
+  /sbin/upsmon ix,
+
   /etc/nut/upsmon.conf   r,
   /{,var/}run/nut/upsmon.pid rw,
 
