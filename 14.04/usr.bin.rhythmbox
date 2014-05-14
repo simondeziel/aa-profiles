@@ -6,6 +6,7 @@
 /usr/bin/rhythmbox {
   #include <abstractions/audio>
   #include <abstractions/base>
+  #include <abstractions/dbus>
   #include <abstractions/dbus-accessibility>
   #include <abstractions/dbus-session>
   #include <abstractions/gnome>
