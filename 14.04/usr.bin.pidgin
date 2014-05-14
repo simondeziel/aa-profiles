@@ -19,6 +19,7 @@
   #include <abstractions/ubuntu-helpers>
   #include <abstractions/user-download>
 
+  deny ptrace,
   deny capability sys_ptrace,
 
   owner @{HOME}/.gstreamer*/ rw,
