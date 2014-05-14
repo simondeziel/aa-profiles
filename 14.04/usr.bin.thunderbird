@@ -45,7 +45,9 @@
 
   # Required for LVM setups
   /etc/udev/udev.conf r,
-  /sys/devices/virtual/block/dm-13/uevent r,
+  /sys/devices/virtual/block/dm-[0-9]*/uevent r,
+  /sys/devices/pci[0-9:]*/[0-9:.]*/uevent r,
+  /run/udev/data/+pci:[0-9:.]* r,
 
   # for networking
   network inet stream,
