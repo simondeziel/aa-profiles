@@ -2,10 +2,13 @@
 # Author: Simon Deziel <simon.deziel@gmail.com>
 #include <tunables/global>
 
-/usr/sbin/acpid flags=(complain) {
+/usr/sbin/acpid {
   #include <abstractions/base>
 
   /usr/sbin/acpid ix,
+
+  /bin/dash ix,
+  /etc/acpi/*.sh PUx,
 
   /etc/acpi/events/ r,
   /etc/acpi/events/** r,
