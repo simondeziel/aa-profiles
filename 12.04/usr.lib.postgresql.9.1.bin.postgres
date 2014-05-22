@@ -12,6 +12,7 @@
   /usr/share/postgresql/9.1/** r,
 
   owner /var/lib/postgresql/9.1/main/** rw,
+  owner /var/lib/postgresql/9.1/main/pg_xlog/** lrw,
   owner /{,var/}run/postgresql/.s.PGSQL.* rw,
   owner /{,var/}run/postgresql/9.1-main.pid rw,
 
