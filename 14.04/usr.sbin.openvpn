@@ -29,9 +29,6 @@
   # secret files only readable by root (before setuid)
   owner /etc/openvpn/*.conf r,
   owner /etc/openvpn/*/*    r,
-  #owner /etc/openvpn/*/*.conf r,
-  #owner /etc/openvpn/*/*.ovpn r,
-  #owner /etc/openvpn/*/*.key r,
   /etc/openvpn/*/*.crt r,
   /etc/openvpn/**/ r,
   /etc/openvpn/chroot/** r,
