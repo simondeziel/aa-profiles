@@ -58,8 +58,8 @@
   /usr/share/tcltk/** r,
   /usr/share/themes/ r,
 
-  owner @{PROC}/[0-9]*/auxv r,
-  owner @{PROC}/[0-9]*/fd/ r,
+  owner @{PROC}/@{pid}/auxv r,
+  owner @{PROC}/@{pid}/fd/ r,
 
   # For sound notifications
   owner /tmp/orcexec.* mr,

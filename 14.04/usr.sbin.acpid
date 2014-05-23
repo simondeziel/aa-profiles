@@ -17,5 +17,5 @@
 
   owner /run/acpid.pid w,
   owner /run/acpid.socket w,
-  owner @{PROC}/[0-9]*/fd/ r,
+  owner @{PROC}/@{pid}/fd/ r,
 }

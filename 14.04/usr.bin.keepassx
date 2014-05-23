@@ -36,7 +36,7 @@
 
   /usr/share/keepassx/** r,
 
-  owner @{PROC}/[0-9]*/cmdline r,
+  owner @{PROC}/@{pid}/cmdline r,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.keepassx>

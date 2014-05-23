@@ -31,8 +31,8 @@
 
   /var/lib/dbus/machine-id r,
   owner /run/user/[0-9]*/dconf/user rw,
-  owner @{PROC}/[0-9]*/cmdline r,
-  owner @{PROC}/[0-9]*/auxv r,
+  owner @{PROC}/@{pid}/cmdline r,
+  owner @{PROC}/@{pid}/auxv r,
 
   # Convenient for transcoding
   owner @{HOME}/**                  rw,

@@ -74,8 +74,8 @@
 
     /dev/tty rw,
 
-    @{PROC}/[0-9]*/stat r,
-    owner @{PROC}/[0-9]*/fd/ r,
+    @{PROC}/@{pid}/stat r,
+    owner @{PROC}/@{pid}/fd/ r,
 
     /usr/bin/apt-get PUx,
   }

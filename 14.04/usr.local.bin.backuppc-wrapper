@@ -39,8 +39,8 @@
 
     /dev/tty rw,
 
-    @{PROC}/[0-9]*/stat r,
-    owner @{PROC}/[0-9]*/fd/ r,
+    @{PROC}/@{pid}/stat r,
+    owner @{PROC}/@{pid}/fd/ r,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
