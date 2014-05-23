@@ -14,11 +14,6 @@
   capability chown,
   capability dac_override,
 
-  # for networking
-  owner @{PROC}/[0-9]*/net/if_inet6 r,
-  owner @{PROC}/[0-9]*/net/ipv6_route r,
-
-
   # non-chrooted paths
   /etc/unbound/** r,
   owner /etc/unbound/*.key rw,
