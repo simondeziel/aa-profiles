@@ -1,0 +1,38 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/sbin/nginx {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  network inet stream,
+  network inet6 stream,
+
+  capability chown,
+  capability setuid,
+  capability setgid,
+  capability dac_override,
+
+  /etc/nginx/**                r,
+  owner @{PROC}/[0-9]*/auxv    r,
+  /var/log/nginx/*.log         w,
+  /var/log/nginx/**/*.log      w,
+  /{,var/}run/nginx.pid        rw,
+  /{,var/}run/nginx.pid.oldbin rw,
+
+  # document root
+  /var/www/**               r,
+  /usr/share/nginx/**       r,
+
+  # reexec during upgrade
+  /usr/sbin/nginx           ix,
+  /var/lib/nginx/**         rw,
+
+  # documentation
+  /usr/share/doc/**         r,
+
+  #include <local/usr.sbin.nginx>
+}
