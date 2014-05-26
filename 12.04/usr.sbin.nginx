@@ -11,6 +11,7 @@
   network inet stream,
   network inet6 stream,
 
+  capability chown,
   capability setuid,
   capability setgid,
   capability dac_override,
