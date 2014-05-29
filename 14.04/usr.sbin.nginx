@@ -27,6 +27,12 @@
   /var/www/**               r,
   /usr/share/nginx/**       r,
 
+  # cache
+  /var/spool/nginx-cache/         rw,
+  owner /var/spool/nginx-cache/** rw,
+  /run/shm/nginx-cache/           rw,
+  owner /run/shm/nginx-cache/**   rw,
+
   # reexec during upgrade
   /usr/sbin/nginx           ix,
   /var/lib/nginx/**         rw,
