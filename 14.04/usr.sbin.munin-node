@@ -1,0 +1,31 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/sbin/munin-node flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/perl>
+
+  capability setuid,
+  capability setgid,
+  capability chown,
+  capability dac_override,
+
+  /etc/munin/munin-node.conf          r,
+  /etc/munin/plugins/                 r,
+  /etc/munin/plugin-conf.d/           r,
+  /etc/munin/plugin-conf.d/munin-node r,
+  /usr/sbin/munin-node                r,
+
+  /var/lib/munin-node/plugin-state/** rw,
+
+  owner @{PROC}/[0-9]*/cmdline        r,
+  /var/log/munin/munin-node.log       w,
+  /{,var/}run/munin/munin-node.pid    rw,
+
+  # TODO: move to a subprofile along with capabilities
+  /usr/share/munin/plugins/*          PUxr,
+
+  #include <local/usr.sbin.munin-node>
+}
