@@ -20,5 +20,20 @@
   owner /run/user/[0-9]*/keyring-*/ssh rw,
   owner @{PROC}/@{pid}/fd/ r,
 
+  # for ProxyCommand
+  /bin/bash Cx -> proxycommand,
+  /bin/nc rm,
+  /usr/bin/ssh rm,
+
+  profile proxycommand {
+    #include <abstractions/base>
+
+    /bin/bash rm,
+    /bin/nc PUx,
+    /usr/bin/ssh Px,
+
+    /dev/tty rw,
+  }
+
   #include <local/usr.bin.ssh>
 }
