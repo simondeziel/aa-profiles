@@ -2,15 +2,20 @@
 # Author: Simon Deziel <simon.deziel@gmail.com>
 #include <tunables/global>
 
-/sbin/wpa_supplicant flags=(complain) {
+/sbin/wpa_supplicant {
   #include <abstractions/base>
   #include <abstractions/dbus>
 
   capability net_admin,
+  capability net_raw,
   network packet dgram,
+  network inet dgram,
 
+  /dev/rfkill r,
+  owner @{PROC}/[0-9]*/net/psched r,
   /sys/devices/pci[0-9]*/**/ieee80211/*/name r,
 
   /run/wpa_supplicant/  rw,
   /run/wpa_supplicant/* rw,
+  /run/sendsigs.omit.d/wpasupplicant.pid rw,
 }
