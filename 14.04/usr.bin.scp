@@ -1,0 +1,26 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/bin/scp {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+
+  /etc/ssh/ssh_config r,
+
+  # to unlock private keys
+  /dev/tty rw,
+  /usr/lib/openssh/gnome-ssh-askpass mix,
+
+  owner @{HOME}/.ssh/   rw,
+  owner @{HOME}/.ssh/** rwl,
+  owner /tmp/ssh-*/ rw,
+  owner /tmp/ssh-*/agent.[0-9]* rw,
+  owner /run/user/[0-9]*/keyring-*/ssh rw,
+  owner @{PROC}/[0-9]*/fd/ r,
+
+  /usr/bin/ssh PUx,
+
+  #include <local/usr.bin.scp>
+}
