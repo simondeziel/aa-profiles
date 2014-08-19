@@ -3,7 +3,7 @@
 
 #include <tunables/global>
 
-/usr/lib/@\{multiarch\}/ubuntu-geoip/ubuntu-geoip-provider {
+/usr/lib/*-linux-gnu*/ubuntu-geoip/ubuntu-geoip-provider {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
