@@ -13,7 +13,7 @@
   /etc/acpi/events/ r,
   /etc/acpi/events/** r,
   /dev/input/ r,
-  /dev/input/event[0-9]* r,
+  /dev/input/{event,mouse}[0-9]* r,
 
   owner /run/acpid.pid w,
   owner /run/acpid.socket w,
