@@ -3,11 +3,14 @@
 
 #include <tunables/global>
 
-/usr/lib/*-linux-gnu*/ubuntu-geoip/ubuntu-geoip-provider {
+/usr/lib/*-linux-gnu*/ubuntu-geoip-provider {
   #include <abstractions/base>
+  #include <abstractions/dbus>
+  #include <abstractions/dbus-session>
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
 
   owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner /{,var/}run/user/[0-9]*/dconf/user rw,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
 }
