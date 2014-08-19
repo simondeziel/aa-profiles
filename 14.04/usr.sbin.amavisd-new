@@ -45,12 +45,16 @@
   /lib{,32,64}/libc-*.so* mr,
   /usr/bin/pyzor Cx -> pyzor,
 
+  signal (send) set=("term") peer=/usr/sbin/amavisd-new//pyzor,
+
   profile pyzor {
     #include <abstractions/base>
     #include <abstractions/nameservice>
     #include <abstractions/python>
     # Apparently not included in <abstractions/python>
     /usr/bin/python2.[67] ixr,
+
+    signal (receive) set=("term") peer=/usr/sbin/amavisd-new,
 
     owner /tmp/** rw,
     owner /var/lib/amavis/tmp/**    r,
