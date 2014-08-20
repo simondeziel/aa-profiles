@@ -23,5 +23,9 @@
 
   /usr/bin/ssh PUx,
 
+  # for file transfers
+  owner /** rw,
+  /** r,
+
   #include <local/usr.bin.scp>
 }
