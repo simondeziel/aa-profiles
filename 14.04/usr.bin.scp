@@ -17,9 +17,9 @@
   owner @{HOME}/.ssh/** rwl,
   deny @{HOME}/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
   owner /tmp/ssh-*/ rw,
-  owner /tmp/ssh-*/agent.[0-9]* rw,
+  owner /tmp/ssh-*/agent.@{pid} rw,
   owner /run/user/[0-9]*/keyring-*/ssh rw,
-  owner @{PROC}/[0-9]*/fd/ r,
+  owner @{PROC}/@{pid}/fd/ r,
 
   /usr/bin/ssh PUx,
 
