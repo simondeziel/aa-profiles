@@ -38,6 +38,13 @@
 
   owner @{PROC}/@{pid}/cmdline r,
 
+  # When opening an URL, KeePassX will attempt xdg-open, gnome-open
+  # then firefox.sh
+  deny /usr/bin/xdg-open x,
+  deny /usr/bin/gnome-open x,
+  # Only allow launching Firefox when protected by a profile
+  /usr/lib/firefox/firefox.sh Px -> /usr/lib/firefox/firefox{,*[^s][^h]},
+
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.keepassx>
 }
