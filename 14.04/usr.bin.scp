@@ -18,9 +18,9 @@
   owner @{HOME}/.ssh/known_hosts rwl,
   # use with "ControlPath ~/.ssh/%r@%h:%p"
   owner @{HOME}/.ssh/*@*:* rwl,
-  deny @{HOME}/.ssh/authorized_keys{,2} rwl,
-  deny @{HOME}/.ssh/config w,
-  deny @{HOME}/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
+  audit deny @{HOME}/.ssh/authorized_keys{,2} rw,
+  audit deny @{HOME}/.ssh/config w,
+  audit deny @{HOME}/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
   owner /tmp/ssh-*/ rw,
   owner /tmp/ssh-*/agent.@{pid} rw,
   owner /run/user/[0-9]*/keyring-*/ssh rw,
