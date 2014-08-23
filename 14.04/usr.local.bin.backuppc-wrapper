@@ -48,7 +48,7 @@
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
     #/usr/bin/rsync Cx -> rsync,
-    /usr/bin/rsync px -> /usr/local/bin/backuppc-wrapper//rsync,
+    /usr/bin/rsync Px -> /usr/local/bin/backuppc-wrapper//rsync,
   }
 
   profile rsync {

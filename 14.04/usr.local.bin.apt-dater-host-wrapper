@@ -51,7 +51,7 @@
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
     #/usr/bin/sudo Cx -> sudo_aptdater,
-    /usr/bin/sudo px -> /usr/local/bin/apt-dater-host-wrapper//sudo_aptdater,
+    /usr/bin/sudo Px -> /usr/local/bin/apt-dater-host-wrapper//sudo_aptdater,
   }
 
   profile sudo_aptdater {
