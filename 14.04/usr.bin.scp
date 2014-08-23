@@ -26,7 +26,7 @@
   owner /run/user/[0-9]*/keyring-*/ssh rw,
   owner @{PROC}/@{pid}/fd/ r,
 
-  /usr/bin/ssh PUx,
+  /usr/bin/ssh Px,
 
   # for file transfers
   owner /** rw,
