@@ -28,17 +28,33 @@
 
   # for ProxyCommand
   /bin/bash Cx -> proxycommand,
-  /bin/nc rm,
   /usr/bin/ssh rm,
+  /bin/nc.openbsd rm,
+
+  # Allow to HUP ProxyCommand from subprofile
+  signal (send) set=("hup") peer=/usr/bin/ssh//nc,
 
   profile proxycommand {
     #include <abstractions/base>
 
     /bin/bash rm,
-    /bin/nc PUx,
     /usr/bin/ssh Px,
+    # XXX: Cx doesn't work. For details, see
+    # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
+    #/bin/nc.openbsd Cx -> nc,
+    /bin/nc.openbsd Px -> /usr/bin/ssh//nc,
 
+    # unlocking the key is done by the parent so why is this needed?
     /dev/tty rw,
+  }
+  profile nc {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    # Accept HUP from parent
+    signal (receive) set=("hup") peer=/usr/bin/ssh,
+
+    /bin/nc.openbsd rix,
   }
 
   #include <local/usr.bin.ssh>
