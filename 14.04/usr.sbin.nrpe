@@ -41,6 +41,9 @@
     /usr/bin/sudo r,
     /usr/lib/sudo/*.so m,
 
+    /dev/tty rw,
+
+    @{PROC}/@{pid}/stat r,
     owner @{PROC}/@{pid}/fd/ r,
     /usr/{,local/}lib/nagios/plugins/ r,
     /usr/{,local/}lib/nagios/plugins/** PUx,
