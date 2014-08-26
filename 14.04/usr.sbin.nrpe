@@ -1,7 +1,7 @@
-# Author: Simon Deziel <simon.deziel@gmail.com>
+# Author: Simon Deziel
+# vim:syntax=apparmor
 
 #include <tunables/global>
-
 /usr/sbin/nrpe {
   #include <abstractions/base>
   #include <abstractions/nameservice>
