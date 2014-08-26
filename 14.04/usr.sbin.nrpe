@@ -26,6 +26,8 @@
     #include <abstractions/authentication>
     #include <abstractions/wutmp>
 
+    capability audit_write,
+    capability sys_ptrace,
     capability sys_resource,
     capability setuid,
     capability setgid,
@@ -33,8 +35,6 @@
     /etc/sudoers r,
     /etc/sudoers.d/ r,
     /etc/sudoers.d/* r,
-    /etc/security/limits.d/ r,
-    /etc/security/limits.d/* r,
     /etc/environment r,
     /etc/default/locale r,
 
