@@ -7,6 +7,9 @@
   #include <abstractions/nameservice>
   #include <abstractions/openssl>
 
+  capability setuid,
+  capability setgid,
+
   /etc/ssh/ssh_config r,
 
   # to unlock private keys
