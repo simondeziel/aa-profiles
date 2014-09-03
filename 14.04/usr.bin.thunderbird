@@ -15,21 +15,17 @@
 /usr/lib/thunderbird/thunderbird{,*[^s][^h]} {
   #include <abstractions/audio>
   #include <abstractions/aspell>
-  #include <abstractions/base>
   #include <abstractions/cups-client>
   # TODO: finetune this for required accesses
   #include <abstractions/dbus>
   #include <abstractions/dbus-accessibility>
   #include <abstractions/dbus-session>
-  #include <abstractions/fonts>
-  #include <abstractions/freedesktop.org>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   #include <abstractions/nameservice>
   #include <abstractions/p11-kit>
   #include <abstractions/private-files>
   #include <abstractions/ssl_certs>
-  #include <abstractions/user-tmp>
   #include <abstractions/user-download>
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
