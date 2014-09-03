@@ -37,17 +37,17 @@
   owner @{HOME}/.{cache,config}/dconf/user rw,
   owner /run/user/[0-9]*/dconf/user rw,
   owner @{HOME}/.config/gtk-3.0/bookmarks r,
-  owner @{HOME}/.local/share/gvfs-metadata/root r,
+  deny owner @{HOME}/.local/share/gvfs-metadata/* r,
 
   # potentially extremely sensitive files
   audit deny @{HOME}/.gnupg/** mrwkl,
   audit deny @{HOME}/.ssh/** mrwkl,
 
   # Required for LVM setups
-  /etc/udev/udev.conf r,
   /sys/devices/virtual/block/dm-[0-9]*/uevent r,
-  /sys/devices/pci[0-9:]*/[0-9:.]*/uevent r,
-  /run/udev/data/+pci:[0-9:.]* r,
+
+  # Addons (too lax for thunderbird)
+  ##include <abstractions/ubuntu-browsers.d/firefox>
 
   # for networking
   network inet stream,
@@ -62,6 +62,7 @@
   /etc/mime.types r,
   /etc/mailcap r,
   /etc/xdg/*buntu/applications/defaults.list    r, # for all derivatives
+  /etc/xfce4/defaults.list r,
   /usr/share/xubuntu/applications/defaults.list r,
   owner @{HOME}/.local/share/applications/defaults.list r,
   owner @{HOME}/.local/share/applications/mimeapps.list r,
@@ -69,6 +70,10 @@
   owner /tmp/** m,
   owner /var/tmp/** m,
   /tmp/.X[0-9]*-lock r,
+  /etc/udev/udev.conf r,
+  # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
+  # Possibly move to an abstraction if anything else needs it.
+  deny /run/udev/data/** r,
 
   /etc/timezone r,
   /etc/wildmidi/wildmidi.cfg r,
@@ -85,12 +90,17 @@
   # noisy
   deny @{MOZ_LIBDIR}/** w,
   deny /usr/lib/thunderbird-addons/** w,
+  deny /usr/lib/xulrunner-addons/** w,
+  deny /usr/lib/xulrunner-*/components/*.tmp w,
   deny /.suspended r,
   deny /boot/initrd.img* r,
   deny /boot/vmlinuz* r,
   deny /var/cache/fontconfig/ w,
   deny @{HOME}/.local/share/recently-used.xbel r,
   deny @{HOME}/.* r,
+
+  # TODO: investigate
+  deny /usr/bin/gconftool-2 x,
 
   # These are needed when a new user starts thunderbird and thunderbird.sh is used
   @{MOZ_LIBDIR}/** ixr,
@@ -107,7 +117,10 @@
   owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
   @{PROC}/[0-9]*/status r,
   @{PROC}/filesystems r,
+  /sys/devices/pci[0-9]*/**/uevent r,
   owner @{HOME}/.thumbnails/*/*.png r,
+  owner @{HOME}/.cache/thumbnails/*/*.png r,
+  deny @{HOME}/.cache/thumbnails/fail/*.png r,
 
   /etc/mtab r,
   /etc/fstab r,
@@ -148,6 +161,7 @@
   owner @{HOME}/.cache/thunderbird/ rw,
   owner @{HOME}/.cache/thunderbird/** rw,
 
+  #
   # Extensions
   # /usr/share/.../extensions/... is already covered by '/usr/** r', above.
   # Allow 'x' for downloaded extensions, but inherit policy for safety
