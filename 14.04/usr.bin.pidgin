@@ -6,8 +6,8 @@
   #include <abstractions/audio>
   #include <abstractions/base>
   #include <abstractions/bash>
-  #include <abstractions/dbus>
   #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
   #include <abstractions/enchant>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
@@ -18,6 +18,20 @@
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
   #include <abstractions/user-download>
+
+  dbus receive
+       bus=system
+       path=/org/freedesktop/NetworkManager
+       interface=org.freedesktop.NetworkManager
+       member={CheckPermissions,StateChanged,PropertiesChanged}
+       peer=(label=unconfined),
+
+  dbus send
+       bus=system
+       path=/org/freedesktop/NetworkManager
+       interface=org.freedesktop.NetworkManager
+       member=state
+       peer=(label=unconfined),
 
   deny ptrace,
   deny capability sys_ptrace,
