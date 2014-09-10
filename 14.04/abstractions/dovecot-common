@@ -1,0 +1,4 @@
+# used with dovecot/*
+
+  # dovecot's binary can send us signals
+  signal receive peer=/usr/sbin/dovecot,

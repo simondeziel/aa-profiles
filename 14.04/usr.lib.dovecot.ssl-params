@@ -1,0 +1,17 @@
+# vim: ft=apparmor
+
+#include <tunables/global>
+
+/usr/lib/dovecot/ssl-params {
+  #include <abstractions/base>
+  #include <abstractions/dovecot-common>
+
+  capability block_suspend,
+  capability setgid,
+
+  /var/lib/dovecot/ssl-parameters.dat r,
+  /{,var/}run/dovecot/config rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.dovecot.ssl-params>
+}

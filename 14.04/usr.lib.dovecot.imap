@@ -1,0 +1,34 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2009-2010 Canonical Ltd.
+#    Copyright (C) 2011-2013 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+#include <tunables/global>
+#include <tunables/dovecot>
+
+/usr/lib/dovecot/imap {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability setgid,
+  capability setuid,
+  capability block_suspend,
+
+  @{DOVECOT_MAILSTORE}/ rw,
+  @{DOVECOT_MAILSTORE}/** rwkl,
+
+  @{HOME} r, # ???
+  /usr/lib/dovecot/imap mr,
+  /{,var/}run/dovecot/auth-master rw,
+  /{,var/}run/dovecot/config rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.dovecot.imap>
+}
