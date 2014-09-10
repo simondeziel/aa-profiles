@@ -5,8 +5,8 @@
 
 /usr/lib/*-linux-gnu*/ubuntu-geoip-provider {
   #include <abstractions/base>
-  #include <abstractions/dbus>
   #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
 
