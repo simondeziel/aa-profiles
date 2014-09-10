@@ -90,7 +90,7 @@
   owner /tmp/.esd-@{pid}*/ rw,
   owner /tmp/.esd-@{pid}*/socket rw,
 
-  ptrace (trace) peer=/usr/bin/pulseaudio,
+  ptrace (read,trace) peer=/usr/bin/pulseaudio,
 
   profile /usr/lib/pulseaudio/pulse/gconf-helper {
     #include <abstractions/base>
