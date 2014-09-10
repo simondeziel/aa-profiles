@@ -32,6 +32,13 @@
   owner @{HOME}/.config/pulse/cookie rwk,
   owner @{HOME}/{.config/pulse,.pulse}/ rw,
   owner @{HOME}/{.config/pulse,.pulse}/* rw,
+  owner /var/lib/lightdm/.esd_auth rwk,
+  owner /var/lib/lightdm/.pulse-cookie rwk,
+  owner /var/lib/lightdm/.config/pulse/cookie rwk,
+  owner /var/lib/lightdm/{.config/pulse,.pulse}/ rw,
+  owner /var/lib/lightdm/{.config/pulse,.pulse}/* rw,
+  # abstractions/X only covers @{HOME}/.Xauthority
+  owner /var/lib/lightdm/.Xauthority r,
 
   owner /run/pulse/ rw,
   owner /run/pulse/.pulse-cookie rwk,
@@ -64,13 +71,6 @@
   /usr/share/pulseaudio/** r,
   /usr/lib/pulse-[2-9].[0-9]/modules/*.so mr,
   /usr/lib/pulseaudio/pulse/gconf-helper Cx,
-
-  owner /var/lib/lightdm/.Xauthority r,
-  owner /var/lib/lightdm/.esd_auth rwk,
-  owner /var/lib/lightdm/.pulse-cookie rwk,
-  owner /var/lib/lightdm/.pulse/ rw,
-  owner /var/lib/lightdm/.pulse/* w,
-  owner /var/lib/lightdm/.pulse/* r,
 
   # are these needed?
   /var/lib/pulse/ rw,
