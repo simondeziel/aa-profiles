@@ -6,8 +6,8 @@
 /usr/bin/vlc {
   #include <abstractions/audio>
   #include <abstractions/base>
-  #include <abstractions/dbus>
   #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   #include <abstractions/kde>
