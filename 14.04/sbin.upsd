@@ -1,0 +1,35 @@
+# Author: Simon Deziel
+# inspired by upstream initial version written by Arnaud Quette
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/sbin/upsd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+
+  # Needed for upsd -c {reload,stop}, which uses signals
+  capability kill,
+
+  # for networking
+  owner @{PROC}/[0-9]*/net/if_inet6 r,
+  owner @{PROC}/[0-9]*/net/ipv6_route r,
+
+  /etc/nut/ups.conf   r,
+  /etc/nut/upsd.conf  r,
+  /etc/nut/upsd.users r,
+  /{,var/}run/nut/upsd.pid rw,
+  owner /{,var/}run/nut/usbhid-ups-* rw,
+
+  /usr/share/nut/cmdvartab r,
+
+  # TCP wrapper
+  /etc/hosts.deny  r,
+  /etc/hosts.allow r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/sbin.upsd>
+}
