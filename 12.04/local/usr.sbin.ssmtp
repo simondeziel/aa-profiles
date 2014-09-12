@@ -1,6 +1,8 @@
 # Site-specific additions and overrides for usr.sbin.ssmtp.
 # For more details, please see /etc/apparmor.d/local/README.
 
+  # backuppc
+  owner /var/lib/backuppc/dead.letter rw,
   # logcheck
   owner /var/lib/logcheck/dead.letter rw,
   # nagios
