@@ -1,0 +1,16 @@
+# vim:syntax=apparmor
+
+  #include <abstractions/p11-kit>
+
+  /etc/udev/udev.conf r,
+
+  # /dev/shm is a symlink to /run/shm on ubuntu
+  owner /{dev,run}/shm/shmfd-* rw,
+
+  /run/udev/data/+pci:* r,
+
+  /sys/devices/pci[0-9]*/**/{busnum,devnum,descriptors,speed,uevent} r,
+
+  owner @{HOME}/orcexec.* mr,
+  owner /tmp/orcexec.* mrw,
+  owner /{,var/}run/user/[0-9]*/orcexec.* mrw,
