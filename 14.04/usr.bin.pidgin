@@ -24,7 +24,7 @@
        bus=system
        path=/org/freedesktop/NetworkManager
        interface=org.freedesktop.NetworkManager
-       member={CheckPermissions,StateChanged,PropertiesChanged}
+       member={CheckPermissions,DeviceAdded,DeviceRemoved,StateChanged,PropertiesChanged}
        peer=(label=unconfined),
 
   dbus send
