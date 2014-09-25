@@ -9,6 +9,9 @@
   capability kill,
   capability mknod,
 
+  # Allow to terminate unconfined processes
+  signal (send) set=("term") peer=unconfined,
+
   /etc/nut/ups.conf r,
 
   owner /var/lib/nut/* r,
