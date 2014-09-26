@@ -1,0 +1,46 @@
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/sbin/snort flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_admin,
+  capability net_raw,
+  capability setuid,
+  capability setgid,
+  network raw,
+  network dgram,
+
+  capability sys_module,
+  @{PROC}/bus/usb/ r,
+  @{PROC}/bus/usb/** r,
+
+  # for finding an interface
+  @{PROC}/[0-9]*/net/dev r,
+  /sys/bus/usb/devices/ r,
+  /sys/class/net/ r,
+  /sys/devices/**/net/* r,
+
+  # for tracing USB bus, which libpcap supports
+  /dev/usbmon* r,
+  /dev/bus/usb/ r,
+  /dev/bus/usb/** r,
+
+  # for USB probing (see libpcap-1.1.x/pcap-usb-linux.c:probe_devices())
+  /dev/bus/usb/**/[0-9]* w,
+
+  # config
+  /etc/snort/   r,
+  /etc/snort/** r,
+
+  # pid
+  /{var/,}run/snort_*.pid     rw,
+  /{var/,}run/snort_*.pid.lck rwk,
+
+  # logs
+  /var/log/snort/*log* rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.snort>
+}
