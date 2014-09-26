@@ -5,7 +5,7 @@
 /usr/lib/dovecot/log {
   #include <abstractions/base>
 
-  capability block_suspend,
+  deny capability block_suspend,
   capability setgid,
 
   # Site-specific additions and overrides. See local/README for details.

@@ -6,7 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/dovecot-common>
 
-  capability block_suspend,
+  deny capability block_suspend,
   capability setgid,
 
   /var/lib/dovecot/ssl-parameters.dat r,

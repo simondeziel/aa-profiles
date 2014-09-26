@@ -19,7 +19,7 @@
 
   capability setgid,
   capability setuid,
-  capability block_suspend,
+  deny capability block_suspend,
 
   @{DOVECOT_MAILSTORE}/ rw,
   @{DOVECOT_MAILSTORE}/** rwkl,
