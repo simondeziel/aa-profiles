@@ -10,6 +10,8 @@
   capability setuid,
   capability setgid,
 
+  signal (receive) set=("int") peer=/usr/bin/scp,
+
   /etc/ssh/ssh_config r,
 
   # to unlock private keys
