@@ -10,6 +10,13 @@
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
 
+  dbus receive
+       bus=system
+       path=/org/freedesktop/NetworkManager
+       interface=org.freedesktop.NetworkManager
+       member={CheckPermissions,DeviceAdded,DeviceRemoved,StateChanged,PropertiesChanged}
+       peer=(label=unconfined),
+
   owner @{HOME}/.{cache,config}/dconf/user rw,
   owner /{,var/}run/user/[0-9]*/dconf/user rw,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
