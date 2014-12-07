@@ -15,6 +15,7 @@
   capability dac_override,
 
   /etc/nsd/**          r,
+  owner /etc/nsd/slave/** rw,
   owner /etc/nsd/*.key r,
   /var/lib/nsd/   r,
   /var/lib/nsd/** r,
