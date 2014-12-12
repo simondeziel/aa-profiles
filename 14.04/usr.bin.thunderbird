@@ -193,6 +193,9 @@
     #include <abstractions/nameservice>
     #include <abstractions/p11-kit>
 
+    # For smartcards?
+    /dev/bus/usb/ r,
+
     # LDAP key servers
     /etc/ldap/ldap.conf r,
 
@@ -207,6 +210,7 @@
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.#*[0-9]  rw,
     owner @{HOME}/.gnupg/.#*[0-9]x rwl,
+    owner /run/user/[0-9]*/keyring-*/gpg rw,
 
     owner @{HOME}/** r,
     owner /tmp/** r,
