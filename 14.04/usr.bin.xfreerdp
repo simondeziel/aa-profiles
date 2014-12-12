@@ -7,8 +7,8 @@
   #include <abstractions/audio>
   #include <abstractions/base>
   #include <abstractions/nameservice>
-  ##include <abstractions/private-files-strict>
-  ##include <abstractions/user-tmp>
+  #include <abstractions/private-files-strict>
+  #include <abstractions/user-tmp>
   #include <abstractions/X>
 
   owner @{HOME}/.freerdp/ rw,
@@ -18,6 +18,8 @@
   /dev/tty  rw,
 
   /usr/lib/@{multiarch}/freerdp/*.so rm,
+
+  /var/lib/dbus/machine-id r,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.rdesktop>
