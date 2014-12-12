@@ -54,6 +54,10 @@
 
   /usr/lib/@{multiarch}/libvisual-*/**.so mr,
 
+  # Brasero icons
+  /usr/share/brasero/icons/   r,
+  /usr/share/brasero/icons/** r,
+
   # From abstractions/evince
   # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
   # Possibly move to an abstraction if anything else needs it.
