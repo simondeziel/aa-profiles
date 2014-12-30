@@ -44,6 +44,10 @@
   /{data,media,mnt,opt,srv}/** r,
   owner /{data,media,mnt,opt,srv}/** rw,
 
+  # gvfs
+  owner /run/user/[0-9]*/gvfs/   r,
+  owner /run/user/[0-9]*/gvfs/** r,
+
   # Reading physical disks
   /dev/sr[0-9]  r,
   /dev/sg[0-9]  r,
