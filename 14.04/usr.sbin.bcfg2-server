@@ -1,0 +1,39 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/sbin/bcfg2-server {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/p11-kit>
+  #include <abstractions/python>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  capability setgid,
+  capability setuid,
+
+  /etc/bcfg2.conf r,
+  /var/lib/bcfg2/** r,
+
+  /usr/sbin/bcfg2-server r,
+  @{PROC}/@{pid}/mounts r,
+  owner /run/*.MainThread-[0-9]* rwk,
+  owner /run/bcfg2-server.pid rwk,
+  owner /run/bcfg2-server.pid.lock rwlk,
+
+  # global tmp directories
+  owner /var/tmp/**     rwkl,
+  /var/tmp/             rw,
+  owner /tmp/**         rwkl,
+  /tmp/                 rw,
+
+  /bin/dash Cx -> dash,
+  profile dash {
+    #include <abstractions/base>
+    /bin/dash r,
+    /sbin/ldconfig PUx,
+  }
+
+  #include <local/usr.sbin.bcfg2-server>
+}
