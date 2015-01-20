@@ -60,6 +60,8 @@
   /usr/bin/pidgin r,
   /usr/bin/xdg-open rmix,
 
+  /etc/purple/prefs.xml r,
+
   /usr/share/applications/defaults.list r,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
 
