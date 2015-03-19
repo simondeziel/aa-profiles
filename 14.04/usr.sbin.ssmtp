@@ -9,6 +9,7 @@
   #include <abstractions/ssl_certs>
 
   /etc/ssmtp/* r,
+  /usr/sbin/ssmtp r,
 
   owner @{HOME}/dead.letter rw,
 
