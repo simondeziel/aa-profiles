@@ -44,7 +44,7 @@
     /dev/tty rw,
 
     owner @{PROC}/@{pid}/stat r,
-    owner @{PROC}/@{pid}/fd/ r,
+    @{PROC}/@{pid}/fd/ r,
     /usr/{,local/}lib/nagios/plugins/ r,
     /usr/{,local/}lib/nagios/plugins/** PUx,
   }
