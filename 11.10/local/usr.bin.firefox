@@ -1,6 +1,0 @@
-# Site-specific additions and overrides for usr.bin.firefox.
-# For more details, please see /etc/apparmor.d/local/README.
-
-  # Prevent Flash/Macromedia cookie storage
-  deny @{HOME}/.adobe/** rw,
-  deny @{HOME}/.macromedia/** rw,

@@ -1,4 +1,0 @@
-Maverick Apparmor profiles are no longer maintained as I no longer use Ubuntu 10.10.
-Please use profiles from subsequent releases.
-
-2011/05/01
