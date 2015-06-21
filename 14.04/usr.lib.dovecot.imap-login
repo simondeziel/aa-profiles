@@ -15,8 +15,8 @@
   #include <abstractions/base>
   #include <abstractions/ssl_certs>
   #include <abstractions/ssl_keys>
+  #include <abstractions/dovecot-common>
 
-  capability setgid,
   capability setuid,
   capability sys_chroot,
 
@@ -25,10 +25,8 @@
 
   /usr/lib/dovecot/imap-login mr,
   /{,var/}run/dovecot/anvil rw,
-  /{,var/}run/dovecot/config rw,
   /{,var/}run/dovecot/login/ r,
   /{,var/}run/dovecot/login/* rw,
-  /{,var/}run/dovecot/login-master-notify[0-9A-Za-z]* rw,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.lib.dovecot.imap-login>

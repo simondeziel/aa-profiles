@@ -21,25 +21,19 @@
   #include <abstractions/ssl_certs>
   #include <abstractions/ssl_keys>
 
-  deny capability block_suspend,
   capability chown,
   capability dac_override,
   capability fsetid,
   capability kill,
   capability net_bind_service,
-  capability setgid,
   capability setuid,
   capability sys_chroot,
-  capability sys_resource,
-
-  signal send peer=/usr/lib/dovecot/*,
 
   /etc/dovecot/** r,
   /etc/mtab r,
   /etc/lsb-release r,
   /etc/SuSE-release r,
   @{PROC}/@{pid}/mounts r,
-  @{PROC}/filesystems r,
   /usr/bin/doveconf rix,
   /usr/lib/dovecot/anvil Px,
   /usr/lib/dovecot/auth Px,
@@ -57,10 +51,11 @@
   /usr/lib/dovecot/ssl-build-param rix,
   /usr/lib/dovecot/ssl-params Px,
   /usr/sbin/dovecot mrix,
+  /usr/share/dovecot/protocols.d/   r,
+  /usr/share/dovecot/protocols.d/** r,
   /var/lib/dovecot/ w,
   /var/lib/dovecot/* rwkl,
   /var/spool/postfix/private/auth w,
-  /var/spool/postfix/private/dovecot-auth w,
   /var/spool/postfix/private/dovecot-lmtp w,
   /{,var/}run/dovecot/ rw,
   /{,var/}run/dovecot/** rw,

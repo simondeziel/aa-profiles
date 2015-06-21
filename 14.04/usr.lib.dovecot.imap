@@ -16,10 +16,9 @@
 /usr/lib/dovecot/imap {
   #include <abstractions/base>
   #include <abstractions/nameservice>
+  #include <abstractions/dovecot-common>
 
-  capability setgid,
   capability setuid,
-  deny capability block_suspend,
 
   @{DOVECOT_MAILSTORE}/ rw,
   @{DOVECOT_MAILSTORE}/** rwkl,
@@ -27,7 +26,6 @@
   @{HOME} r, # ???
   /usr/lib/dovecot/imap mr,
   /{,var/}run/dovecot/auth-master rw,
-  /{,var/}run/dovecot/config rw,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.lib.dovecot.imap>
