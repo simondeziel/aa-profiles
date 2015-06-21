@@ -26,7 +26,6 @@
   #include <abstractions/p11-kit>
   #include <abstractions/private-files>
   #include <abstractions/ssl_certs>
-  #include <abstractions/user-download>
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
 
@@ -41,6 +40,9 @@
   # potentially extremely sensitive files
   audit deny @{HOME}/.gnupg/** mrwkl,
   audit deny @{HOME}/.ssh/** mrwkl,
+
+  # read access for HOME is useful when sending attachments
+  owner @{HOME}/** r,
 
   # Required for LVM setups
   /sys/devices/virtual/block/dm-[0-9]*/uevent r,
