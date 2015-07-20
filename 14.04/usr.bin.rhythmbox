@@ -14,6 +14,13 @@
   #include <abstractions/p11-kit>
   #include <abstractions/python>
 
+  dbus send
+      bus=system
+      path=/org/freedesktop/hostname1
+      interface=org.freedesktop.DBus.Properties
+      member=GetAll
+      peer=(label=unconfined),
+
   # missing from abstractions/python
   /usr/local/lib/python3.3/dist-packages/ r,
   /usr/local/lib/python3.3/dist-packages/** r,
@@ -22,6 +29,7 @@
   # ... if /tmp is mounted noexec
   owner @{HOME}/orcexec.* mr,
   owner /run/user/[0-9]*/orcexec.* mrw,
+  owner @{HOME}/                          r,
   owner @{HOME}/**                        rw,
   owner @{HOME}/.cache/rhythmbox/**       rwk,
   owner @{HOME}/.local/share/rhythmbox/** rwk,
