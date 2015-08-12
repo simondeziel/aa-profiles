@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------
 #
-#    Copyright (C) 2009-2013 Canonical Ltd.
 #    Copyright (C) 2013 Christian Boltz
+#    Copyright (C) 2014 Christian Wittmer
 #
 #    This program is free software; you can redistribute it and/or
 #    modify it under the terms of version 2 of the GNU General Public
@@ -15,21 +15,42 @@
 /usr/lib/dovecot/auth {
   #include <abstractions/authentication>
   #include <abstractions/base>
-  #include <abstractions/dovecot-common>
+  #include <abstractions/mysql>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
   #include <abstractions/wutmp>
+  #include <abstractions/dovecot-common>
 
-  capability sys_chroot,
+  capability audit_write,
   capability setuid,
-  capability setgid,
+
+  # missing from Ubuntu profile (sdeziel)
+  capability sys_chroot,
   capability chown,
   capability dac_override,
-
-  @{PROC}/@{pid}/mounts r,
-  /usr/lib/dovecot/auth mr,
   /{,var/}run/dovecot/** rw,
-  # required for postfix+dovecot integration
-  /var/spool/postfix/private/dovecot-auth w,
+  @{PROC}/@{pid}/mounts r,
+
+  /etc/my.cnf r,
+  /etc/my.cnf.d/ r,
+  /etc/my.cnf.d/*.cnf r,
+
+  # XXX: prevent wide open read access to
+  #      /etc/dovecot/* as it may contain
+  #      auth credentials which may or may
+  #      not be in a chroot dir)
+  /etc/dovecot/dovecot.conf r,
+  /etc/dovecot/conf.d/*     r,
+  #/etc/dovecot/* r,
+  /usr/lib/dovecot/auth mr,
+
+  # kerberos replay cache
+  /var/tmp/imap_* rw,
+  /var/tmp/pop_* rw,
+  /var/tmp/sieve_* rw,
+  /var/tmp/smtp_* rw,
+
+  /{var/,}run/dovecot/auth-token-secret.dat{,.tmp} rw,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.lib.dovecot.auth>

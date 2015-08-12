@@ -28,12 +28,16 @@
   capability net_bind_service,
   capability setuid,
   capability sys_chroot,
+  capability sys_resource,
+
+  signal send peer=/usr/lib/dovecot/*,
 
   /etc/dovecot/** r,
   /etc/mtab r,
   /etc/lsb-release r,
   /etc/SuSE-release r,
   @{PROC}/@{pid}/mounts r,
+  @{PROC}/filesystems r,
   /usr/bin/doveconf rix,
   /usr/lib/dovecot/anvil Px,
   /usr/lib/dovecot/auth Px,
