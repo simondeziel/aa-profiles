@@ -12,10 +12,12 @@
   capability sys_chroot,
   capability sys_resource,
 
+  # root trust anchor
+  owner /var/lib/unbound/root.key* rw,
+
   # non-chrooted paths
   /etc/unbound/** r,
-  owner /etc/unbound/*.key rw,
-  owner /var/lib/unbound/*.key* rw,
+  owner /etc/unbound/*.key* rw,
   audit deny /etc/unbound/unbound_control.{key,pem} rw,
   audit deny /etc/unbound/unbound_server.key w,
 
