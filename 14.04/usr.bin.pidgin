@@ -53,14 +53,13 @@
   # NB: the preferred browser and proxy settings must be configured
   # in the GNOME preferences: this profile does not allow running
   # the corresponding external configuration applications.
+  /etc/purple/prefs.xml r,
   /usr/bin/gconftool-2 rPix,
   /usr/bin/gnome-open rmix,
   /usr/bin/gsettings rix,
   /usr/bin/gvfs-open rmix,
   /usr/bin/pidgin r,
   /usr/bin/xdg-open rmix,
-
-  /etc/purple/prefs.xml r,
 
   /usr/share/applications/defaults.list r,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
@@ -69,6 +68,10 @@
   /usr/lib/@{multiarch}/libvisual-*/**.so rm,
   /usr/lib/pidgin/*.so rm,
   /usr/lib/purple*/*.so rm,
+
+  # pidgin-blinklight plugin
+  /usr/lib/pidgin-blinklight/blinklight-fixperm rPix,
+  @{PROC}/acpi/ibm/light rwk,
 
   /usr/share/purple/ca-certs/ r,
   /usr/share/purple/ca-certs/** r,
