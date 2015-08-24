@@ -1,0 +1,185 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#    Copyright (C) 2012 Canonical Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# will need to revalidate this profile once we finish re-architecting
+# the change_hat patch.
+#
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/sbin/sshd {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/consoles>
+  #include <abstractions/nameservice>
+  #include <abstractions/wutmp>
+
+  capability sys_chroot,
+  capability sys_resource,
+  capability sys_tty_config,
+  capability net_bind_service,
+  capability chown,
+  capability fowner,
+  capability kill,
+  capability setgid,
+  capability setuid,
+  capability audit_control,
+  capability dac_override,
+  capability dac_read_search,
+
+  /dev/ptmx rw,
+  /dev/urandom r,
+  /etc/default/locale r,
+  /etc/environment r,
+  /etc/hosts.allow r,
+  /etc/hosts.deny r,
+  /etc/modules.conf r,
+  /etc/security/** r,
+  /etc/ssh/* r,
+  /etc/ssl/openssl.cnf r,
+  @{PROC}/@{pid}/oom_adj rw,
+  @{PROC}/@{pid}/oom_score_adj rw,
+  /usr/sbin/sshd mrix,
+  /var/log/btmp r,
+  /{,var/}run w,
+  /{,var/}run/sshd{,.init}.pid wl,
+
+  @{PROC}/@{pid}/fd/ r,
+  @{PROC}/@{pid}/loginuid w,
+  @{PROC}/@{pid}/limits r,
+
+# should only be here for use in non-change-hat openssh
+# duplicated from EXEC hat
+  /bin/ash rUx,
+  /bin/bash rUx,
+  /bin/bash2 rUx,
+  /bin/bsh rUx,
+  /bin/csh rUx,
+  /bin/dash rUx,
+  /bin/ksh rUx,
+  /bin/sh rUx,
+  /bin/tcsh rUx,
+  /bin/zsh rUx,
+  /bin/zsh4 rUx,
+  /sbin/nologin rUx,
+
+# Call passwd for password change when expired
+#  /usr/bin/passwd Px,
+
+
+# stuff duplicated from PRIVSEP_MONITOR
+  @{HOME}/.ssh/authorized_keys{,2}         r,
+
+  /dev/pts/[0-9]* rw,
+  /etc/ssh/moduli r,
+  @{PROC}/@{pid}/mounts r,
+
+# duplicated from AUTHENTICATED
+  /etc/motd r,
+  /{,var/}run/motd{,.new} rw,
+  /tmp/ssh-*/agent.[0-9]* rwl,
+
+  /tmp/ssh-*[0-9]*/ w,
+
+#
+# default subprofile for when sshd has authenticated the user
+#
+  ^EXEC {
+    #include <abstractions/base>
+
+    /bin/ash Ux,
+    /bin/bash Ux,
+    /bin/bash2 Ux,
+    /bin/bsh Ux,
+    /bin/csh Ux,
+    /bin/dash Ux,
+    /bin/ksh Ux,
+    /bin/sh Ux,
+    /bin/tcsh Ux,
+    /bin/zsh Ux,
+    /bin/zsh4 Ux,
+    /sbin/nologin Ux,
+
+# for debugging
+#  /dev/pts/[0-9]*                                              rw,
+  }
+
+#
+# subprofile for handling network input (privilege seperated child)
+#
+  ^PRIVSEP {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    capability sys_chroot,
+    capability setuid,
+    capability setgid,
+
+# for debugging
+#  /dev/pts/[0-9]*                                              rw,
+  }
+
+#
+# subprofile that handles authentication requests from the privilege
+# seperated child
+#
+  ^PRIVSEP_MONITOR {
+    #include <abstractions/authentication>
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    #include <abstractions/wutmp>
+
+
+    capability setuid,
+    capability setgid,
+    capability chown,
+
+    @{HOME}/.ssh/authorized_keys{,2}         r,
+    /dev/ptmx rw,
+    /dev/pts/[0-9]* rw,
+    /dev/urandom r,
+    /etc/hosts.allow r,
+    /etc/hosts.deny r,
+    /etc/ssh/moduli r,
+    @{PROC}/@{pid}/mounts r,
+
+# for debugging
+#  /dev/pts/[0-9]*                                              rw,
+  }
+
+#
+# subprofile for post-authentication period until the user's shell is spawned
+#
+  ^AUTHENTICATED {
+    #include <abstractions/authentication>
+    #include <abstractions/consoles>
+    #include <abstractions/nameservice>
+    #include <abstractions/wutmp>
+
+    capability sys_tty_config,
+    capability setgid,
+    capability setuid,
+
+    /dev/log  w,
+    /dev/ptmx rw,
+    /etc/default/passwd r,
+    /etc/localtime r,
+    /etc/writable/localtime r,
+    /etc/login.defs r,
+    /etc/motd r,
+    /{,var/}run/motd{,.new} rw,
+    /tmp/ssh-*/agent.[0-9]* rwl,
+    /tmp/ssh-*[0-9]*/ w,
+
+# for debugging
+#  /dev/pts/[0-9]*                                              rw,
+  }
+}
