@@ -11,8 +11,6 @@
   capability setuid,
   capability sys_chroot,
   capability sys_resource,
-  capability chown,
-  capability dac_override,
 
   # non-chrooted paths
   /etc/unbound/** r,
