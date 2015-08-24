@@ -16,12 +16,14 @@
   /etc/unbound/** r,
   owner /etc/unbound/*.key rw,
   owner /var/lib/unbound/*.key* rw,
-  audit deny /etc/unbound/unbound_{control,server}.key w,
+  audit deny /etc/unbound/unbound_control.{key,pem} rw,
+  audit deny /etc/unbound/unbound_server.key w,
 
   # chrooted paths
   /var/lib/unbound/** r,
   owner /var/lib/unbound/**/*.key* rw,
-  audit deny /var/lib/unbound/unbound_{control,server}.key w,
+  audit deny /var/lib/unbound/**/unbound_control.{key,pem} rw,
+  audit deny /var/lib/unbound/**/unbound_server.key w,
 
   /etc/ssl/openssl.cnf r,
 
