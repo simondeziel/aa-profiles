@@ -29,6 +29,9 @@
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
 
+  # for crash reports?
+  ptrace (read,trace) peer=/usr/lib/thunderbird/thunderbird{,*[^s][^h]},
+
   # Pulseaudio
   /usr/bin/pulseaudio Pixr,
 
