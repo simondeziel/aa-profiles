@@ -200,6 +200,8 @@
 
     # For smartcards?
     /dev/bus/usb/ r,
+    /dev/bus/usb/[0-9]*/ r,
+    /dev/bus/usb/[0-9]*/[0-9]* r,
 
     # LDAP key servers
     /etc/ldap/ldap.conf r,
