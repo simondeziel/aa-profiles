@@ -14,7 +14,9 @@
   capability setuid,
 
   /etc/bcfg2.conf r,
-  /var/lib/bcfg2/** rwk,
+  /var/lib/bcfg2/** rk,
+  /var/lib/bcfg2/Metadata/** rwk,
+  /var/lib/bcfg2/Packages/** rwk,
 
   /usr/sbin/bcfg2-server r,
   @{PROC}/@{pid}/mounts r,
