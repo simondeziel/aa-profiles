@@ -221,7 +221,8 @@
 
     owner @{HOME}/** r,
     owner /tmp/** r,
-    owner /tmp/encfile* wr,
+    owner /tmp/encfile wr,
+    owner /tmp/encfile-[0-9]* wr,
   }
 
   /usr/bin/gpg2              Cx -> gpg2,
