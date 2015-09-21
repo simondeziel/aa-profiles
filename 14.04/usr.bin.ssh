@@ -19,6 +19,8 @@
   /dev/tty rw,
   /usr/lib/openssh/gnome-ssh-askpass mix,
 
+  owner /dev/pts/[0-9]* rw,
+
   owner @{HOME}/.ssh/   rw,
   owner @{HOME}/.ssh/** rl,
   owner @{HOME}/.ssh/known_hosts rwl,
