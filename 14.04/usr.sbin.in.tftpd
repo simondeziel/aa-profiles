@@ -1,0 +1,35 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+@{TFTP_DIR}=/var/tftp /srv/tftpboot /var/lib/tftpboot
+
+#include <tunables/global>
+/usr/sbin/in.tftpd {
+  #include <abstractions/base>
+
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+
+  network inet  dgram,
+  network inet6 dgram,
+
+  # avoid including abstractions/nameservice
+  /etc/nsswitch.conf r,
+  /etc/passwd        r,
+  /etc/group         r,
+  /etc/services      r,
+
+  /etc/hosts.deny r,
+  /etc/hosts.allow r,
+
+  @{TFTP_DIR}/ r,
+  @{TFTP_DIR}/** rk,
+  owner @{TFTP_DIR}/** rw,
+
+  /{,var/}run/tftpd.pid rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.openvpn>
+}
