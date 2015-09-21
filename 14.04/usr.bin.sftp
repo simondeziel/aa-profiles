@@ -27,6 +27,7 @@
 
   # for file transfers
   owner /** rw,
+  /   r,
   /** r,
 
   #include <local/usr.bin.sftp>
