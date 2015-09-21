@@ -38,15 +38,17 @@
 
   # for ProxyCommand
   /bin/ash      Cx -> proxycommand,
-  /bin/bash{,2} Cx -> proxycommand,
+  /bin/bash     Cx -> proxycommand,
+  /bin/bash2    Cx -> proxycommand,
   /bin/bsh      Cx -> proxycommand,
-  /bin/csh      Cx -> proxycommand,
   /bin/csh      Cx -> proxycommand,
   /bin/dash     Cx -> proxycommand,
   /bin/ksh      Cx -> proxycommand,
   /bin/sh       Cx -> proxycommand,
   /bin/tcsh     Cx -> proxycommand,
-  /bin/zsh{,4}  Cx -> proxycommand,
+  /bin/zsh      Cx -> proxycommand,
+  /bin/zsh4     Cx -> proxycommand,
+  /bin/zsh5     Cx -> proxycommand,
   /usr/bin/ssh rm,
   /bin/nc.openbsd rm,
 
@@ -57,15 +59,17 @@
     #include <abstractions/base>
 
     /bin/ash      rm,
-    /bin/bash{,2} rm,
+    /bin/bash     rm,
+    /bin/bash2    rm,
     /bin/bsh      rm,
-    /bin/csh      rm,
     /bin/csh      rm,
     /bin/dash     rm,
     /bin/ksh      rm,
     /bin/sh       rm,
     /bin/tcsh     rm,
-    /bin/zsh{,4}  rm,
+    /bin/zsh      rm,
+    /bin/zsh4     rm,
+    /bin/zsh5     rm,
     /usr/bin/ssh Px,
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
