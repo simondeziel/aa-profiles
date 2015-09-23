@@ -48,6 +48,20 @@
     /bin/run-parts  ix,
   }
 
+  /bin/pax Cx -> pax,
+  profile pax {
+    #include <abstractions/base>
+    /etc/default/nss   r,
+    /etc/nsswitch.conf r,
+    /etc/group         r,
+    /etc/passwd        r,
+
+    /bin/pax r,
+    deny /dev/tty rw,
+
+    owner /var/lib/amavis/tmp/** rw,
+  }
+
   /usr/bin/file  Cx -> filebin,
   signal (send) set=("term") peer=/usr/sbin/amavisd-new//filebin,
   profile filebin {
