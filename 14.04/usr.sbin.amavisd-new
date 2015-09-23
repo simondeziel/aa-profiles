@@ -46,12 +46,13 @@
     /usr/share/amavis/** r,
 
     /bin/run-parts  ix,
-
-    # /bin/uncompress is a shell wrapper around gzip
-    /bin/gzip Cx -> extractor,
   }
 
+  # /bin/uncompress is a shell wrapper around 'gzip -d' so use it instead
+  deny /bin/uncompress rx,
+
   /bin/bzip2    Cx -> extractor,
+  /bin/gzip     Cx -> extractor,
   /bin/bin/7zr  Cx -> extractor,
   /bin/bin/ar   Cx -> extractor,
   /usr/bin/xz   Cx -> extractor,
