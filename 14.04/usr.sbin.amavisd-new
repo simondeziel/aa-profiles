@@ -46,6 +46,24 @@
     /usr/share/amavis/** r,
 
     /bin/run-parts  ix,
+
+    # /bin/uncompress is a shell wrapper around gzip
+    /bin/gzip Cx -> extractor,
+  }
+
+  /bin/bzip2    Cx -> extractor,
+  /bin/bin/7zr  Cx -> extractor,
+  /bin/bin/ar   Cx -> extractor,
+  /usr/bin/xz   Cx -> extractor,
+  profile extractor {
+    #include <abstractions/base>
+    /bin/bzip2   r,
+    /bin/gzip    r,
+    /usr/bin/7zr r,
+    /usr/bin/ar  r,
+    /usr/bin/xz  r,
+
+    owner /var/lib/amavis/tmp/** rw,
   }
 
   /bin/pax Cx -> pax,
