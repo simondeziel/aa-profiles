@@ -63,7 +63,8 @@
     /usr/bin/ar  r,
     /usr/bin/xz  r,
 
-    owner /var/lib/amavis/tmp/amavis-*/parts/* rw,
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
   }
 
   /bin/pax Cx -> pax,
@@ -77,7 +78,8 @@
     /bin/pax r,
     deny /dev/tty rw,
 
-    owner /var/lib/amavis/tmp/amavis-*/parts/* rw,
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
   }
 
   /usr/bin/file Cx -> filebin,
@@ -88,9 +90,9 @@
     /usr/bin/file r,
     /usr/share/file/** r,
     /usr/lib/libmagic.so* ix,
-    /lib{,32,64}/libc-*.so* mr,
 
-    owner /var/lib/amavis/tmp/amavis-*/parts/* rw,
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
   }
 
   /usr/bin/pyzor Cx -> pyzor,
@@ -106,7 +108,8 @@
 
     owner /{,var/}tmp/** rw,
     owner /var/lib/amavis/tmp/.spamassassin*tmp r,
-    owner /var/lib/amavis/tmp/amavis-*/parts/* r,
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
     owner /var/lib/amavis/.pyzor/** r,
     /usr/bin/pyzor r,
   }
