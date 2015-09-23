@@ -13,8 +13,6 @@
   # config
   /etc/amavis/** r,
   /etc/mailname  r,
-  /etc/magic     r,
-  /usr/share/file/** r,
   /usr/sbin/amavisd-new r,
   /usr/share/amavis/**  r,
   owner /var/lib/amavis/**    rw,
@@ -38,15 +36,28 @@
   /bin/dash       ix,
   /bin/hostname   ix,
   /usr/bin/head   ix,
-  /usr/bin/file   ix,
   /usr/bin/uptime ix,
   /bin/run-parts  ix,
-  /usr/lib/libmagic.so* ix,
-  /lib{,32,64}/libc-*.so* mr,
+
+
+  /usr/bin/file  Cx -> filebin,
+  signal (send) set=("term") peer=/usr/sbin/amavisd-new//filebin,
+  profile filebin {
+    #include <abstractions/base>
+
+    signal (receive) set=("term") peer=/usr/sbin/amavisd-new,
+
+    /etc/magic r,
+    /usr/bin/file r,
+    /usr/share/file/** r,
+    /usr/lib/libmagic.so* ix,
+    /lib{,32,64}/libc-*.so* mr,
+
+    owner /var/lib/amavis/tmp/amavis-*/parts/* rw,
+  }
+
   /usr/bin/pyzor Cx -> pyzor,
-
   signal (send) set=("term") peer=/usr/sbin/amavisd-new//pyzor,
-
   profile pyzor {
     #include <abstractions/base>
     #include <abstractions/nameservice>
