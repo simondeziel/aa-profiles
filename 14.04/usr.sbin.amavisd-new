@@ -62,12 +62,9 @@
     owner /var/lib/amavis/tmp/** rw,
   }
 
-  /usr/bin/file  Cx -> filebin,
-  signal (send) set=("term") peer=/usr/sbin/amavisd-new//filebin,
+  /usr/bin/file Cx -> filebin,
   profile filebin {
     #include <abstractions/base>
-
-    signal (receive) set=("term") peer=/usr/sbin/amavisd-new,
 
     /etc/magic r,
     /usr/bin/file r,
