@@ -56,8 +56,9 @@
 
     signal (receive) set=("term") peer=/usr/sbin/amavisd-new,
 
-    owner /tmp/** rw,
-    owner /var/lib/amavis/tmp/**    r,
+    owner /{,var/}tmp/** rw,
+    owner /var/lib/amavis/tmp/.spamassassin*tmp r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/* r,
     owner /var/lib/amavis/.pyzor/** r,
     /usr/bin/pyzor r,
   }
