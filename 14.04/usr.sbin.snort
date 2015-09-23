@@ -1,7 +1,7 @@
 # vim:syntax=apparmor
 #include <tunables/global>
 
-/usr/sbin/snort flags=(complain) {
+/usr/sbin/snort {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
@@ -17,7 +17,7 @@
   @{PROC}/bus/usb/** r,
 
   # for finding an interface
-  @{PROC}/[0-9]*/net/dev r,
+  @{PROC}/@{pid}/net/dev r,
   /sys/bus/usb/devices/ r,
   /sys/class/net/ r,
   /sys/devices/**/net/* r,
