@@ -33,12 +33,20 @@
   deny /etc/amavis/**       w,
   deny /usr/share/amavis/** w,
 
-  /bin/dash       ix,
   /bin/hostname   ix,
   /usr/bin/head   ix,
   /usr/bin/uptime ix,
-  /bin/run-parts  ix,
 
+  /bin/dash Cx -> dash,
+  profile dash {
+    #include <abstractions/base>
+    /bin/dash r,
+
+    /etc/amavis/** r,
+    /usr/share/amavis/** r,
+
+    /bin/run-parts  ix,
+  }
 
   /usr/bin/file  Cx -> filebin,
   signal (send) set=("term") peer=/usr/sbin/amavisd-new//filebin,
