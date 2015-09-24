@@ -19,6 +19,7 @@
   #include <abstractions/authentication>
   #include <abstractions/base>
   #include <abstractions/consoles>
+  #include <abstractions/dbus-strict>
   #include <abstractions/nameservice>
   #include <abstractions/wutmp>
 
@@ -34,6 +35,13 @@
   capability audit_control,
   capability dac_override,
   capability dac_read_search,
+
+  dbus send
+      bus=system
+      path=/org/freedesktop/login1
+      interface=org.freedesktop.login1.Manager
+      member={CreateSession,ReleaseSession}
+      peer=(label=unconfined),
 
   /dev/ptmx rw,
   /dev/urandom r,
