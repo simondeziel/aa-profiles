@@ -53,17 +53,16 @@
   /etc/security/** r,
   /etc/ssh/** r,
   /etc/ssl/openssl.cnf r,
-  @{PROC}/@{pid}/oom_adj rw,
-  @{PROC}/@{pid}/oom_score_adj rw,
   /usr/sbin/sshd mrix,
   /var/log/btmp r,
-  /{,var/}run w,
-  /{,var/}run/sshd{,.init}.pid wl,
-
-  @{PROC}/@{pid}/fd/ r,
-  @{PROC}/@{pid}/loginuid w,
-  @{PROC}/@{pid}/limits r,
-
+  owner /{,var/}run/sshd{,.init}.pid wl,
+  owner @{PROC}/@{pid}/fd/ r,
+  owner @{PROC}/@{pid}/limits r,
+  owner @{PROC}/@{pid}/loginuid rw,
+  owner @{PROC}/@{pid}/mounts r,
+  owner @{PROC}/@{pid}/oom_adj rw,
+  owner @{PROC}/@{pid}/oom_score_adj rw,
+  owner @{PROC}/@{pid}/uid_map r,
 # should only be here for use in non-change-hat openssh
 # duplicated from EXEC hat
   /bin/ash rUx,
@@ -88,7 +87,6 @@
 
   /dev/pts/[0-9]* rw,
   /etc/ssh/moduli r,
-  @{PROC}/@{pid}/mounts r,
 
 # duplicated from AUTHENTICATED
   /etc/motd r,
