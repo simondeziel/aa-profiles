@@ -51,7 +51,7 @@
   /etc/hosts.deny r,
   /etc/modules.conf r,
   /etc/security/** r,
-  /etc/ssh/* r,
+  /etc/ssh/** r,
   /etc/ssl/openssl.cnf r,
   @{PROC}/@{pid}/oom_adj rw,
   @{PROC}/@{pid}/oom_score_adj rw,
