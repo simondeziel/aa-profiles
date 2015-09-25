@@ -33,6 +33,7 @@
   capability setgid,
   capability setuid,
   capability audit_control,
+  capability audit_write,
   capability dac_override,
   capability dac_read_search,
 
