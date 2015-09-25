@@ -48,6 +48,7 @@
       member={CreateSession,ReleaseSession}
       peer=(label=unconfined),
 
+  /dev/pts/[0-9]* rw,
   /dev/ptmx rw,
   /dev/urandom r,
   /etc/default/locale r,
@@ -61,6 +62,8 @@
   /usr/sbin/sshd mrix,
   /var/log/btmp r,
   owner /{,var/}run/sshd{,.init}.pid wl,
+  @{HOME}/.ssh/authorized_keys{,2} r,
+
   owner @{PROC}/@{pid}/fd/ r,
   owner @{PROC}/@{pid}/limits r,
   owner @{PROC}/@{pid}/loginuid rw,
@@ -87,11 +90,6 @@
 #  /usr/bin/passwd Px,
 
 
-# stuff duplicated from PRIVSEP_MONITOR
-  @{HOME}/.ssh/authorized_keys{,2}         r,
-
-  /dev/pts/[0-9]* rw,
-  /etc/ssh/moduli r,
 
 # duplicated from AUTHENTICATED
   /etc/motd r,
