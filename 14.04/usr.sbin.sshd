@@ -37,6 +37,10 @@
   capability dac_override,
   capability dac_read_search,
 
+  # needed when /proc is mounted with hidepid>=1
+  capability sys_ptrace,
+  ptrace read peer="unconfined",
+
   dbus send
       bus=system
       path=/org/freedesktop/login1
