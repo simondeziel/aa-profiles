@@ -97,9 +97,9 @@
 
   /tmp/ssh-*[0-9]*/ w,
 
-#
-# default subprofile for when sshd has authenticated the user
-#
+  #
+  # default subprofile for when sshd has authenticated the user
+  #
   ^EXEC {
     #include <abstractions/base>
 
@@ -120,9 +120,9 @@
 #  /dev/pts/[0-9]*                                              rw,
   }
 
-#
-# subprofile for handling network input (privilege seperated child)
-#
+  #
+  # subprofile for handling network input (privilege seperated child)
+  #
   ^PRIVSEP {
     #include <abstractions/base>
     #include <abstractions/nameservice>
@@ -135,16 +135,15 @@
 #  /dev/pts/[0-9]*                                              rw,
   }
 
-#
-# subprofile that handles authentication requests from the privilege
-# seperated child
-#
+  #
+  # subprofile that handles authentication requests from the privilege
+  # seperated child
+  #
   ^PRIVSEP_MONITOR {
     #include <abstractions/authentication>
     #include <abstractions/base>
     #include <abstractions/nameservice>
     #include <abstractions/wutmp>
-
 
     capability setuid,
     capability setgid,
@@ -163,9 +162,10 @@
 #  /dev/pts/[0-9]*                                              rw,
   }
 
-#
-# subprofile for post-authentication period until the user's shell is spawned
-#
+
+  #
+  # subprofile for post-authentication period until the user's shell is spawned
+  #
   ^AUTHENTICATED {
     #include <abstractions/authentication>
     #include <abstractions/consoles>
