@@ -92,6 +92,7 @@
 
 
   # duplicated from AUTHENTICATED
+  /etc.legal r,
   /etc/motd r,
   /{,var/}run/motd{,.dynamic}{,.new} rw,
   /tmp/ssh-*/agent.[0-9]* rwl,
@@ -177,6 +178,7 @@
     /etc/localtime r,
     /etc/writable/localtime r,
     /etc/login.defs r,
+    /etc.legal r,
     /etc/motd r,
     /{,var/}run/motd{,.dynamic}{,.new} rw,
     /tmp/ssh-*/agent.[0-9]* rwl,
