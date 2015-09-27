@@ -48,8 +48,8 @@
       member={CreateSession,ReleaseSession}
       peer=(label=unconfined),
 
-  /dev/pts/[0-9]* rw,
   /dev/ptmx rw,
+  /dev/pts/[0-9]* rw,
   /dev/urandom r,
   /etc/default/locale r,
   /etc/environment r,
@@ -95,9 +95,9 @@
   /etc.legal r,
   /etc/motd r,
   /{,var/}run/motd{,.dynamic}{,.new} rw,
-  /tmp/ssh-*/agent.[0-9]* rwl,
+  /tmp/ssh-[a-zA-Z0-9]*/ w,
+  /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
 
-  /tmp/ssh-*[0-9]*/ w,
 
   #
   # default subprofile for when sshd has authenticated the user
@@ -148,14 +148,14 @@
     capability setgid,
     capability chown,
 
-    @{HOME}/.ssh/authorized_keys{,2}         r,
+    owner @{HOME}/.ssh/authorized_keys{,2} r,
     /dev/ptmx rw,
     /dev/pts/[0-9]* rw,
     /dev/urandom r,
     /etc/hosts.allow r,
     /etc/hosts.deny r,
     /etc/ssh/moduli r,
-    @{PROC}/@{pid}/mounts r,
+    owner @{PROC}/@{pid}/mounts r,
   }
 
 
@@ -181,7 +181,8 @@
     /etc.legal r,
     /etc/motd r,
     /{,var/}run/motd{,.dynamic}{,.new} rw,
-    /tmp/ssh-*/agent.[0-9]* rwl,
-    /tmp/ssh-*[0-9]*/ w,
+
+    owner /tmp/ssh-[a-zA-Z0-9]*/ w,
+    owner /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
   }
 }
