@@ -100,6 +100,10 @@
   /tmp/ssh-[a-zA-Z0-9]*/ w,
   /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
 
+  # for internal-sftp
+  /         r,
+  /**       r,
+  owner /** rw,
 
   #
   # default subprofile for when sshd has authenticated the user
