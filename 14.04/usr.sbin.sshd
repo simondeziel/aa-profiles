@@ -71,25 +71,27 @@
   owner @{PROC}/@{pid}/oom_adj rw,
   owner @{PROC}/@{pid}/oom_score_adj rw,
   owner @{PROC}/@{pid}/uid_map r,
-# should only be here for use in non-change-hat openssh
-# duplicated from EXEC hat
-  /bin/ash rUx,
-  /bin/bash rUx,
-  /bin/bash2 rUx,
-  /bin/bsh rUx,
-  /bin/csh rUx,
-  /bin/dash rUx,
-  /bin/ksh rUx,
-  /bin/sh rUx,
-  /bin/tcsh rUx,
-  /bin/zsh rUx,
-  /bin/zsh4 rUx,
-  /sbin/nologin rUx,
 
-# Call passwd for password change when expired
-#  /usr/bin/passwd Px,
+  # should only be here for use in non-change-hat openssh
+  # duplicated from EXEC hat (+r)
+  /bin/ash      PUxr,
+  /bin/bash     PUxr,
+  /bin/bash2    PUxr,
+  /bin/bsh      PUxr,
+  /bin/csh      PUxr,
+  /bin/dash     PUxr,
+  /bin/ksh      PUxr,
+  /bin/sh       PUxr,
+  /bin/tcsh     PUxr,
+  /bin/zsh      PUxr,
+  /bin/zsh4     PUxr,
+  /bin/zsh5     PUxr,
+  /sbin/nologin PUxr,
+  /bin/false    PUxr,
 
-
+  # XXX: this needs to be enabled otherwise we risk locking out a user
+  # Call passwd for password change when expired
+  #/usr/bin/passwd Px,
 
   # duplicated from AUTHENTICATED
   /etc.legal r,
@@ -105,21 +107,20 @@
   ^EXEC {
     #include <abstractions/base>
 
-    /bin/ash Ux,
-    /bin/bash Ux,
-    /bin/bash2 Ux,
-    /bin/bsh Ux,
-    /bin/csh Ux,
-    /bin/dash Ux,
-    /bin/ksh Ux,
-    /bin/sh Ux,
-    /bin/tcsh Ux,
-    /bin/zsh Ux,
-    /bin/zsh4 Ux,
-    /sbin/nologin Ux,
-
-# for debugging
-#  /dev/pts/[0-9]*                                              rw,
+    /bin/ash      PUx,
+    /bin/bash     PUx,
+    /bin/bash2    PUx,
+    /bin/bsh      PUx,
+    /bin/csh      PUx,
+    /bin/dash     PUx,
+    /bin/ksh      PUx,
+    /bin/sh       PUx,
+    /bin/tcsh     PUx,
+    /bin/zsh      PUx,
+    /bin/zsh4     PUx,
+    /bin/zsh5     PUx,
+    /bin/false    PUx,
+    /sbin/nologin PUx,
   }
 
   #
