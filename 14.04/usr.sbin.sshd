@@ -91,7 +91,37 @@
 
   # XXX: this needs to be enabled otherwise we risk locking out a user
   # Call passwd for password change when expired
-  #/usr/bin/passwd Px,
+  /usr/bin/passwd Cx -> passwd,
+
+  # to set memory protection for passwd
+  @{PROC}/@{pid}/task/@{pid}/attr/exec w,
+  profile passwd {
+    #include <abstractions/authentication>
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    capability audit_write,
+    capability chown,
+    capability fsetid,
+    capability setuid,
+    capability setgid,
+
+    /usr/bin/passwd r,
+    /dev/pts/[0-9]* rw,
+    /{,var/}run/utmp rwk,
+
+    owner /etc/.pwd.lock rwk,
+    owner /etc/nshadow rw,
+    owner /etc/shadow  rw,
+    owner @{PROC}/@{pid}/loginuid r,
+
+    # XXX: put into another subprofile?
+    /usr/bin/gnome-keyring-daemon ix,
+    capability ipc_lock,
+    owner @{PROC}/@{pid}/status r,
+    owner @{HOME}/.cache/keyring-*/        rw,
+    owner @{HOME}/.cache/keyring-*/control rw,
+  }
 
   # duplicated from AUTHENTICATED
   /etc.legal r,
