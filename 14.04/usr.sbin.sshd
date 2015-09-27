@@ -131,9 +131,6 @@
     capability sys_chroot,
     capability setuid,
     capability setgid,
-
-# for debugging
-#  /dev/pts/[0-9]*                                              rw,
   }
 
   #
@@ -158,9 +155,6 @@
     /etc/hosts.deny r,
     /etc/ssh/moduli r,
     @{PROC}/@{pid}/mounts r,
-
-# for debugging
-#  /dev/pts/[0-9]*                                              rw,
   }
 
 
@@ -187,8 +181,5 @@
     /{,var/}run/motd{,.dynamic}{,.new} rw,
     /tmp/ssh-*/agent.[0-9]* rwl,
     /tmp/ssh-*[0-9]*/ w,
-
-# for debugging
-#  /dev/pts/[0-9]*                                              rw,
   }
 }
