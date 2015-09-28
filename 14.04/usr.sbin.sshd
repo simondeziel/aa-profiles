@@ -138,86 +138,86 @@
   #
   # default subprofile for when sshd has authenticated the user
   #
-  ^EXEC {
-    #include <abstractions/base>
+  #^EXEC {
+  #  #include <abstractions/base>
 
-    /bin/ash      PUx,
-    /bin/bash     PUx,
-    /bin/bash2    PUx,
-    /bin/bsh      PUx,
-    /bin/csh      PUx,
-    /bin/dash     PUx,
-    /bin/ksh      PUx,
-    /bin/sh       PUx,
-    /bin/tcsh     PUx,
-    /bin/zsh      PUx,
-    /bin/zsh4     PUx,
-    /bin/zsh5     PUx,
-    /bin/false    PUx,
-    /sbin/nologin PUx,
-  }
+  #  /bin/ash      PUx,
+  #  /bin/bash     PUx,
+  #  /bin/bash2    PUx,
+  #  /bin/bsh      PUx,
+  #  /bin/csh      PUx,
+  #  /bin/dash     PUx,
+  #  /bin/ksh      PUx,
+  #  /bin/sh       PUx,
+  #  /bin/tcsh     PUx,
+  #  /bin/zsh      PUx,
+  #  /bin/zsh4     PUx,
+  #  /bin/zsh5     PUx,
+  #  /bin/false    PUx,
+  #  /sbin/nologin PUx,
+  #}
 
   #
   # subprofile for handling network input (privilege seperated child)
   #
-  ^PRIVSEP {
-    #include <abstractions/base>
-    #include <abstractions/nameservice>
+  #^PRIVSEP {
+  #  #include <abstractions/base>
+  #  #include <abstractions/nameservice>
 
-    capability sys_chroot,
-    capability setuid,
-    capability setgid,
-  }
+  #  capability sys_chroot,
+  #  capability setuid,
+  #  capability setgid,
+  #}
 
   #
   # subprofile that handles authentication requests from the privilege
   # seperated child
   #
-  ^PRIVSEP_MONITOR {
-    #include <abstractions/authentication>
-    #include <abstractions/base>
-    #include <abstractions/nameservice>
-    #include <abstractions/wutmp>
+  #^PRIVSEP_MONITOR {
+  #  #include <abstractions/authentication>
+  #  #include <abstractions/base>
+  #  #include <abstractions/nameservice>
+  #  #include <abstractions/wutmp>
 
-    capability setuid,
-    capability setgid,
-    capability chown,
+  #  capability setuid,
+  #  capability setgid,
+  #  capability chown,
 
-    owner @{HOME}/.ssh/authorized_keys{,2} r,
-    /dev/ptmx rw,
-    /dev/pts/[0-9]* rw,
-    /dev/urandom r,
-    /etc/hosts.allow r,
-    /etc/hosts.deny r,
-    /etc/ssh/moduli r,
-    owner @{PROC}/@{pid}/mounts r,
-  }
+  #  owner @{HOME}/.ssh/authorized_keys{,2} r,
+  #  /dev/ptmx rw,
+  #  /dev/pts/[0-9]* rw,
+  #  /dev/urandom r,
+  #  /etc/hosts.allow r,
+  #  /etc/hosts.deny r,
+  #  /etc/ssh/moduli r,
+  #  owner @{PROC}/@{pid}/mounts r,
+  #}
 
 
   #
   # subprofile for post-authentication period until the user's shell is spawned
   #
-  ^AUTHENTICATED {
-    #include <abstractions/authentication>
-    #include <abstractions/consoles>
-    #include <abstractions/nameservice>
-    #include <abstractions/wutmp>
+  #^AUTHENTICATED {
+  #  #include <abstractions/authentication>
+  #  #include <abstractions/consoles>
+  #  #include <abstractions/nameservice>
+  #  #include <abstractions/wutmp>
 
-    capability sys_tty_config,
-    capability setgid,
-    capability setuid,
+  #  capability sys_tty_config,
+  #  capability setgid,
+  #  capability setuid,
 
-    /dev/log  w,
-    /dev/ptmx rw,
-    /etc/default/passwd r,
-    /etc/localtime r,
-    /etc/writable/localtime r,
-    /etc/login.defs r,
-    /etc.legal r,
-    /etc/motd r,
-    /{,var/}run/motd{,.dynamic}{,.new} rw,
+  #  /dev/log  w,
+  #  /dev/ptmx rw,
+  #  /etc/default/passwd r,
+  #  /etc/localtime r,
+  #  /etc/writable/localtime r,
+  #  /etc/login.defs r,
+  #  /etc.legal r,
+  #  /etc/motd r,
+  #  /{,var/}run/motd{,.dynamic}{,.new} rw,
 
-    owner /tmp/ssh-[a-zA-Z0-9]*/ w,
-    owner /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
-  }
+  #  owner /tmp/ssh-[a-zA-Z0-9]*/ w,
+  #  owner /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
+  #}
 }
