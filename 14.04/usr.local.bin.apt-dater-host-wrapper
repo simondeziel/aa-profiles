@@ -17,6 +17,8 @@
   # Allow to terminate unconfined processes
   signal (send) set=("kill") peer=unconfined,
 
+  owner /dev/pts/[0-9]* rw,
+
   /usr/local/bin/apt-dater-host Cx -> aptdater,
 
   profile aptdater {
@@ -47,6 +49,8 @@
     /etc/apt-dater-host.conf      r,
     /etc/apt-dater-host.uuid      r,
     /usr/local/bin/apt-dater-host r,
+
+    owner /dev/pts/[0-9]* rw,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
