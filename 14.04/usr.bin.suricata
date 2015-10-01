@@ -1,0 +1,40 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/bin/suricata {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_admin,
+  capability net_raw,
+  capability setuid,
+  capability setgid,
+  capability setpcap,
+  network raw,
+  network dgram,
+
+  owner @{PROC}/@{pid}/status r,
+  /sys/devices/system/cpu/   r,
+  /usr/share/file/   r,
+  /usr/share/file/** r,
+
+  # global tmp directories
+  owner /var/tmp/**     rwkl,
+  /var/tmp/             rw,
+  owner /tmp/**         rwkl,
+  /tmp/                 rw,
+
+  # config
+  /etc/suricata/   r,
+  /etc/suricata/** r,
+
+  # pid
+  /{var/,}run/suricata.pid rw,
+
+  # logs
+  /var/log/suricata/** rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.suricata>
+}
