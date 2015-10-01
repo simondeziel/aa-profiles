@@ -238,6 +238,7 @@
     # Required to import keys from keyservers
     #include <abstractions/nameservice>
     #include <abstractions/p11-kit>
+    /usr/lib/gnupg2/gpg2keys_hkp ix,
 
     # For smartcards?
     /dev/bus/usb/ r,
