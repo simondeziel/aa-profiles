@@ -1,0 +1,6 @@
+# used with postfix
+
+  /{var/spool/postfix/,}deferred/                                   r,
+  /{var/spool/postfix/,}deferred/[0-9A-Za-z]/                       rw,
+  /{var/spool/postfix/,}deferred/[0-9A-Za-z]*                       rwlk,
+  /{var/spool/postfix/,}deferred/[0-9A-Za-z]*/**                    rwlk,

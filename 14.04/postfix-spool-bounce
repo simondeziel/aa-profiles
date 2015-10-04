@@ -1,0 +1,6 @@
+# used with postfix
+
+  /{var/spool/postfix/,}bounce/                                   r,
+  /{var/spool/postfix/,}bounce/[0-9A-Za-z]/                       rw,
+  /{var/spool/postfix/,}bounce/[0-9A-Za-z]*                       rwlk,
+  /{var/spool/postfix/,}bounce/[0-9A-Za-z]*/**                    rwlk,

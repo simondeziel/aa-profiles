@@ -1,0 +1,6 @@
+# used with postfix
+
+  /{var/spool/postfix/,}maildrop/                                   r,
+  /{var/spool/postfix/,}maildrop/[0-9A-Za-z]/                       rw,
+  /{var/spool/postfix/,}maildrop/[0-9A-Za-z]*                       rwlk,
+  /{var/spool/postfix/,}maildrop/[0-9A-Za-z]*/**                    rwlk,

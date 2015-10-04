@@ -1,0 +1,6 @@
+# used with postfix
+
+  /{var/spool/postfix/,}trace/                                   r,
+  /{var/spool/postfix/,}trace/[0-9A-Za-z]/                       rw,
+  /{var/spool/postfix/,}trace/[0-9A-Za-z]*                       rwlk,
+  /{var/spool/postfix/,}trace/[0-9A-Za-z]*/**                    rwlk,

@@ -1,0 +1,57 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2006 Novell/SUSE
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+#include <tunables/global>
+
+/usr/lib/postfix/master {
+  #include <abstractions/base>
+  #include <abstractions/kerberosclient>
+  #include <abstractions/nameservice>
+  #include <abstractions/postfix-common>
+
+  capability net_bind_service,
+  capability kill,
+  capability dac_override,
+  deny capability block_suspend,
+
+  signal send peer=/usr/lib/postfix/*,
+
+  /etc/postfix/master.cf                       r,
+  /{var/spool/postfix/,}pid/master.pid            rwk,
+  /{var/spool/postfix/,}private/*                 wl,
+  /{var/spool/postfix/,}private/tlsmgr            rwl,
+  /{var/spool/postfix/,}public/{cleanup,flush,pickup,qmgr,showq,tlsmgr} rwl,
+
+  /var/lib/postfix/master.lock                 rwk,
+
+  /usr/lib/postfix/anvil                       Px,
+  /usr/lib/postfix/bounce                      Px,
+  /usr/lib/postfix/cleanup                     Px,
+  /usr/lib/postfix/dnsblog                     Px,
+  /usr/lib/postfix/error                       Px,
+  /usr/lib/postfix/flush                       Px,
+  /usr/lib/postfix/local                       Px,
+  /usr/lib/postfix/master                      rmix,
+  /usr/lib/postfix/nqmgr                       Px,
+  /usr/lib/postfix/postscreen                  Px,
+  /usr/lib/postfix/proxymap                    Px,
+  /usr/lib/postfix/pickup                      Px,
+  /usr/lib/postfix/pipe                        Px,
+  /usr/lib/postfix/qmgr                        Px,
+  /usr/lib/postfix/scache                      Px,
+  /usr/lib/postfix/showq                       Px,
+  /usr/lib/postfix/smtp                        Px,
+  /usr/lib/postfix/smtpd                       Px,
+  /usr/lib/postfix/tlsmgr                      Px,
+  /usr/lib/postfix/tlsproxy                    Px,
+  /usr/lib/postfix/trivial-rewrite             Px,
+  /usr/lib/postfix/verify                      Px,
+  /usr/lib/postfix/master                      rmix,
+}

@@ -1,0 +1,34 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/sbin/postdrop {
+  #include <abstractions/base>
+  #include <abstractions/kerberosclient>
+  #include <abstractions/nameservice>
+  #include <abstractions/postfix-common>
+
+  # This is needed at least for permissions=paranoid
+  capability dac_override,
+  capability dac_read_search,
+
+  /etc/postfix r,
+  /etc/postfix/main.cf r,
+  /etc/postfix/postfix-script mixr,
+  @{PROC}/net/if_inet6 r,
+  /usr/sbin/postdrop rmix,
+  /var/spool/postfix r,
+  /var/spool/postfix/maildrop r,
+  /var/spool/postfix/maildrop/* rwl,
+  /var/spool/postfix/pid r,
+  /var/spool/postfix/public/pickup w,
+}

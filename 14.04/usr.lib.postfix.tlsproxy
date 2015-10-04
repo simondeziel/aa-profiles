@@ -1,0 +1,16 @@
+#include <tunables/global>
+
+/usr/lib/postfix/tlsproxy {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/postfix-common>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  capability dac_override,
+
+  /usr/lib/postfix/tlsproxy            rmix,
+
+  /etc/postfix/{ssl/,}*.pem            r,
+  /{var/spool/postfix/,}private/tlsmgr rwk,
+}

@@ -1,0 +1,6 @@
+# used with postfix
+
+  /{var/spool/postfix/,}flush/                                   r,
+  /{var/spool/postfix/,}flush/[0-9A-Za-z]/                       rw,
+  /{var/spool/postfix/,}flush/[0-9A-Za-z]*                       rwlk,
+  /{var/spool/postfix/,}flush/[0-9A-Za-z]*/**                    rwlk,

@@ -1,0 +1,9 @@
+#include <tunables/global>
+
+/usr/lib/postfix/dnsblog {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/postfix-common>
+
+  /{var/spool/postfix/,}pid/unix.dnsblog   rwk,
+}

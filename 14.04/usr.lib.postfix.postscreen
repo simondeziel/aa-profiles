@@ -1,0 +1,31 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2006 Novell/SUSE
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+#include <tunables/global>
+
+/usr/lib/postfix/postscreen {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+  #include <abstractions/postfix-common>
+
+  capability setgid,
+  capability setuid,
+
+  /{,var/spool/postfix/}dev/urandom      r,
+  /etc/mtab                              r,
+  /etc/fstab                             r,
+  /etc/postfix/{ssl/,}*.pem              r,
+  /etc/postfix/prng_exch                 rw,
+  /var/lib/postfix/postscreen_cache.db   rwk,
+  /{var/spool/postfix/,}private/dnsblog  rwk,
+  /{var/spool/postfix/,}private/smtpd    rwk,
+  /{var/spool/postfix/,}private/tlsproxy rwk,
+}
