@@ -15,6 +15,9 @@
   # root trust anchor
   owner /var/lib/unbound/root.key* rw,
 
+  # root hints from dns-data-root
+  /usr/share/dns/root.* r,
+
   # non-chrooted paths
   /etc/unbound/** r,
   owner /etc/unbound/*.key* rw,
