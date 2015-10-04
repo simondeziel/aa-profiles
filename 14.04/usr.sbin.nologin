@@ -1,0 +1,19 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/sbin/nologin {
+  #include <abstractions/base>
+
+  # avoid including abstractions/nameservice
+  /etc/nsswitch.conf r,
+  /etc/passwd        r,
+
+  /etc/nologin r,
+  /usr/sbin/nologin r,
+  /{,var/}run/utmp rk,
+  owner @{PROC}/@{pid}/loginuid r,
+  owner /dev/pts/[0-9]* rw,
+
+  #include <local/usr.sbin.nologin>
+}
