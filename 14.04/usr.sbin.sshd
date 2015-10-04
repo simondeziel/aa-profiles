@@ -86,7 +86,7 @@
   /bin/zsh      PUxr,
   /bin/zsh4     PUxr,
   /bin/zsh5     PUxr,
-  /sbin/nologin PUxr,
+  /{,usr/}sbin/nologin PUxr,
   /bin/false    PUxr,
 
   # XXX: this needs to be enabled otherwise we risk locking out a user
@@ -154,7 +154,7 @@
   #  /bin/zsh4     PUx,
   #  /bin/zsh5     PUx,
   #  /bin/false    PUx,
-  #  /sbin/nologin PUx,
+  #  /{,usr/}sbin/nologin PUx,
   #}
 
   #
