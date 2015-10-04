@@ -1,0 +1,34 @@
+# Site-specific additions and overrides for usr.sbin.smbd.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  # Missing capabilities
+  capability audit_write,
+
+  # Missing rules
+  /usr/lib/@{multiarch}/samba/*.so{,.[0-9]*}    mr,
+  /usr/lib/@{multiarch}/samba/**/               r,
+  /usr/lib/@{multiarch}/samba/**/*.so{,.[0-9]*} mr,
+
+  # XXX: the main profile should include
+  # tunable.d/samba
+  # tunable.d/samba.d
+
+  # allowing the definition of {RO,RW}_SHARE_DIRS
+  #@{RO_SHARE_DIRS}+=/data/my-share1
+  #@{RO_SHARE_DIRS}+=/data/my-share2
+  #@{RW_SHARE_DIRS}+=/data/my-rw-share1
+  #@{RW_SHARE_DIRS}+=/data/my-rw-share2
+
+  # /data is shared instead
+  deny @{HOMEDIRS}/** lrwk,
+  /data/                      r,
+  /data/**                    rlk,
+  /data/**/                   r,
+  /data/{partage,share}/**    lrwk,
+
+  # on jupiter
+  #/data/marcel/musique/**     lrwk,
+
+  # on smb
+  /data/bck/**                lrwk,
+  /data/aude/**               lrwk,
