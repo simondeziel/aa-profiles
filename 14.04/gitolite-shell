@@ -1,0 +1,80 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+@{GITOLITE_HOME}=/home/git
+@{GITOLITE_SRC_DIR}=@{GITOLITE_HOME}/gitolite/src
+
+/home/git/gitolite/src/gitolite-shell {
+  #include <abstractions/base>
+  #include <abstractions/perl>
+
+  owner @{GITOLITE_HOME}/.gitolite.rc       r,
+  owner @{GITOLITE_HOME}/.gitolite/**       r,
+  owner @{GITOLITE_HOME}/.gitolite/conf/    rw,
+  owner @{GITOLITE_HOME}/.gitolite/conf/**  rw,
+  owner @{GITOLITE_HOME}/.gitolite/logs/gitolite-[0-9]*.log rw,
+  owner @{GITOLITE_HOME}/.gitolite/hooks/   rw,
+  owner @{GITOLITE_HOME}/.gitolite/hooks/** rwix,
+  owner @{GITOLITE_SRC_DIR}/**              r,
+  owner @{GITOLITE_SRC_DIR}/gitolite-shell  rix,
+  owner @{GITOLITE_SRC_DIR}/gitolite        ix,
+  owner @{GITOLITE_SRC_DIR}/commands/*      ix,
+
+  owner @{GITOLITE_SRC_DIR}/triggers/**     ix,
+
+  owner @{GITOLITE_HOME}/projects.list*     rw,
+  owner @{GITOLITE_HOME}/repositories/      rw,
+  owner @{GITOLITE_HOME}/repositories/**    rw,
+
+  owner @{GITOLITE_HOME}/.ssh/authorized_keys rw,
+  owner @{GITOLITE_HOME}/.ssh/authorized_keys.[0-9]* rw,
+
+  # git
+  /usr/bin/git        ix,
+  /usr/lib/git-core/* Cx -> git_core,
+  profile git_core {
+    #include <abstractions/base>
+    /usr/lib/git-core/* ix,
+
+    owner @{HOME}/ r,
+    owner @{HOME}/** rw,
+
+    /usr/share/git-core/templates/   r,
+    /usr/share/git-core/templates/** r,
+
+    #link /home/git/repositories/** -> /home/git/repositories/**,
+    #link @{GITOLITE_HOME}/repositories/** -> @{GITOLITE_HOME}/repositories/**,
+    #link @{GITOLITE_HOME}/repositories/** -> /home/git/repositories/**,
+    link @{GITOLITE_HOME}/** -> /home/git/**,
+
+    # exec under the parent profile
+    owner @{GITOLITE_HOME}/.gitolite/hooks/** Px -> /home/git/gitolite/src/gitolite-shell,
+  }
+
+  /bin/grep       ix,
+  /bin/mktemp     ix,
+  /bin/mv         ix,
+  /bin/rm         ix,
+  /bin/sed        ix,
+  /usr/bin/cut    ix,
+  /usr/bin/logger ix,
+  /usr/bin/sort   ix,
+
+  /bin/dash Cx -> dash,
+  profile dash {
+    #include <abstractions/base>
+    /bin/dash     rm,
+    /bin/hostname ix,
+    /usr/bin/find ix,
+    /usr/bin/sort ix,
+    /usr/bin/ssh-keygen PUx,
+    /usr/bin/git  Px -> /home/git/gitolite/src/gitolite-shell,
+    /usr/lib/git-core/* Px -> /home/git/gitolite/src/gitolite-shell//git_core,
+
+    owner @{HOME}/ r,
+    owner @{HOME}/** rw,
+  }
+
+  #include <local/gitolite-shell>
+}
