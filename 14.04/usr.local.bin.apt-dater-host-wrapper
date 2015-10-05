@@ -17,6 +17,7 @@
   # Allow to terminate unconfined processes
   signal (send) set=("kill") peer=unconfined,
 
+  # workaround AA bug with file_inherit
   owner /dev/pts/[0-9]* rw,
 
   /usr/local/bin/apt-dater-host Cx -> aptdater,
@@ -50,6 +51,7 @@
     /etc/apt-dater-host.uuid      r,
     /usr/local/bin/apt-dater-host r,
 
+    # workaround AA bug with file_inherit
     owner /dev/pts/[0-9]* rw,
 
     # XXX: Cx doesn't work. For details, see
@@ -80,6 +82,9 @@
     /usr/lib/sudo/*.so m,
 
     /dev/tty rw,
+
+    # workaround AA bug with file_inherit
+    owner /dev/pts/[0-9]* rw,
 
     owner @{PROC}/@{pid}/stat r,
     owner @{PROC}/@{pid}/fd/ r,
