@@ -133,7 +133,7 @@
   # for internal-sftp
   /         r,
   /**       r,
-  owner /** rw,
+  owner /** rwl,
 
   #
   # default subprofile for when sshd has authenticated the user
