@@ -6,6 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/openssl>
+  #include <abstractions/X>
 
   capability setuid,
   capability setgid,
@@ -69,8 +70,34 @@
     /bin/zsh5     rm,
     /usr/bin/ssh Px,
 
+    # XXX: Cx doesn't work. For details, see
+    # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
+    #/usr/bin/xauth Cx -> xauth,
+    /usr/bin/xauth Px -> /usr/bin/ssh//xauth,
+
     # unlocking the key is done by the parent so why is this needed?
     /dev/tty rw,
+  }
+
+  /tmp/.X11-unix/* r,
+  owner /tmp/ssh-*/xauthfile w,
+  profile xauth {
+    #include <abstractions/base>
+    #include <abstractions/X>
+
+    /usr/bin/xauth r,
+    /tmp/.X11-unix/* rw,
+
+    owner link /tmp/ssh-*/xauthfile   -> /tmp/ssh-*/xauthfile-n,
+    owner link /tmp/ssh-*/xauthfile-l -> /tmp/ssh-*/xauthfile-c,
+    owner /tmp/ssh-*/xauthfile   r,
+    owner /tmp/ssh-*/xauthfile-c w,
+    owner /tmp/ssh-*/xauthfile-l w,
+    owner /tmp/ssh-*/xauthfile-n w,
+
+    # for ssh -Y
+    owner link @{HOME}/.Xauthority-l -> /**/.Xauthority-c,
+    owner @{HOME}/.Xauthority-c w,
   }
 
   #include <local/usr.bin.ssh>
