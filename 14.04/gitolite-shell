@@ -69,7 +69,8 @@
     /usr/bin/find ix,
     /usr/bin/sort ix,
     /usr/bin/ssh-keygen PUx,
-    /usr/bin/git  Px -> /home/git/gitolite/src/gitolite-shell,
+    /home/git/gitolite/src/gitolite Px -> /home/git/gitolite/src/gitolite-shell,
+    /usr/bin/git                    Px -> /home/git/gitolite/src/gitolite-shell,
     /usr/lib/git-core/* Px -> /home/git/gitolite/src/gitolite-shell//git_core,
 
     owner @{HOME}/ r,
