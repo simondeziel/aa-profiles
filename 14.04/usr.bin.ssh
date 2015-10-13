@@ -11,8 +11,8 @@
   capability setuid,
   capability setgid,
 
-  signal (receive) set=("int") peer=/usr/bin/scp,
-  signal (receive) set=("int") peer=/usr/bin/sftp,
+  signal (receive) set=(int,winch) peer=/usr/bin/scp,
+  signal (receive) set=(int,winch) peer=/usr/bin/sftp,
 
   /etc/ssh/ssh_config r,
 

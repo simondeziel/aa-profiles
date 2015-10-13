@@ -5,7 +5,7 @@
 /usr/bin/sftp {
   #include <abstractions/base>
 
-  signal (send) set=("int") peer=/usr/bin/ssh,
+  signal (send) set=(int,winch) peer=/usr/bin/ssh,
 
   # sftp mostly uses ssh
   /usr/bin/ssh Px,
