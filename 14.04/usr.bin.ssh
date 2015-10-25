@@ -15,6 +15,7 @@
   signal (receive) set=(int,winch) peer=/usr/bin/sftp,
 
   /etc/ssh/ssh_config r,
+  /etc/ssh/ssh_known_hosts{,2} r,
 
   # to unlock private keys
   /dev/tty rw,
