@@ -135,6 +135,8 @@
   /**       r,
   owner /** rwl,
 
+  /usr/lib/openssh/sftp-server PUx,
+
   #
   # default subprofile for when sshd has authenticated the user
   #
