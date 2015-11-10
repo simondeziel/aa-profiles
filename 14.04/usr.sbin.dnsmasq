@@ -34,6 +34,8 @@
   /etc/dnsmasq.conf r,
   /etc/dnsmasq.d/ r,
   /etc/dnsmasq.d/* r,
+  /etc/dnsmasq.d-available/ r,
+  /etc/dnsmasq.d-available/* r,
   /etc/ethers r,
   /etc/NetworkManager/dnsmasq.d/ r,
   /etc/NetworkManager/dnsmasq.d/* r,
