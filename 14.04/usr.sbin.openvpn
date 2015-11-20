@@ -24,7 +24,7 @@
 
   # helpers
   /bin/ip ix,
-  /etc/openvpn/update-resolv-conf ix,
+  /etc/openvpn/update-resolv-conf PUx,
 
   # secret files only readable by root (before setuid)
   owner /etc/openvpn/*.conf r,
