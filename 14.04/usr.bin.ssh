@@ -17,6 +17,9 @@
   /etc/ssh/ssh_config r,
   /etc/ssh/ssh_known_hosts{,2} r,
 
+  # for tun/tap tunneling
+  /dev/net/tun rw,
+
   # to unlock private keys
   /dev/tty rw,
   /usr/lib/openssh/gnome-ssh-askpass mix,
