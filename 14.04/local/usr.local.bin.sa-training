@@ -1,0 +1,2 @@
+# Site-specific additions and overrides for usr.local.bin.sa-training.
+# For more details, please see /etc/apparmor.d/local/README.

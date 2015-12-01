@@ -1,0 +1,17 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/local/bin/sa-training {
+  #include <abstractions/base>
+  #include <abstractions/perl>
+
+  /usr/local/bin/sa-training r,
+  owner /{,var/}tmp/** rw,
+
+  /usr/bin/spamassassin PUx,
+  /usr/bin/sa-learn     PUx,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.local.bin.sa-training>
+}

@@ -18,7 +18,7 @@
 
   /usr/lib/postfix/pipe rmix,
   /usr/lib/dovecot/dovecot-lda PUx,
-  /usr/bin/sa-learn PUx,
+  /usr/local/bin/sa-training PUx,
 
   # Can talk with custom transports
   /{var/spool/postfix/,}pid/inet.*       rwk,
