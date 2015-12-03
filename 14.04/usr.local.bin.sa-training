@@ -11,6 +11,7 @@
 
   /usr/bin/spamassassin PUx,
   /usr/bin/sa-learn     PUx,
+  /usr/bin/pyzor        PUx,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.local.bin.sa-training>
