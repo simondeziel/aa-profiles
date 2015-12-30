@@ -10,12 +10,17 @@
   # scp is almost just a wrapper around ssh
   /usr/bin/ssh Px,
 
-  # can fallback to cp if only local paths are provided
-  /bin/cp PUx,
-
   # for file transfers
   owner /** rw,
   /** r,
+
+  # can fallback to cp if only local paths are provided
+  /bin/cp Cx -> cp_fallback,
+  profile cp_fallback {
+    #include <abstractions/base>
+    owner /** rw,
+    /** r,
+  }
 
   #include <local/usr.bin.scp>
 }
