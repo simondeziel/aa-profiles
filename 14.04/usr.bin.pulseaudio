@@ -89,7 +89,7 @@
   owner /tmp/orcexec.* mrw,
   owner /{,var/}run/user/[0-9]*/orcexec.* mrw,
   # needed if /tmp is mounted noexec:
-  owner @{HOME}/orcexec.* mr,
+  owner @{HOME}/orcexec.* mrw,
 
   owner /tmp/.esd-@{pid}*/ rw,
   owner /tmp/.esd-@{pid}*/socket rw,
