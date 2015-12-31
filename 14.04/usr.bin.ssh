@@ -23,16 +23,15 @@
   # to unlock private keys
   /dev/tty rw,
   /usr/lib/openssh/gnome-ssh-askpass mix,
+  /usr/lib/ssh/ssh-askpass mix,
 
   owner /dev/pts/[0-9]* rw,
 
   owner @{HOME}/.ssh/   rw,
   owner @{HOME}/.ssh/** rl,
   owner @{HOME}/.ssh/known_hosts rwl,
-  # use with "ControlPath ~/.ssh/%r@%h:%p"
-  owner @{HOME}/.ssh/*@*:[0-9]* rwl,
-  # use with "ControlPath ~/.ssh/%C": a SHA1 hash of "%l%h%p%r"
-  owner @{HOME}/.ssh/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]* rwl,
+  owner @{HOME}/.ssh/*control*[0-9][0-9]* rwl,
+  owner @{HOME}/.ssh/control/** rwl,
   audit deny @{HOME}/.ssh/authorized_keys{,2} rw,
   audit deny @{HOME}/.ssh/config w,
   audit deny @{HOME}/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
@@ -54,25 +53,25 @@
   /bin/zsh      Cx -> proxycommand,
   /bin/zsh4     Cx -> proxycommand,
   /bin/zsh5     Cx -> proxycommand,
-  /usr/bin/ssh rm,
+  /usr/bin/ssh  mr,
 
   # XXX: not allowing "/bin/nc" as "ssh -W" is functionally equivalent
   profile proxycommand {
     #include <abstractions/base>
 
-    /bin/ash      rm,
-    /bin/bash     rm,
-    /bin/bash2    rm,
-    /bin/bsh      rm,
-    /bin/csh      rm,
-    /bin/dash     rm,
-    /bin/ksh      rm,
-    /bin/sh       rm,
-    /bin/tcsh     rm,
-    /bin/zsh      rm,
-    /bin/zsh4     rm,
-    /bin/zsh5     rm,
-    /usr/bin/ssh Px,
+    /bin/ash      mr,
+    /bin/bash     mr,
+    /bin/bash2    mr,
+    /bin/bsh      mr,
+    /bin/csh      mr,
+    /bin/dash     mr,
+    /bin/ksh      mr,
+    /bin/sh       mr,
+    /bin/tcsh     mr,
+    /bin/zsh      mr,
+    /bin/zsh4     mr,
+    /bin/zsh5     mr,
+    /usr/bin/ssh  Px,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
