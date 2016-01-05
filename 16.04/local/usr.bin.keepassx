@@ -1,0 +1,5 @@
+# Site-specific additions and overrides for usr.bin.keepassx.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  owner @{HOME}/.gnupg/kp/  r,
+  owner @{HOME}/.gnupg/kp/* rw,

@@ -1,0 +1,82 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/vlc {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+  #include <abstractions/kde>
+  #include <abstractions/nameservice>
+  #include <abstractions/private-files-strict>
+  #include <abstractions/user-tmp>
+
+  # allow directory listings (ie 'r' on directories) so browsing via the file
+  # dialog works
+  / r,
+  /**/ r,
+
+  /etc/fstab  r,
+  /etc/mtab   r,
+  /etc/vlc/** r,
+  /etc/xdg/** rk,
+  /tmp/.X[0-9]*-lock r,
+
+  # noisy
+  deny /boot/** r,
+
+  /var/lib/dbus/machine-id r,
+  owner /run/user/[0-9]*/dconf/user rw,
+  owner @{PROC}/@{pid}/cmdline r,
+  owner @{PROC}/@{pid}/auxv r,
+  owner @{PROC}/@{pid}/status r,
+  
+  # From abstractions/evince
+  # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
+  # Possibly move to an abstraction if anything else needs it.
+  deny /run/udev/data/** r,
+
+  /dev/tty r,
+  /sys/devices/pci[0-9]*/**/uevent r,
+  /sys/devices/system/node/node[0-9]*/meminfo r,
+
+  # Convenient for transcoding
+  owner @{HOME}/**                  rw,
+  owner @{HOME}/.config/vlc/**      rwk,
+  owner @{HOME}/.local/vlc/**       rwk,
+  owner @{HOME}/.local/share/vlc/** rwk,
+
+  # Locations that commonly contains media files
+  /{data,media,mnt,opt,srv}/** r,
+  owner /{data,media,mnt,opt,srv}/** rw,
+
+  # gvfs
+  owner /run/user/[0-9]*/gvfs/   r,
+  owner /run/user/[0-9]*/gvfs/** r,
+
+  # Reading physical disks
+  /dev/sr[0-9]  r,
+  /dev/sg[0-9]  r,
+
+  /usr/bin/vlc         mr,
+  /usr/lib/vlc/        r,
+  /usr/lib/vlc/**      mr,
+  deny /usr/lib/vlc/** w,
+  /usr/lib/@{multiarch}/libproxy/*/modules/     r,
+  /usr/lib/@{multiarch}/libproxy/*/modules/*.so mr,
+  /usr/share/icons/   r,
+  /usr/share/icons/** rk,
+  /usr/share/glib-2.0/schemas/gschemas.compiled r,
+
+  /etc/udev/udev.conf r,
+
+  # VLC can turn off the screensaver
+  /usr/bin/xdg-screensaver PUx,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.vlc>
+}
