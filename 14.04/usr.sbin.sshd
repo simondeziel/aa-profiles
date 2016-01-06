@@ -27,6 +27,7 @@
   capability sys_resource,
   capability sys_tty_config,
   capability net_bind_service,
+  capability net_admin,
   capability chown,
   capability fowner,
   capability kill,
@@ -36,9 +37,9 @@
   capability audit_write,
   capability dac_override,
   capability dac_read_search,
+  capability sys_ptrace,
 
   # needed when /proc is mounted with hidepid>=1
-  capability sys_ptrace,
   ptrace read peer="unconfined",
 
   dbus send
@@ -60,17 +61,20 @@
   /etc/ssh/** r,
   /etc/ssl/openssl.cnf r,
   /usr/sbin/sshd mrix,
-  /var/log/btmp r,
+  /var/log/btmp rw,
   owner /{,var/}run/sshd{,.init}.pid wl,
   @{HOME}/.ssh/authorized_keys{,2} r,
 
-  owner @{PROC}/@{pid}/fd/ r,
-  owner @{PROC}/@{pid}/limits r,
+
+  @{PROC}/cmdline r,
+  @{PROC}/1/environ r,
+  @{PROC}/@{pids}/fd/ r,  # pid of the just-logged in user's shell
   owner @{PROC}/@{pid}/loginuid rw,
+  owner @{PROC}/@{pid}/limits r,
+  owner @{PROC}/@{pid}/uid_map r,
   owner @{PROC}/@{pid}/mounts r,
   owner @{PROC}/@{pid}/oom_adj rw,
   owner @{PROC}/@{pid}/oom_score_adj rw,
-  owner @{PROC}/@{pid}/uid_map r,
 
   # should only be here for use in non-change-hat openssh
   # duplicated from EXEC hat (+r)
