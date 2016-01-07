@@ -10,8 +10,50 @@
   #include <abstractions/nameservice>
   #include <abstractions/private-files>
 
+  dbus send
+       bus=accessibility
+       path=/org/freedesktop/DBus
+       interface=org.freedesktop.DBus
+       member={Hello,AddMatch}
+       peer=(label=unconfined),
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/accessible/root
+       interface=org.a11y.atspi.Socket
+       member=Embed
+       peer=(label=unconfined),
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/registry
+       interface=org.a11y.atspi.Registry
+       member=GetRegisteredEvents
+       peer=(label=unconfined),
+
+  dbus receive
+       bus=accessibility
+       path=/org/a11y/atspi/registry
+       interface=org.a11y.atspi.Registry
+       member=EventListenerDeregistered
+       peer=(label=unconfined),
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/registry/deviceeventcontroller
+       interface=org.a11y.atspi.DeviceEventController
+       member={GetKeystrokeListeners,GetDeviceEventListeners}
+       peer=(label=unconfined),
+
+  dbus receive
+       bus=accessibility
+       path=/org/a11y/atspi/accessible/root
+       interface=org.freedesktop.DBus.Properties
+       member=Set
+       peer=(label=unconfined),
+
   # missing from dbus abstractions?
-  audit /usr/bin/dbus-send ix, 
+  /usr/bin/dbus-send ix,
 
   /etc/xdg/sni-qt.conf rk,
   /etc/xdg/Trolltech.conf rk,
