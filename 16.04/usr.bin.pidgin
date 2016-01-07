@@ -70,11 +70,15 @@
   deny ptrace,
   deny capability sys_ptrace,
 
+  /etc/udev/udev.conf r,
+  /sys/bus/           r,
+  /sys/class/         r,
+
   owner @{HOME}/.gstreamer*/ rw,
   owner @{HOME}/.gstreamer*/** rw,
   owner @{HOME}/.cache/gstreamer*/** rw,
-  /usr/lib/gstreamer[0-9]*/gstreamer[0-9]*/gst-plugin-scanner ix,
-  /usr/lib/@{multiarch}/gstreamer[0-9]*/gstreamer[0-9]*/gst-plugin-scanner ix,
+  /usr/lib/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
+  /usr/lib/@{multiarch}/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
 
   owner @{HOME}/.purple/ rw,
   owner @{HOME}/.purple/** rwk,
@@ -114,6 +118,9 @@
 
   owner @{PROC}/@{pid}/auxv r,
   owner @{PROC}/@{pid}/fd/ r,
+
+  # for sound notifications
+  owner /{,var/}run/user/[0-9]*/orcexec.* mrw,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.pidgin>
