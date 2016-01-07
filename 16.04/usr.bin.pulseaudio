@@ -16,6 +16,8 @@
        member={MakeThreadRealtime,MakeThreadHighPriority}
        peer=(name=org.freedesktop.RealtimeKit1),
 
+  unix (connect, receive, send) type=stream peer=(addr="@/tmp/.ICE-unix/[0-9]*"),
+
   /usr/bin/pulseaudio mixr,
 
   /dev/null rw,
