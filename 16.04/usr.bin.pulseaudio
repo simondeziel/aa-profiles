@@ -17,6 +17,7 @@
        peer=(name=org.freedesktop.RealtimeKit1),
 
   unix (connect, receive, send) type=stream peer=(addr="@/tmp/.ICE-unix/[0-9]*"),
+  ptrace (read,trace) peer=@{profile_name},
 
   /usr/bin/pulseaudio mixr,
 
@@ -34,13 +35,6 @@
   owner @{HOME}/.config/pulse/cookie rwk,
   owner @{HOME}/{.config/pulse,.pulse}/ rw,
   owner @{HOME}/{.config/pulse,.pulse}/* rw,
-  owner /var/lib/lightdm/.esd_auth rwk,
-  owner /var/lib/lightdm/.pulse-cookie rwk,
-  owner /var/lib/lightdm/.config/pulse/cookie rwk,
-  owner /var/lib/lightdm/{.config/pulse,.pulse}/ rw,
-  owner /var/lib/lightdm/{.config/pulse,.pulse}/* rw,
-  # abstractions/X only covers @{HOME}/.Xauthority
-  owner /var/lib/lightdm/.Xauthority r,
 
   owner /run/pulse/ rw,
   owner /run/pulse/.pulse-cookie rwk,
@@ -75,6 +69,16 @@
   /usr/lib/pulse-[2-9].[0-9]/modules/*.so mr,
   /usr/lib/pulseaudio/pulse/gconf-helper Cx,
 
+  owner /var/lib/gdm3/.config/pulse/ rw,
+  owner /var/lib/gdm3/.config/pulse/* rw,
+  owner /var/lib/gdm3/.config/pulse/cookie rwk,
+
+  owner /var/lib/lightdm/.Xauthority r,
+  owner /var/lib/lightdm/.esd_auth rwk,
+  owner /var/lib/lightdm/.config/pulse/cookie rwk,
+  owner /var/lib/lightdm/.config/pulse/ rw,
+  owner /var/lib/lightdm/.config/pulse/* rw,
+
   # are these needed?
   /var/lib/pulse/ rw,
   /var/lib/pulse/*-default-sink rw,
@@ -96,8 +100,6 @@
 
   owner /tmp/.esd-@{pid}*/ rw,
   owner /tmp/.esd-@{pid}*/socket rw,
-
-  ptrace (read,trace) peer=/usr/bin/pulseaudio,
 
   profile /usr/lib/pulseaudio/pulse/gconf-helper {
     #include <abstractions/base>
