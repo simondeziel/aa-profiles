@@ -15,6 +15,32 @@
   #include <abstractions/private-files-strict>
   #include <abstractions/user-tmp>
 
+  dbus send
+       bus=accessibility
+       path=/org/freedesktop/DBus
+       interface=org.freedesktop.DBus
+       member={Hello,AddMatch},
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/accessible/root
+       interface=org.a11y.atspi.Socket
+       member=Embed,
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/registry
+       interface=org.a11y.atspi.Registry
+       member=GetRegisteredEvents,
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/registry/deviceeventcontroller
+       interface=org.a11y.atspi.DeviceEventController
+       member={GetKeystrokeListeners,GetDeviceEventListeners},
+
+  unix (connect, receive, send) type=stream peer=(addr="@/tmp/.ICE-unix/[0-9]*"),
+
   # allow directory listings (ie 'r' on directories) so browsing via the file
   # dialog works
   / r,
