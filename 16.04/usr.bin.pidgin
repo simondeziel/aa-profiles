@@ -23,50 +23,49 @@
        bus=system
        path=/org/freedesktop/NetworkManager
        interface=org.freedesktop.NetworkManager
-       member={CheckPermissions,DeviceAdded,DeviceRemoved,StateChanged,PropertiesChanged}
-       peer=(label=unconfined),
+       member={CheckPermissions,DeviceAdded,DeviceRemoved,StateChanged,PropertiesChanged},
 
   dbus send
        bus=system
        path=/org/freedesktop/NetworkManager
        interface=org.freedesktop.NetworkManager
-       member=state
-       peer=(label=unconfined),
+       member=state,
 
   dbus send
        bus=accessibility
        path=/org/freedesktop/DBus
        interface=org.freedesktop.DBus
-       member={Hello,AddMatch}
-       peer=(label=unconfined),
+       member={Hello,AddMatch},
 
   dbus send
        bus=accessibility
        path=/org/a11y/atspi/accessible/root
        interface=org.a11y.atspi.Socket
-       member=Embed
-       peer=(label=unconfined),
+       member=Embed,
 
   dbus send
        bus=accessibility
        path=/org/a11y/atspi/registry
        interface=org.a11y.atspi.Registry
-       member=GetRegisteredEvents
-       peer=(label=unconfined),
+       member=GetRegisteredEvents,
+
+  dbus receive
+       bus=accessibility
+       path=/org/a11y/atspi/registry
+       interface=org.a11y.atspi.Registry
+       member=EventListenerDeregistered,
 
   dbus send
        bus=accessibility
        path=/org/a11y/atspi/registry/deviceeventcontroller
        interface=org.a11y.atspi.DeviceEventController
-       member={GetKeystrokeListeners,GetDeviceEventListeners}
-       peer=(label=unconfined),
+       member={GetKeystrokeListeners,GetDeviceEventListeners},
 
   dbus receive
        bus=accessibility
        path=/org/a11y/atspi/accessible/root
        interface=org.freedesktop.DBus.Properties
-       member=Set
-       peer=(label=unconfined),
+       member=Set,
 
   deny ptrace,
   deny capability sys_ptrace,
