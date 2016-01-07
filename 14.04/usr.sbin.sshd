@@ -46,8 +46,7 @@
       bus=system
       path=/org/freedesktop/login1
       interface=org.freedesktop.login1.Manager
-      member={CreateSession,ReleaseSession}
-      peer=(label=unconfined),
+      member={CreateSession,ReleaseSession},
 
   /dev/ptmx rw,
   /dev/pts/[0-9]* rw,
