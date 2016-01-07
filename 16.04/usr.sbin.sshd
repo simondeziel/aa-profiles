@@ -1,0 +1,231 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#    Copyright (C) 2012 Canonical Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# will need to revalidate this profile once we finish re-architecting
+# the change_hat patch.
+#
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/sbin/sshd {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/consoles>
+  #include <abstractions/dbus-strict>
+  #include <abstractions/nameservice>
+  #include <abstractions/wutmp>
+
+  capability sys_chroot,
+  capability sys_resource,
+  capability sys_tty_config,
+  capability net_bind_service,
+  capability net_admin,
+  capability chown,
+  capability fowner,
+  capability kill,
+  capability setgid,
+  capability setuid,
+  capability audit_control,
+  capability audit_write,
+  capability dac_override,
+  capability dac_read_search,
+  capability sys_ptrace,
+
+  # needed when /proc is mounted with hidepid>=1
+  ptrace read peer="unconfined",
+
+  dbus send
+      bus=system
+      path=/org/freedesktop/login1
+      interface=org.freedesktop.login1.Manager
+      member={CreateSession,ReleaseSession},
+
+  /dev/ptmx rw,
+  /dev/pts/[0-9]* rw,
+  /dev/urandom r,
+  /etc/default/locale r,
+  /etc/environment r,
+  /etc/hosts.allow r,
+  /etc/hosts.deny r,
+  /etc/modules.conf r,
+  /etc/security/** r,
+  /etc/ssh/** r,
+  /etc/ssl/openssl.cnf r,
+  /usr/sbin/sshd mrix,
+  /var/log/btmp rw,
+  owner /{,var/}run/sshd{,.init}.pid wl,
+  @{HOME}/.ssh/authorized_keys{,2} r,
+
+
+  @{PROC}/cmdline r,
+  @{PROC}/1/environ r,
+  @{PROC}/@{pids}/fd/ r,  # pid of the just-logged in user's shell
+  owner @{PROC}/@{pid}/loginuid rw,
+  owner @{PROC}/@{pid}/limits r,
+  owner @{PROC}/@{pid}/uid_map r,
+  owner @{PROC}/@{pid}/mounts r,
+  owner @{PROC}/@{pid}/oom_adj rw,
+  owner @{PROC}/@{pid}/oom_score_adj rw,
+
+  # should only be here for use in non-change-hat openssh
+  # duplicated from EXEC hat (+r)
+  /bin/ash      PUxr,
+  /bin/bash     PUxr,
+  /bin/bash2    PUxr,
+  /bin/bsh      PUxr,
+  /bin/csh      PUxr,
+  /bin/dash     PUxr,
+  /bin/ksh      PUxr,
+  /bin/sh       PUxr,
+  /bin/tcsh     PUxr,
+  /bin/zsh      PUxr,
+  /bin/zsh4     PUxr,
+  /bin/zsh5     PUxr,
+  /{,usr/}sbin/nologin PUxr,
+  /bin/false    PUxr,
+
+  # XXX: this needs to be enabled otherwise we risk locking out a user
+  # Call passwd for password change when expired
+  /usr/bin/passwd Cx -> passwd,
+
+  # to set memory protection for passwd
+  @{PROC}/@{pid}/task/@{pid}/attr/exec w,
+  profile passwd {
+    #include <abstractions/authentication>
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    capability audit_write,
+    capability chown,
+    capability fsetid,
+    capability setuid,
+    capability setgid,
+
+    /usr/bin/passwd r,
+    /dev/pts/[0-9]* rw,
+    /{,var/}run/utmp rwk,
+
+    owner /etc/.pwd.lock rwk,
+    owner /etc/nshadow rw,
+    owner /etc/shadow  rw,
+    owner @{PROC}/@{pid}/loginuid r,
+
+    # XXX: put into another subprofile?
+    /usr/bin/gnome-keyring-daemon ix,
+    capability ipc_lock,
+    owner @{PROC}/@{pid}/status r,
+    owner @{HOME}/.cache/keyring-*/        rw,
+    owner @{HOME}/.cache/keyring-*/control rw,
+  }
+
+  # duplicated from AUTHENTICATED
+  /etc.legal r,
+  /etc/motd r,
+  /{,var/}run/motd{,.dynamic}{,.new} rw,
+  /tmp/ssh-[a-zA-Z0-9]*/ w,
+  /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
+
+  # for internal-sftp
+  /         r,
+  /**       r,
+  owner /** rwl,
+
+  /usr/lib/openssh/sftp-server PUx,
+
+  #
+  # default subprofile for when sshd has authenticated the user
+  #
+  #^EXEC {
+  #  #include <abstractions/base>
+
+  #  /bin/ash      PUx,
+  #  /bin/bash     PUx,
+  #  /bin/bash2    PUx,
+  #  /bin/bsh      PUx,
+  #  /bin/csh      PUx,
+  #  /bin/dash     PUx,
+  #  /bin/ksh      PUx,
+  #  /bin/sh       PUx,
+  #  /bin/tcsh     PUx,
+  #  /bin/zsh      PUx,
+  #  /bin/zsh4     PUx,
+  #  /bin/zsh5     PUx,
+  #  /bin/false    PUx,
+  #  /{,usr/}sbin/nologin PUx,
+  #}
+
+  #
+  # subprofile for handling network input (privilege seperated child)
+  #
+  #^PRIVSEP {
+  #  #include <abstractions/base>
+  #  #include <abstractions/nameservice>
+
+  #  capability sys_chroot,
+  #  capability setuid,
+  #  capability setgid,
+  #}
+
+  #
+  # subprofile that handles authentication requests from the privilege
+  # seperated child
+  #
+  #^PRIVSEP_MONITOR {
+  #  #include <abstractions/authentication>
+  #  #include <abstractions/base>
+  #  #include <abstractions/nameservice>
+  #  #include <abstractions/wutmp>
+
+  #  capability setuid,
+  #  capability setgid,
+  #  capability chown,
+
+  #  owner @{HOME}/.ssh/authorized_keys{,2} r,
+  #  /dev/ptmx rw,
+  #  /dev/pts/[0-9]* rw,
+  #  /dev/urandom r,
+  #  /etc/hosts.allow r,
+  #  /etc/hosts.deny r,
+  #  /etc/ssh/moduli r,
+  #  owner @{PROC}/@{pid}/mounts r,
+  #}
+
+
+  #
+  # subprofile for post-authentication period until the user's shell is spawned
+  #
+  #^AUTHENTICATED {
+  #  #include <abstractions/authentication>
+  #  #include <abstractions/consoles>
+  #  #include <abstractions/nameservice>
+  #  #include <abstractions/wutmp>
+
+  #  capability sys_tty_config,
+  #  capability setgid,
+  #  capability setuid,
+
+  #  /dev/log  w,
+  #  /dev/ptmx rw,
+  #  /etc/default/passwd r,
+  #  /etc/localtime r,
+  #  /etc/writable/localtime r,
+  #  /etc/login.defs r,
+  #  /etc.legal r,
+  #  /etc/motd r,
+  #  /{,var/}run/motd{,.dynamic}{,.new} rw,
+
+  #  owner /tmp/ssh-[a-zA-Z0-9]*/ w,
+  #  owner /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
+  #}
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.sshd>
+}
