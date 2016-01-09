@@ -189,6 +189,42 @@
   /bin/ps Uxr,
   /bin/uname Uxr,
 
+  /usr/bin/gpg Cx -> gpg,
+
+  profile gpg {
+    #include <abstractions/base>
+
+    # Required to import keys from keyservers
+    #include <abstractions/nameservice>
+    #include <abstractions/p11-kit>
+
+    # For smartcards?
+    /dev/bus/usb/ r,
+    /dev/bus/usb/[0-9]*/ r,
+    /dev/bus/usb/[0-9]*/[0-9]* r,
+
+    # LDAP key servers
+    /etc/ldap/ldap.conf r,
+
+    /usr/bin/gpg mr,
+    /usr/lib/gnupg/gpgkeys_* ix,
+    owner @{HOME}/.gnupg r,
+    owner @{HOME}/.gnupg/gpg.conf r,
+    owner @{HOME}/.gnupg/random_seed rwk,
+    owner @{HOME}/.gnupg/pubring.gpg{,~} rw,
+    owner @{HOME}/.gnupg/secring.gpg rw,
+    owner @{HOME}/.gnupg/trustdb.gpg rw,
+    owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
+    owner @{HOME}/.gnupg/.#*[0-9]  rw,
+    owner @{HOME}/.gnupg/.#*[0-9]x rwl,
+    owner /run/user/[0-9]*/keyring-*/gpg rw,
+
+    owner @{HOME}/** r,
+    owner /tmp/** r,
+    owner /tmp/encfile wr,
+    owner /tmp/encfile-[0-9]* wr,
+  }
+
   /usr/bin/gpg2              Cx -> gpg2,
   /usr/bin/gpgconf           Cx -> gpg2,
   /usr/bin/gpg-connect-agent Cx -> gpg2,
