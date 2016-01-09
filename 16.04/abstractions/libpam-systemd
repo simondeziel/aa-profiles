@@ -1,0 +1,9 @@
+# vim:syntax=apparmor
+
+# libpam-systemd notifies systemd-logind about session logins/logouts
+
+  dbus send
+    bus=system
+    path=/org/freedesktop/login1
+    interface=org.freedesktop.login1.Manager
+    member={CreateSession,ReleaseSession},
