@@ -72,20 +72,20 @@
 
   # should only be here for use in non-change-hat openssh
   # duplicated from EXEC hat (+r)
-  /bin/ash      PUxr,
-  /bin/bash     PUxr,
-  /bin/bash2    PUxr,
-  /bin/bsh      PUxr,
-  /bin/csh      PUxr,
-  /bin/dash     PUxr,
-  /bin/ksh      PUxr,
-  /bin/sh       PUxr,
-  /bin/tcsh     PUxr,
-  /bin/zsh      PUxr,
-  /bin/zsh4     PUxr,
-  /bin/zsh5     PUxr,
-  /{,usr/}sbin/nologin PUxr,
-  /bin/false    PUxr,
+  /bin/ash      Uxr,
+  /bin/bash     Uxr,
+  /bin/bash2    Uxr,
+  /bin/bsh      Uxr,
+  /bin/csh      Uxr,
+  /bin/dash     Uxr,
+  /bin/ksh      Uxr,
+  /bin/sh       Uxr,
+  /bin/tcsh     Uxr,
+  /bin/zsh      Uxr,
+  /bin/zsh4     Uxr,
+  /bin/zsh5     Uxr,
+  /{,usr/}sbin/nologin Uxr,
+  /bin/false    Uxr,
 
   # XXX: this needs to be enabled otherwise we risk locking out a user
   # Call passwd for password change when expired
@@ -141,20 +141,20 @@
   #^EXEC {
   #  #include <abstractions/base>
 
-  #  /bin/ash      PUx,
-  #  /bin/bash     PUx,
-  #  /bin/bash2    PUx,
-  #  /bin/bsh      PUx,
-  #  /bin/csh      PUx,
-  #  /bin/dash     PUx,
-  #  /bin/ksh      PUx,
-  #  /bin/sh       PUx,
-  #  /bin/tcsh     PUx,
-  #  /bin/zsh      PUx,
-  #  /bin/zsh4     PUx,
-  #  /bin/zsh5     PUx,
-  #  /bin/false    PUx,
-  #  /{,usr/}sbin/nologin PUx,
+  #  /bin/ash      Ux,
+  #  /bin/bash     Ux,
+  #  /bin/bash2    Ux,
+  #  /bin/bsh      Ux,
+  #  /bin/csh      Ux,
+  #  /bin/dash     Ux,
+  #  /bin/ksh      Ux,
+  #  /bin/sh       Ux,
+  #  /bin/tcsh     Ux,
+  #  /bin/zsh      Ux,
+  #  /bin/zsh4     Ux,
+  #  /bin/zsh5     Ux,
+  #  /bin/false    Ux,
+  #  /{,usr/}sbin/nologin Ux,
   #}
 
   #
