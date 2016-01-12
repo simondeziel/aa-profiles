@@ -8,6 +8,7 @@
   #include <abstractions/bash>
   #include <abstractions/dbus-session>
   #include <abstractions/dbus-strict>
+  #include <abstractions/dconf>
   #include <abstractions/enchant>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
@@ -82,11 +83,9 @@
 
   owner @{HOME}/.purple/ rw,
   owner @{HOME}/.purple/** rwk,
-  owner @{HOME}/.{cache,config}/dconf/user rw,
   owner @{HOME}/.config/indicators/ rw,
   owner @{HOME}/.config/indicators/** rw,
   owner @{HOME}/.local/share/applications/ r,
-  owner /{,var/}run/user/[0-9]*/dconf/user rwk,
 
   /bin/dash rix,
   /bin/which rix,
