@@ -254,6 +254,10 @@
     owner @{HOME}/.gnupg/.#*[0-9]x rwl,
     owner @{HOME}/** r,
 
+    # for signature verifications
+    owner /tmp/data.sig r,
+    owner /tmp/data-[0-9]*.sig r,
+
     owner /tmp/gpg-[a-zA-Z0-9]*/S.gpg-agent rw,
   }
 
