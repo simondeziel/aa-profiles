@@ -1,18 +1,14 @@
 # vim:syntax=apparmor
 # Author: Simon Deziel <simon.deziel at gmail_com>
-# This apparmor profile is provided as-is
+# This apparmor profile is derived from firefox profile
+# by Jamie Strandboge <jamie@canonical.com>
 
 # Declare an apparmor variable to help with overrides
 @{MOZ_LIBDIR}=/usr/lib/thunderbird
 
 #include <tunables/global>
 
-# We want to confine the binaries that match:
-#  /usr/lib/thunderbird/thunderbird
-#  /usr/lib/thunderbird/thunderbird
-# but not:
-#  /usr/lib/thunderbird/thunderbird.sh
-/usr/lib/thunderbird/thunderbird{,*[^s][^h]} {
+/usr/lib/thunderbird/thunderbird {
   #include <abstractions/audio>
   #include <abstractions/aspell>
   #include <abstractions/cups-client>
@@ -30,7 +26,7 @@
   #include <abstractions/ubuntu-helpers>
 
   # for crash reports?
-  ptrace (read,trace) peer=/usr/lib/thunderbird/thunderbird{,*[^s][^h]},
+  ptrace (read,trace) peer=@{profile_name},
 
   # Pulseaudio
   /usr/bin/pulseaudio Pixr,
@@ -124,7 +120,6 @@
   /sys/devices/pci[0-9]*/**/uevent r,
   owner @{HOME}/.thumbnails/*/*.png r,
   owner @{HOME}/.cache/thumbnails/*/*.png r,
-  deny @{HOME}/.cache/thumbnails/fail/*.png r,
 
   /etc/mtab r,
   /etc/fstab r,
@@ -217,12 +212,9 @@
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.#*[0-9]  rw,
     owner @{HOME}/.gnupg/.#*[0-9]x rwl,
-    owner /run/user/[0-9]*/keyring-*/gpg rw,
-
     owner @{HOME}/** r,
-    owner /tmp/** r,
-    owner /tmp/encfile wr,
-    owner /tmp/encfile-[0-9]* wr,
+
+    owner /run/user/[0-9]*/keyring-*/gpg rw,
   }
 
   /usr/bin/gpg2              Cx -> gpg2,
@@ -260,13 +252,9 @@
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.#*[0-9]  rw,
     owner @{HOME}/.gnupg/.#*[0-9]x rwl,
+    owner @{HOME}/** r,
 
     owner /tmp/gpg-[a-zA-Z0-9]*/S.gpg-agent rw,
-
-    owner @{HOME}/** r,
-    owner /tmp/encfile wr,
-    owner /tmp/encfile-[0-9]* wr,
-    owner /tmp/data.sig r,
   }
 
   # Site-specific additions and overrides. See local/README for details.
