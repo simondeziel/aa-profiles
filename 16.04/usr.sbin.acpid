@@ -1,0 +1,26 @@
+# vim:syntax=apparmor
+# Author: Simon Deziel <simon.deziel@gmail.com>
+#include <tunables/global>
+
+/usr/sbin/acpid {
+  #include <abstractions/base>
+
+  network netlink,
+
+  /usr/sbin/acpid ix,
+
+  /bin/dash ix,
+  /etc/acpi/*.sh PUx,
+
+  /etc/acpi/events/ r,
+  /etc/acpi/events/** r,
+  /dev/input/ r,
+  /dev/input/{event,mouse}[0-9]* r,
+  /dev/input/by-id/ r,
+
+  owner /run/acpid.pid w,
+  owner /run/acpid.socket w,
+  owner @{PROC}/@{pid}/fd/ r,
+
+  #include <local/usr.sbin.acpid>
+}
