@@ -8,7 +8,7 @@
 
 #include <tunables/global>
 
-/usr/lib/thunderbird/thunderbird {
+profile thunderbird /usr/lib/thunderbird/thunderbird {
   #include <abstractions/audio>
   #include <abstractions/aspell>
   #include <abstractions/cups-client>
@@ -102,24 +102,10 @@
   # TODO: investigate
   deny /usr/bin/gconftool-2 x,
 
-  # These are needed when a new user starts thunderbird and thunderbird.sh is used
-  @{MOZ_LIBDIR}/** ixr,
-  /usr/bin/basename ixr,
-  /usr/bin/dirname ixr,
-  /usr/bin/pwd ixr,
-  /sbin/killall5 ixr,
-  /bin/which ixr,
-  /usr/bin/tr ixr,
-  @{PROC}/ r,
-  @{PROC}/[0-9]*/cmdline r,
-  @{PROC}/[0-9]*/mountinfo r,
-  @{PROC}/[0-9]*/stat r,
+  owner @{PROC}/[0-9]*/mountinfo r,
+  owner @{PROC}/[0-9]*/stat r,
   owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
-  @{PROC}/[0-9]*/status r,
-  @{PROC}/filesystems r,
   /sys/devices/pci[0-9]*/**/uevent r,
-  owner @{HOME}/.thumbnails/*/*.png r,
-  owner @{HOME}/.cache/thumbnails/*/*.png r,
 
   /etc/mtab r,
   /etc/fstab r,
