@@ -6,6 +6,9 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  # for confirmation prompts
+  owner /dev/pts/[0-9]* rw,
+
   /usr/local/bin/apt-dater-host-wrapper ixr,
 
   @{PROC}/version   r,
@@ -80,6 +83,9 @@
     /usr/lib/sudo/*.so m,
 
     /dev/tty rw,
+
+    # for confirmation prompts
+    /dev/pts/[0-9]* rw,
 
     owner @{PROC}/@{pid}/stat r,
     owner @{PROC}/@{pid}/fd/ r,
