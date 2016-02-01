@@ -5,9 +5,13 @@
 /usr/sbin/unbound {
   #include <abstractions/base>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
 
-  capability chown,
-  capability dac_override,
+  # needlessly chown'ing the PID, for details see:
+  # https://www.nlnetlabs.nl/bugs-script/show_bug.cgi?id=734
+  deny capability chown,
+  deny capability dac_override,
+
   capability net_bind_service,
   capability setgid,
   capability setuid,
@@ -32,9 +36,10 @@
   audit deny /var/lib/unbound/**/unbound_control.{key,pem} rw,
   audit deny /var/lib/unbound/**/unbound_server.key w,
 
-  /etc/ssl/openssl.cnf r,
-
   /usr/sbin/unbound mr,
 
-  /{,var/}run/unbound.pid rw,
+  /{,var/}run/{unbound/,}unbound.pid rw,
+
+  # Unix control socket
+  /{,var/}run/unbound.ctl rw,
 }
