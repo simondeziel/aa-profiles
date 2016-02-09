@@ -106,7 +106,6 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   owner @{PROC}/[0-9]*/stat r,
   owner @{PROC}/[0-9]*/task/[0-9]*/stat r,
   /sys/devices/pci[0-9]*/**/uevent r,
-
   /etc/mtab r,
   /etc/fstab r,
 
@@ -201,6 +200,10 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/** r,
 
     owner /run/user/[0-9]*/keyring-*/gpg rw,
+
+    # for inline pgp
+    owner /tmp/encfile rw,
+    owner /tmp/encfile-[0-9]* rw,
   }
 
   /usr/bin/gpg2              Cx -> gpg2,
@@ -239,6 +242,10 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/.#*[0-9]  rw,
     owner @{HOME}/.gnupg/.#*[0-9]x rwl,
     owner @{HOME}/** r,
+
+    # for inline pgp
+    owner /tmp/encfile rw,
+    owner /tmp/encfile-[0-9]* rw,
 
     # for signature verifications
     owner /tmp/data.sig r,
