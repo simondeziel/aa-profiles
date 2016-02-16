@@ -70,6 +70,9 @@
   owner @{PROC}/@{pid}/oom_adj rw,
   owner @{PROC}/@{pid}/oom_score_adj rw,
 
+  /sys/fs/cgroup/*/user/*/[0-9]*/ rw,
+  /sys/fs/cgroup/systemd/user.slice/user-[0-9]*.slice/session-c[0-9]*.scope/ rw,
+
   # should only be here for use in non-change-hat openssh
   # duplicated from EXEC hat (+r)
   /bin/ash      Uxr,
