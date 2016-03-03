@@ -41,7 +41,7 @@
   capability sys_ptrace,
 
   # needed when /proc is mounted with hidepid>=1
-  ptrace read peer="unconfined",
+  ptrace (read,trace) peer="unconfined",
 
   /dev/ptmx rw,
   /dev/pts/[0-9]* rw,
