@@ -7,11 +7,6 @@
   #include <abstractions/nameservice>
   #include <abstractions/openssl>
 
-  # needlessly chown'ing the PID, for details see:
-  # https://www.nlnetlabs.nl/bugs-script/show_bug.cgi?id=734
-  deny capability chown,
-  deny capability dac_override,
-
   capability net_bind_service,
   capability setgid,
   capability setuid,
@@ -20,9 +15,6 @@
 
   # root trust anchor
   owner /var/lib/unbound/root.key* rw,
-
-  # root hints from dns-data-root
-  /usr/share/dns/root.* r,
 
   # non-chrooted paths
   /etc/unbound/** r,
