@@ -6,6 +6,7 @@
 /usr/bin/vlc {
   #include <abstractions/audio>
   #include <abstractions/base>
+  #include <abstractions/dconf>
   #include <abstractions/dbus-session>
   #include <abstractions/dbus-strict>
   #include <abstractions/gnome>
@@ -26,6 +27,12 @@
        path=/org/a11y/atspi/accessible/root
        interface=org.a11y.atspi.Socket
        member=Embed,
+
+  dbus receive
+       bus=accessibility
+       path=/org/a11y/atspi/accessible/root
+       interface=org.freedesktop.DBus.Properties
+       member=Set,
 
   dbus send
        bus=accessibility
@@ -56,7 +63,6 @@
   deny /boot/** r,
 
   /var/lib/dbus/machine-id r,
-  owner /run/user/[0-9]*/dconf/user rw,
   owner @{PROC}/@{pid}/cmdline r,
   owner @{PROC}/@{pid}/auxv r,
   owner @{PROC}/@{pid}/status r,
@@ -83,6 +89,9 @@
   # gvfs
   owner /run/user/[0-9]*/gvfs/   r,
   owner /run/user/[0-9]*/gvfs/** r,
+
+  # dconf write access
+  owner /run/user/[0-9]*/dconf/user rw,
 
   # Reading physical disks
   /dev/sr[0-9]  r,
