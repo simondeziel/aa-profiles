@@ -1,0 +1,101 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/rhythmbox {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/dbus-accessibility>
+  #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
+  #include <abstractions/gnome>
+  #include <abstractions/nameservice>
+  #include <abstractions/p11-kit>
+  #include <abstractions/python>
+
+  # rhythmbox-metad uses this
+  unix (bind, listen)
+       type=stream
+       addr="@/tmp/dbus-*",
+
+  dbus send
+      bus=system
+      path=/org/freedesktop/hostname1
+      interface=org.freedesktop.DBus.Properties
+      member=GetAll
+      peer=(label=unconfined),
+
+  # missing from abstractions/python
+  /usr/local/lib/python3.3/dist-packages/ r,
+  /usr/local/lib/python3.3/dist-packages/** r,
+
+  owner /tmp/orcexec.* mr,
+  # ... if /tmp is mounted noexec
+  owner @{HOME}/orcexec.* mr,
+  owner /run/user/[0-9]*/orcexec.* mrw,
+  owner @{HOME}/                          r,
+  owner @{HOME}/**                        rw,
+  owner @{HOME}/.cache/rhythmbox/**       rwk,
+  owner @{HOME}/.local/share/rhythmbox/** rwk,
+  owner @{HOME}/.local/share/webkit/**    rwk,
+  owner /run/user/[0-9]*/dconf/user rw,
+
+  # apport
+  /etc/default/apport r,
+
+  # allow directory listings (ie 'r' on directories) so browsing via the file
+  # dialog works
+  / r,
+  /**/ r,
+
+  # Locations that commonly contains media files
+  /{data,media,mnt,opt,srv}/** r,
+  owner /{data,media,mnt,opt,srv}/** rw,
+
+  # Reading/burning physical disks
+  /dev/sr[0-9]  rw,
+  /dev/sg[0-9]  rw,
+
+  /usr/bin/rhythmbox         mr,
+  /usr/lib/rhythmbox/**      mr,
+  deny /usr/lib/rhythmbox/plugins/**/ w,
+  deny /usr/lib/rhythmbox/plugins/**/*.pyc w,
+  /usr/lib/rhythmbox/rhythmbox-metadata ixr,
+  /usr/share/glib-2.0/schemas/gschemas.compiled r,
+  /usr/share/rhythmbox/**      r,
+  /var/lib/dbus/machine-id r,
+  /etc/fstab r,
+
+  /usr/share/gstreamer-[0-9]*/** r,
+  /usr/lib/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
+  /usr/lib/@{multiarch}/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
+
+  /usr/lib/@{multiarch}/libvisual-*/**.so mr,
+
+  # Brasero icons
+  /usr/share/brasero/icons/   r,
+  /usr/share/brasero/icons/** r,
+
+  # From abstractions/evince
+  # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
+  # Possibly move to an abstraction if anything else needs it.
+  deny /run/udev/data/** r,
+
+  # move out to the gnome abstraction if anyone else needs these
+  /dev/.udev/{data,db}/* r,
+  /etc/udev/udev.conf r,
+  /sys/devices/**/block/**/uevent r,
+
+  # For mobile devices
+  /sys/bus/ r,
+  /sys/bus/usb/devices/ r,
+  /sys/class/ r,
+  /sys/devices/**/usb[0-9]*/** r,
+
+  owner @{PROC}/@{pid}/fd/ r,
+  owner @{PROC}/@{pid}/cmdline r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.rhythmbox>
+}

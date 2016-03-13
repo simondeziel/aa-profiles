@@ -1,0 +1,47 @@
+# vim:syntax=apparmor
+# Source: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/662861/+attachment/1700207/+files/apparmor-openvpn-reproducer.sh
+#include <tunables/global>
+
+# XXX: attach_disconnected needed because of Protect{Home,System}
+/usr/sbin/openvpn flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_admin,
+  capability setuid,
+  capability setgid,
+  capability sys_chroot,
+  capability dac_override,
+  capability dac_read_search,
+
+  # For mlock support
+  capability ipc_lock,
+
+  # Interactive authentication requires this
+  /dev/tty  rw,
+  /bin/systemd-ask-password PUx,
+
+  /usr/lib/openvpn/*.so mr,
+  /dev/net/tun rw,
+
+  # helpers
+  /bin/ip ix,
+  /etc/openvpn/update-resolv-conf PUx,
+
+  # secret files only readable by root (before setuid)
+  owner /etc/openvpn/*.conf r,
+  owner /etc/openvpn/*/*    r,
+  /etc/openvpn/*/*.crt r,
+  /etc/openvpn/**/ r,
+  /var/lib/openvpn/** r,
+  /var/lib/openvpn/**/ r,
+  /var/lib/openvpn/**/tmp/ rw,
+  owner /var/lib/openvpn/**/tmp/** rw,
+  /{,var/}run/openvpn/*.{pid,status} rw,
+  /var/log/openvpn/*.log w,
+
+  /run/systemd/journal/dev-log w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.openvpn>
+}

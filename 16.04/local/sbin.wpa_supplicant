@@ -1,0 +1,3 @@
+  # XXX: nsec
+  @{PROC}/@{pid}/net/psched r,
+  @{HOME}/git/nsec/nsec-infra/pki/** r,
