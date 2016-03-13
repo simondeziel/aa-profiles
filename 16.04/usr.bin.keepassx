@@ -52,6 +52,13 @@
        member=Set
        peer=(label=unconfined),
 
+  dbus send
+       bus=accessibility
+       path=/org/freedesktop/DBus
+       interface=org.freedesktop.DBus
+       member={GetNameOwner,RemoveMatch}
+       peer=(label=unconfined),
+
   # missing from dbus abstractions?
   /usr/bin/dbus-send ix,
 
@@ -73,8 +80,12 @@
   /media/   r,
   /media/** r,
 
+  # why?
+  /usr/bin/ r,
+
   owner @{HOME}/.config/keepassx/ rw,
   owner @{HOME}/.config/keepassx/config.ini rwk,
+  owner @{HOME}/.config/keepassx/keepassx2.ini{,.*} rwk,
 
   /usr/share/keepassx/** r,
 
