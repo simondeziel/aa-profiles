@@ -78,7 +78,7 @@
 
   /usr/share/keepassx/** r,
 
-  owner @{PROC}/@{pid}/cmdline r,
+  @{PROC}/@{pid}/cmdline r,
 
   # When opening an URL, KeePassX will attempt xdg-open, gnome-open
   # then firefox.sh
