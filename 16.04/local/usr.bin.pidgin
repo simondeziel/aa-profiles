@@ -21,3 +21,7 @@
   deny /usr/lib/purple*/libyahoo.so{,.*}    rm,
   deny /usr/lib/purple*/libymsg.so{,.*}     rm,
   deny /usr/lib/purple*/libzephyr.so{,.*}   rm,
+
+  # If you want to allow Pidgin to update any DConf setting:
+  owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner /{,var/}run/user/[0-9]*/dconf/user rwk,

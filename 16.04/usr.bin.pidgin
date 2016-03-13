@@ -74,10 +74,15 @@
   /etc/udev/udev.conf r,
   /sys/bus/           r,
   /sys/class/         r,
+  /dev/               r,
 
+  # to put into an abstraction?
   owner @{HOME}/.gstreamer*/ rw,
   owner @{HOME}/.gstreamer*/** rw,
   owner @{HOME}/.cache/gstreamer*/** rw,
+
+  # XXX: the abstractions/ubuntu-browsers.d/ubuntu-integration
+  #      needs to support gstreamer-1.0
   /usr/lib/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
   /usr/lib/@{multiarch}/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
 
@@ -86,6 +91,11 @@
   owner @{HOME}/.config/indicators/ rw,
   owner @{HOME}/.config/indicators/** rw,
   owner @{HOME}/.local/share/applications/ r,
+
+  # Uncomment the two following lines if you want to allow Pidgin to update
+  # any DConf setting:
+  # owner @{HOME}/.{cache,config}/dconf/user rw,
+  # owner /{,var/}run/user/[0-9]*/dconf/user rwk,
 
   /bin/dash rix,
   /bin/which rix,
