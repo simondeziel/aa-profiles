@@ -1,0 +1,68 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+# TODO: support more than VNC client
+
+#include <tunables/global>
+
+/usr/bin/remmina {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/dbus-accessibility-strict>
+  #include <abstractions/dbus-session>
+  #include <abstractions/dbus-strict>
+  #include <abstractions/dconf>
+  #include <abstractions/gnome>
+  #include <abstractions/ibus>
+  #include <abstractions/nameservice>
+  #include <abstractions/X>
+
+  dbus send
+      bus=system
+      path=/org/freedesktop/hostname1
+      interface=org.freedesktop.DBus.Properties
+      member=GetAll,
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/accessible/root
+       interface=org.a11y.atspi.Socket
+       member=Embed,
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/registry
+       interface=org.a11y.atspi.Registry
+       member=GetRegisteredEvents,
+
+  dbus receive
+       bus=accessibility
+       path=/org/a11y/atspi/registry
+       interface=org.a11y.atspi.Registry
+       member=EventListenerDeregistered,
+
+  dbus send
+       bus=accessibility
+       path=/org/a11y/atspi/registry/deviceeventcontroller
+       interface=org.a11y.atspi.DeviceEventController
+       member={GetKeystrokeListeners,GetDeviceEventListeners},
+
+  dbus receive
+       bus=accessibility
+       path=/org/a11y/atspi/accessible/root
+       interface=org.freedesktop.DBus.Properties
+       member=Set,
+
+  /usr/share/glib-2.0/schemas/gschemas.compiled r,
+
+  owner @{HOME}/.remmina/   rw,
+  owner @{HOME}/.remmina/** rw,
+  owner @{HOME}/.config/autostart/remmina-applet.desktop{,.*} rw,
+  owner @{HOME}/.config/gtk-3.0/bookmarks r,
+
+  # allow updating any DConf setting:
+  owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner /{,var/}run/user/[0-9]*/dconf/user rwk,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.remmina>
+}
