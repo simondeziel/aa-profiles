@@ -1,0 +1,11 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+/usr/lib/openssh/sftp-server {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  /         r,
+  /**       r,
+  owner /** rwl,
+}
