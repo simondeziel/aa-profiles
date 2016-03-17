@@ -15,6 +15,7 @@
   # compile fails because of abstractions/base
   # necessary evil
   #/**/.git/hooks/**   PUx,
+  /etc/.git/hooks/**  PUx,
 
   # editor
   /usr/bin/vim   PUx,
