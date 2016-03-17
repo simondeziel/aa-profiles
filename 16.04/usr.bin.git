@@ -20,6 +20,10 @@
   /usr/bin/vim   PUx,
   /usr/bin/vim.* PUx,
 
+  # pager
+  /bin/less PUx,
+  /bin/more PUx,
+
   /   r,
   /** rkl,
   owner /** rwkl,
