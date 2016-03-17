@@ -16,9 +16,13 @@
   # necessary evil
   #/**/.git/hooks/**   PUx,
 
+  # editor
+  /usr/bin/vim   PUx,
+  /usr/bin/vim.* PUx,
+
   /   r,
-  /** r,
-  owner /** rw,
+  /** rkl,
+  owner /** rwkl,
 
   /bin/dash Cx -> dash,
   profile dash {
