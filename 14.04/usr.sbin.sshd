@@ -20,7 +20,7 @@
   #include <abstractions/authentication>
   #include <abstractions/base>
   #include <abstractions/consoles>
-  #include <abstractions/dbus-strict>
+  #include <abstractions/libpam-systemd>
   #include <abstractions/nameservice>
   #include <abstractions/wutmp>
 
@@ -41,13 +41,7 @@
   capability sys_ptrace,
 
   # needed when /proc is mounted with hidepid>=1
-  ptrace read peer="unconfined",
-
-  dbus send
-      bus=system
-      path=/org/freedesktop/login1
-      interface=org.freedesktop.login1.Manager
-      member={CreateSession,ReleaseSession},
+  ptrace (read,trace) peer="unconfined",
 
   /dev/ptmx rw,
   /dev/pts/[0-9]* rw,
@@ -75,6 +69,9 @@
   owner @{PROC}/@{pid}/mounts r,
   owner @{PROC}/@{pid}/oom_adj rw,
   owner @{PROC}/@{pid}/oom_score_adj rw,
+
+  /sys/fs/cgroup/*/user/*/[0-9]*/ rw,
+  /sys/fs/cgroup/systemd/user.slice/user-[0-9]*.slice/session-c[0-9]*.scope/ rw,
 
   # should only be here for use in non-change-hat openssh
   # duplicated from EXEC hat (+r)
