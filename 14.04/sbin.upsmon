@@ -25,6 +25,7 @@
   /bin/dash Cx -> dash,
   profile dash {
     #include <abstractions/base>
+    #include <abstractions/nameservice>
     /bin/dash r,
     /usr/bin/wall PUx,
   }
