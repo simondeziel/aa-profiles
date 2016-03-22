@@ -34,6 +34,10 @@
     #include <abstractions/base>
     /bin/dash           rm,
     /usr/lib/git-core/* Px -> /usr/bin/git,
+
+    # editor
+    /usr/bin/vim   PUx,
+    /usr/bin/vim.* PUx,
   }
 
   # transports
