@@ -230,6 +230,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     /etc/ldap/ldap.conf r,
 
     /usr/bin/gpg-connect-agent mr,
+    owner @{HOME}/.gnupg/S.gpg-agent rw,
 
     /usr/bin/gpg2 mr,
     owner @{HOME}/.gnupg/ rw,
@@ -239,8 +240,10 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/secring.gpg rw,
     owner @{HOME}/.gnupg/trustdb.gpg rw,
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
-    owner @{HOME}/.gnupg/.#*[0-9]  rw,
-    owner @{HOME}/.gnupg/.#*[0-9]x rwl,
+    owner @{HOME}/.gnupg/.gpg-*.lock rwl,
+    owner @{HOME}/.gnupg/gnupg_spawn_*.lock rwl,
+    owner @{HOME}/.gnupg/.#lk0x[0-9a-f]* rw,
+    owner @{HOME}/.gnupg/.gpg-v[0-9]*-migrated rw,
     owner @{HOME}/** r,
 
     # for inline pgp
