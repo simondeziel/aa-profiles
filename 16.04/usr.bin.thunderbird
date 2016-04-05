@@ -231,6 +231,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
 
     /usr/bin/gpg-connect-agent mr,
     owner @{HOME}/.gnupg/S.gpg-agent rw,
+    owner @{HOME}/.gnupg/S.dirmngr rw,
 
     /usr/bin/gpg2 mr,
     owner @{HOME}/.gnupg/ rw,
@@ -242,7 +243,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.gpg-*.lock rwl,
     owner @{HOME}/.gnupg/gnupg_spawn_*.lock rwl,
-    owner @{HOME}/.gnupg/.#lk0x[0-9a-f]* rw,
+    owner @{HOME}/.gnupg/.#lk0x[0-9a-f]* rwl,
     owner @{HOME}/.gnupg/.gpg-v[0-9]*-migrated rw,
     owner @{HOME}/** r,
 
