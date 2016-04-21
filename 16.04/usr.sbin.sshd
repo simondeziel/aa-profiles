@@ -28,7 +28,6 @@
   capability sys_resource,
   capability sys_tty_config,
   capability net_bind_service,
-  capability net_admin,
   capability chown,
   capability fowner,
   capability kill,
@@ -39,6 +38,11 @@
   capability dac_override,
   capability dac_read_search,
   capability sys_ptrace,
+
+  # sshd doesn't require net_admin. libpam-systemd tries to
+  # use it if available to set the send/receive buffers size,
+  # but will fall back to a non-privileged version if it fails.
+  deny capability net_admin,
 
   # needed when /proc is mounted with hidepid>=1
   ptrace (read,trace) peer="unconfined",
