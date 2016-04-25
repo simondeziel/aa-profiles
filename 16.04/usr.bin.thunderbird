@@ -254,6 +254,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/.#lk0x[0-9a-f]* rwl,
     owner @{HOME}/.gnupg/.gpg-v[0-9]*-migrated rw,
     owner @{HOME}/** r,
+    owner @{PROC}/@{pids}/mountinfo r,
 
     # for inline pgp
     owner /tmp/encfile rw,
