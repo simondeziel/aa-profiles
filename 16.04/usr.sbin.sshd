@@ -59,10 +59,10 @@
   /etc/ssh/** r,
   /etc/ssl/openssl.cnf r,
   /usr/sbin/sshd mrix,
+  /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,
   owner /{,var/}run/sshd{,.init}.pid wl,
   @{HOME}/.ssh/authorized_keys{,2} r,
-
 
   @{PROC}/cmdline r,
   @{PROC}/1/environ r,
@@ -77,8 +77,6 @@
   /sys/fs/cgroup/*/user/*/[0-9]*/ rw,
   /sys/fs/cgroup/systemd/user.slice/user-[0-9]*.slice/session-c[0-9]*.scope/ rw,
 
-  # should only be here for use in non-change-hat openssh
-  # duplicated from EXEC hat (+r)
   /bin/ash      Uxr,
   /bin/bash     Uxr,
   /bin/bash2    Uxr,
@@ -128,7 +126,6 @@
     owner @{HOME}/.cache/keyring-*/control rw,
   }
 
-  # duplicated from AUTHENTICATED
   /etc.legal r,
   /etc/motd r,
   /{,var/}run/motd{,.dynamic}{,.new} rw,
