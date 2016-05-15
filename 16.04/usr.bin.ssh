@@ -30,7 +30,12 @@
   /usr/lib/ssh/ssh-askpass mix,
 
   owner /dev/pts/[0-9]* rw,
+  owner /tmp/ssh-*/ rw,
+  owner /tmp/ssh-*/agent.@{pid} rw,
+  owner /run/user/[0-9]*/keyring*/ssh rw,
+  owner @{PROC}/@{pid}/fd/ r,
 
+  # human users
   owner @{HOME}/.ssh/   rw,
   owner @{HOME}/.ssh/** rl,
   owner @{HOME}/.ssh/known_hosts{,.*} rwl,
@@ -39,10 +44,16 @@
   audit deny @{HOME}/.ssh/authorized_keys{,2} rw,
   audit deny @{HOME}/.ssh/config w,
   audit deny @{HOME}/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
-  owner /tmp/ssh-*/ rw,
-  owner /tmp/ssh-*/agent.@{pid} rw,
-  owner /run/user/[0-9]*/keyring*/ssh rw,
-  owner @{PROC}/@{pid}/fd/ r,
+
+  # system users
+  owner /var/lib/*/.ssh/   rw,
+  owner /var/lib/*/.ssh/** rl,
+  owner /var/lib/*/.ssh/known_hosts{,.*} rwl,
+  owner /var/lib/*/.ssh/*control*[0-9][0-9]* rwl,
+  owner /var/lib/*/.ssh/control/** rwl,
+  audit deny /var/lib/*/.ssh/authorized_keys{,2} rw,
+  audit deny /var/lib/*/.ssh/config w,
+  audit deny /var/lib/*/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
 
   # for ProxyCommand
   /bin/ash      Cx -> proxycommand,
