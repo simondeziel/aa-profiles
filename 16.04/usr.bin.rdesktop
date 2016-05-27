@@ -20,8 +20,9 @@
   /etc/mtab r,
   /etc/gssapi_mech.conf r,
 
-  owner @{HOME}/**           r,
-  owner @{HOME}/.rdesktop/** rwk,
+  owner @{HOME}/**            r,
+  owner @{HOME}/.rdesktop/**  rwk,
+  owner @{PROC}/@{pid}/mounts r,
 
   /usr/share/rdesktop/**	r,
 
