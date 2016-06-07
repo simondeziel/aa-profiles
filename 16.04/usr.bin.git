@@ -4,6 +4,7 @@
 
 /usr/bin/git {
   #include <abstractions/base>
+  #include <abstractions/nameservice>
 
   capability dac_override,
   capability dac_read_search,
@@ -17,13 +18,39 @@
   #/**/.git/hooks/**   PUx,
   /etc/.git/hooks/**  PUx,
 
+  # needed when parent process is contained by Apparmor
+  /dev/pts/[0-9]* rw,
+
   # editor
   /usr/bin/vim   PUx,
   /usr/bin/vim.* PUx,
 
+  # gpg
+  /usr/bin/gpg   PUx,
+  /usr/bin/gpg2  PUx,
+
   # pager
   /bin/less PUx,
   /bin/more PUx,
+
+  # utilities
+  /bin/cat          PUx,
+  /bin/cp           PUx,
+  /bin/grep         PUx,
+  /bin/mkdir        PUx,
+  /bin/mv           PUx,
+  /bin/rm           PUx,
+  /bin/sed          PUx,
+  /bin/uname        PUx,
+  /usr/bin/cut      PUx,
+  /usr/bin/envsubst PUx,
+  /usr/bin/expr     PUx,
+  /usr/bin/gettext  PUx,
+  /usr/bin/tr       PUx,
+  /usr/bin/wc       PUx,
+
+  # for --help
+  /usr/bin/man PUx,
 
   /   r,
   /** rkl,
