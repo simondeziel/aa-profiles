@@ -229,6 +229,8 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     deny owner @{HOME}/.thunderbird/**/*.msf w,
     deny owner @{HOME}/.cache/thunderbird/**/_CACHE_* w,
 
+    /usr/share/xul-ext/enigmail/chrome/enigmail.jar r,
+
     # For smartcards?
     /dev/bus/usb/ r,
     /dev/bus/usb/[0-9]*/ r,
