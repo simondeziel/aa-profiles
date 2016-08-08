@@ -28,6 +28,8 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # for crash reports?
   ptrace (read,trace) peer=@{profile_name},
 
+  /usr/lib/thunderbird/thunderbird ixr,
+
   # Pulseaudio
   /usr/bin/pulseaudio Pixr,
 
