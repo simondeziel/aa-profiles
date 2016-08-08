@@ -146,7 +146,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   owner @{HOME}/.cache/thunderbird/** rw,
 
   # system emails
-  owner /var/mail/* rwl,
+  owner /var/mail/* rwlk,
 
   #
   # Extensions
