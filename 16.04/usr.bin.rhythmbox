@@ -23,8 +23,13 @@
       bus=system
       path=/org/freedesktop/hostname1
       interface=org.freedesktop.DBus.Properties
-      member=GetAll
-      peer=(label=unconfined),
+      member=GetAll,
+
+  dbus send
+      bus=system
+      path=/org/freedesktop/NetworkManager
+      interface=org.freedesktop.DBus.Properties
+      member=GetAll,
 
   # missing from abstractions/python
   /usr/local/lib/python3.3/dist-packages/ r,
@@ -73,9 +78,15 @@
 
   /usr/lib/@{multiarch}/libvisual-*/**.so mr,
 
+  # libquvi-scripts
+  /usr/share/libquvi-scripts/lua/**/*.lua r,
+
   # Brasero icons
   /usr/share/brasero/icons/   r,
   /usr/share/brasero/icons/** r,
+
+  # grilo
+  /usr/share/grilo-plugins/** r,
 
   # From abstractions/evince
   # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
@@ -86,6 +97,7 @@
   /dev/.udev/{data,db}/* r,
   /etc/udev/udev.conf r,
   /sys/devices/**/block/**/uevent r,
+  /sys/devices/system/node/node*/meminfo r,
 
   # For mobile devices
   /sys/bus/ r,
@@ -93,8 +105,12 @@
   /sys/class/ r,
   /sys/devices/**/usb[0-9]*/** r,
 
+  owner @{PROC}/@{pid}/mountinfo r,
   owner @{PROC}/@{pid}/fd/ r,
   owner @{PROC}/@{pid}/cmdline r,
+
+  # why is it trying to read others' status?
+  @{PROC}/@{pids}/status r,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.rhythmbox>
