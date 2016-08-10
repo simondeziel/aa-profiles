@@ -1,0 +1,37 @@
+#include <tunables/global>
+
+/usr/sbin/winbindd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/samba>
+
+  deny capability block_suspend,
+
+  capability dac_override,
+  capability ipc_lock,
+  capability setuid,
+
+  /etc/samba/netlogon_creds_cli.tdb rwk,
+  /etc/samba/passdb.tdb{,.tmp} rwk,
+  /etc/samba/secrets.tdb rwk,
+  /etc/samba/smbd.tmp/ rw,
+  /etc/samba/smbd.tmp/msg/ rw,
+  /etc/samba/smbd.tmp/msg/* rwk,
+  @{PROC}/sys/kernel/core_pattern r,
+  /tmp/.winbindd/ w,
+  /tmp/krb5cc_* rwk,
+  /usr/lib*/samba/idmap/*.so mr,
+  /usr/lib*/samba/nss_info/*.so mr,
+  /usr/lib*/samba/pdb/*.so mr,
+  /usr/sbin/winbindd mr,
+  /var/cache/krb5rcache/* rw,
+  /var/cache/samba/*.tdb rwk,
+  /var/log/samba/log.winbindd rw,
+  /{var/,}run/samba/winbindd.pid rwk,
+  /{var/,}run/samba/winbindd/ rw,
+  /{var/,}run/samba/winbindd/pipe w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.winbindd>
+
+}
