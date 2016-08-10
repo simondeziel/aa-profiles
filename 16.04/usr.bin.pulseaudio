@@ -27,10 +27,6 @@
 
   /usr/bin/pulseaudio mixr,
 
-  /dev/null rw,
-  /dev/random r,
-  /dev/urandom r,
-
   /etc/pulse/ r,
   /etc/pulse/* r,
   /etc/udev/udev.conf r,
