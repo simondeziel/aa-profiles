@@ -16,6 +16,12 @@
        member={MakeThreadRealtime,MakeThreadHighPriority}
        peer=(name=org.freedesktop.RealtimeKit1),
 
+  dbus send
+       bus=system
+       path=/org/freedesktop/RealtimeKit1
+       interface=org.freedesktop.DBus.Properties
+       member=Get,
+
   unix (connect, receive, send) type=stream peer=(addr="@/tmp/.ICE-unix/[0-9]*"),
   ptrace (read,trace) peer=@{profile_name},
 
