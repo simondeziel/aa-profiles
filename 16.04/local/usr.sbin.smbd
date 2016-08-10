@@ -1,14 +1,6 @@
 # Site-specific additions and overrides for usr.sbin.smbd.
 # For more details, please see /etc/apparmor.d/local/README.
 
-  # Missing capabilities
-  capability audit_write,
-
-  # Missing rules
-  /usr/lib/@{multiarch}/samba/*.so{,.[0-9]*}    mr,
-  /usr/lib/@{multiarch}/samba/**/               r,
-  /usr/lib/@{multiarch}/samba/**/*.so{,.[0-9]*} mr,
-
   # XXX: the main profile should include
   # tunable.d/samba
   # tunable.d/samba.d
