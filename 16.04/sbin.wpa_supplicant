@@ -20,10 +20,9 @@
   /run/wpa_supplicant/ rw,
   /run/wpa_supplicant/** rw,
 
-  # Convenient for transcoding
-  @{HOME}/                  r,
-  @{HOME}/**/               r,
-  @{HOME}/.config/wpasupplicant/**  rk,
+  @{HOME}/   r,
+  @{HOME}/** r,
+  @{HOME}/.config/wpasupplicant/** rk,
 
   /run/dbus/system_bus_socket rw,
   /run/sendsigs.omit.d/wpasupplicant.pid rw,
