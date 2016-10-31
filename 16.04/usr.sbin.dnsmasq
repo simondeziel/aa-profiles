@@ -12,7 +12,7 @@
 @{TFTP_DIR}=/var/tftp /srv/tftpboot
 
 #include <tunables/global>
-/usr/sbin/dnsmasq {
+/usr/sbin/dnsmasq flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/dbus>
   #include <abstractions/nameservice>
@@ -73,6 +73,10 @@
   # lxc-net pid and lease files
   /{,var/}run/lxc/dnsmasq.pid    rw,
   /var/lib/misc/dnsmasq.*.leases rw,
+
+  # lxd-bridge pid and lease files
+  /{,var/}run/lxd-bridge/dnsmasq.pid   rw,
+  /var/lib/lxd-bridge/dnsmasq.*.leases rw,
 
   # NetworkManager integration
   /{,var/}run/nm-dns-dnsmasq.conf r,
