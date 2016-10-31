@@ -42,6 +42,7 @@
   /bin/rm           PUx,
   /bin/sed          PUx,
   /bin/uname        PUx,
+  /usr/bin/basename PUx,
   /usr/bin/cut      PUx,
   /usr/bin/envsubst PUx,
   /usr/bin/expr     PUx,
