@@ -18,6 +18,8 @@
   /bin/cp Cx -> cp_fallback,
   profile cp_fallback {
     #include <abstractions/base>
+    capability chown,
+    capability fowner,
     owner /** rw,
     /** r,
   }
