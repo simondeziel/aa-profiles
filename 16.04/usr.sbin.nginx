@@ -24,6 +24,7 @@
   /{,var/}run/nginx.pid.oldbin rw,
 
   # document root
+  /var/www/                 r,
   /var/www/**               r,
   /usr/share/nginx/**       r,
 
