@@ -25,6 +25,8 @@
     #include <abstractions/authentication>
     #include <abstractions/wutmp>
 
+    signal (send) peer=/usr/local/bin/backuppc-wrapper//rsync,
+
     capability audit_write,
     capability sys_ptrace,
     capability sys_resource,
@@ -53,6 +55,8 @@
 
   profile rsync {
     #include <abstractions/base>
+
+    signal (receive) peer=/usr/local/bin/backuppc-wrapper//sudo_rsync,
 
     capability dac_override,
     capability dac_read_search,
