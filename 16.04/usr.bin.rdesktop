@@ -17,6 +17,9 @@
   / r,
   /**/ r,
 
+  /etc/machine-id r,
+  /var/lib/dbus/machine-id r,
+
   /etc/mtab r,
   /etc/gssapi_mech.conf r,
 
