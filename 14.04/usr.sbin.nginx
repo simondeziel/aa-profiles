@@ -24,13 +24,16 @@
   /{,var/}run/nginx.pid.oldbin rw,
 
   # document root
+  /var/www/                 r,
   /var/www/**               r,
   /usr/share/nginx/**       r,
 
   # backend unix sockets
-  owner /{,var/}run/php*.sock rw,
-  owner /{,var/}run/php/*.sock rw,
-  owner /{,var/}run/thin/*.sock rw,
+  /{,var/}run/php*.sock rw,
+  /{,var/}run/php/*.sock rw,
+  /{,var/}run/php/**/*.sock rw,
+  /{,var/}run/thin/*.sock rw,
+  /{,var/}run/thin/**/*.sock rw,
 
   # cache
   /var/cache/nginx/               r,
