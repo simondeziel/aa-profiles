@@ -1,0 +1,26 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/xfreerdp {
+  #include <abstractions/audio>
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/private-files-strict>
+  #include <abstractions/user-tmp>
+  #include <abstractions/X>
+
+  owner @{HOME}/.config/freerdp/ rw,
+  owner @{HOME}/.config/freerdp/** rw,
+
+  # Interactive authentication requires this
+  /dev/tty  rw,
+
+  /usr/lib/@{multiarch}/freerdp/*.so rm,
+
+  /etc/timezone r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.xfreerdp>
+}
