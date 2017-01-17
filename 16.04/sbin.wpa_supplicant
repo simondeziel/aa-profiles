@@ -10,6 +10,7 @@
   capability net_raw,
   capability dac_override,
   capability dac_read_search,
+  capability sys_module,
   network inet dgram,
   network inet raw,
   network packet dgram,
