@@ -2,7 +2,8 @@
 
 #include <tunables/global>
 
-/usr/sbin/nginx {
+# XXX: attach_disconnected needed if using systemd Protect{Home,System}
+/usr/sbin/nginx flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/ssl_certs>
