@@ -21,6 +21,9 @@
   # needed when parent process is contained by Apparmor
   /dev/pts/[0-9]* rw,
 
+  # for password prompts
+  /dev/tty rw,
+
   # editor
   /usr/bin/vim   PUx,
   /usr/bin/vim.* PUx,
