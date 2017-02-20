@@ -47,6 +47,9 @@
   # needed when /proc is mounted with hidepid>=1
   ptrace (read,trace) peer="unconfined",
 
+  # required within a container/namespace
+  unix (send,receive) type=stream addr=none,
+
   /dev/ptmx rw,
   /dev/pts/[0-9]* rw,
   /dev/urandom r,
