@@ -6,6 +6,8 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  /bin/dash r,
+
   # for confirmation prompts
   owner /dev/pts/[0-9]* rw,
 
@@ -68,6 +70,8 @@
     #include <abstractions/wutmp>
 
     capability audit_write,
+    capability dac_override,
+    capability dac_read_search,
     capability sys_ptrace,
     capability sys_resource,
     capability setuid,
@@ -87,8 +91,8 @@
     # for confirmation prompts
     /dev/pts/[0-9]* rw,
 
-    owner @{PROC}/@{pid}/stat r,
-    owner @{PROC}/@{pid}/fd/ r,
+    @{PROC}/@{pid}/stat r,
+    @{PROC}/@{pid}/fd/ r,
 
     /usr/bin/apt-get PUx,
   }

@@ -27,6 +27,8 @@
     #include <abstractions/wutmp>
 
     capability audit_write,
+    capability dac_override,
+    capability dac_read_search,
     capability sys_ptrace,
     capability sys_resource,
     capability setuid,
@@ -43,7 +45,7 @@
 
     /dev/tty rw,
 
-    owner @{PROC}/@{pid}/stat r,
+    @{PROC}/@{pid}/stat r,
     @{PROC}/@{pid}/fd/ r,
     /usr/{,local/}lib/nagios/plugins/ r,
     /usr/{,local/}lib/nagios/plugins/** PUx,

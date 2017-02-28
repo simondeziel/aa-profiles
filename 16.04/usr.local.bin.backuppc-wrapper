@@ -6,6 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  /bin/dash r,
   /usr/local/bin/backuppc-wrapper r,
 
   @{PROC}/version   r,
@@ -28,6 +29,8 @@
     signal (send) peer=/usr/local/bin/backuppc-wrapper//rsync,
 
     capability audit_write,
+    capability dac_override,
+    capability dac_read_search,
     capability sys_ptrace,
     capability sys_resource,
     capability setuid,
@@ -44,8 +47,8 @@
 
     /dev/tty rw,
 
-    owner @{PROC}/@{pid}/stat r,
-    owner @{PROC}/@{pid}/fd/ r,
+    @{PROC}/@{pid}/stat r,
+    @{PROC}/@{pid}/fd/ r,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
