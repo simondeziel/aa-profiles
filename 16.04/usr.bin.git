@@ -60,6 +60,9 @@
   /** rkl,
   owner /** rwkl,
 
+  # perl .so
+  /usr/lib/@{multiarch}/perl/**/*.so mr,
+
   /bin/dash Cx -> dash,
   profile dash {
     #include <abstractions/base>
