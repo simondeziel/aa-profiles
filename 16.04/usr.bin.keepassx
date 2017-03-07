@@ -64,6 +64,7 @@
 
   /etc/xdg/sni-qt.conf rk,
   /etc/xdg/Trolltech.conf rk,
+  /usr/share/icons/**/*.theme k,
   /usr/share/themes/** r,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
   /usr/lib/@{multiarch}/gtk-[0-9]*/**.so mr,

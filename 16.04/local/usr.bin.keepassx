@@ -3,3 +3,4 @@
 
   owner @{HOME}/.gnupg/kp/  r,
   owner @{HOME}/.gnupg/kp/* rw,
+  owner @{HOME}/.gnupg/kp/*.lock k,
