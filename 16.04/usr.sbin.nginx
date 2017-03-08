@@ -43,7 +43,7 @@
   owner /run/shm/nginx-cache/**   rw,
 
   # reexec during upgrade
-  /usr/sbin/nginx           ix,
+  /usr/sbin/nginx           rix,
   /var/lib/nginx/**         rw,
 
   # documentation
