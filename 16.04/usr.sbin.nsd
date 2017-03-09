@@ -1,0 +1,35 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/sbin/nsd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_admin,
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability sys_chroot,
+  capability chown,
+  capability dac_override,
+
+  /etc/nsd/**          r,
+  owner /etc/nsd/slave/** rw,
+  owner /etc/nsd/*.key r,
+  /var/lib/nsd/   r,
+  /var/lib/nsd/** r,
+  owner /var/lib/nsd/nsd.db     rw,
+  owner /var/lib/nsd/xfrd.state rw,
+  owner /tmp/nsd.@{pid}.task.[0-9]* rw,
+  owner /tmp/nsd-xfr-@{pid}/    rw,
+  owner /tmp/nsd-xfr-@{pid}/*   rw,
+  /var/log/nsd.log w,
+
+  /usr/sbin/nsd mr,
+
+  /{,var/}run/nsd/nsd.pid rw,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.nsd>
+}
