@@ -1,0 +1,26 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+# XXX: attach_disconnected needed if using systemd Protect{Home,System}
+/usr/sbin/haproxy flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  network inet stream,
+  network inet6 stream,
+
+  capability chown,
+  capability dac_override,
+  capability fsetid,
+  capability setuid,
+  capability setgid,
+  capability sys_chroot,
+
+  /etc/haproxy/** r,
+
+  owner /run/haproxy/** rwl,
+  owner /run/haproxy.pid w,
+
+  #include <local/usr.sbin.haproxy>
+}
