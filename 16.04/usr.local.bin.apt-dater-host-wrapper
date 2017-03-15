@@ -72,6 +72,7 @@
     capability audit_write,
     capability dac_override,
     capability dac_read_search,
+    capability net_admin,
     capability sys_ptrace,
     capability sys_resource,
     capability setuid,
