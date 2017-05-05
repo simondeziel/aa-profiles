@@ -1,0 +1,25 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/sbin/radvd {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability dac_override,
+  capability net_raw,
+  capability setuid,
+  capability setgid,
+  capability sys_chroot,
+  network inet6 raw,
+
+  /etc/radvd.conf r,
+  /var/log/radvd.log w,
+  /run/radvd/  rw,
+  /run/radvd/* rw,
+  @{PROC}/sys/net/ipv6/conf/*/forwarding r,
+  @{PROC}/sys/net/ipv6/conf/*/hop_limit  w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.radvd>
+}
