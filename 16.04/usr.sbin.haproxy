@@ -13,11 +13,13 @@
   capability chown,
   capability dac_override,
   capability fsetid,
+  capability kill,
   capability setuid,
   capability setgid,
   capability sys_chroot,
 
   /etc/haproxy/** r,
+  /var/lib/haproxy/dev/log w,
 
   owner /run/haproxy/** rwl,
   owner /run/haproxy.pid w,
