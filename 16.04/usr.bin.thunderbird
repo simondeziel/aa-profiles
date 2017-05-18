@@ -196,6 +196,8 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     #include <abstractions/nameservice>
     #include <abstractions/p11-kit>
 
+    /usr/share/xul-ext/enigmail/chrome/enigmail.jar r,
+
     # For smartcards?
     /dev/bus/usb/ r,
     /dev/bus/usb/[0-9]*/ r,
