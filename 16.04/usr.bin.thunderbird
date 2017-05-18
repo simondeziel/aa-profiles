@@ -51,6 +51,10 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # rw access to HOME is useful when sending/receiving attachments
   owner @{HOME}/** rw,
 
+  # other commonly used locations
+  /{data,media,mnt,srv}/** r,
+  owner /{data,media,mnt,srv}/** rw,
+
   # Required for LVM setups
   /sys/devices/virtual/block/dm-[0-9]*/uevent r,
 
