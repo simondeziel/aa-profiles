@@ -25,6 +25,12 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
 
+  # For Xubuntu to launch the browser
+  /usr/bin/exo-open ixr,
+  /usr/lib/@{multiarch}/xfce4/exo-1/exo-helper-1 ixr,
+  /etc/xdg/xdg-xubuntu/xfce4/helpers.rc r,
+  /etc/xdg/xfce4/helpers.rc r,
+
   # for crash reports?
   ptrace (read,trace) peer=@{profile_name},
 
