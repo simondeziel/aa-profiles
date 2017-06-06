@@ -25,5 +25,6 @@
   /{var/spool/postfix/,}pid/unix.*       rwk,
   /{var/spool/postfix/,}private/bounce   rwk,
   /{var/spool/postfix/,}private/defer    rwk,
+  /{var/spool/postfix/,}private/trace    rwk,
   /{var/spool/postfix/,}private/verify   rwk,
 }
