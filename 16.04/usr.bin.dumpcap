@@ -1,0 +1,30 @@
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/dumpcap {
+  #include <abstractions/base>
+
+  # TCP/UDP network access
+  network inet  stream,
+  network inet6 stream,
+  network inet  dgram,
+  network inet6 dgram,
+
+  network netlink raw,
+  network raw,
+  network packet,
+
+  # for finding an interface
+  @{PROC}/[0-9]*/net/dev r,
+  /sys/bus/usb/devices/ r,
+  /sys/class/net/ r,
+  /sys/devices/**/net/* r,
+
+  /usr/bin/dumpcap r,
+
+  /usr/share/GeoIP/ r,
+  /usr/share/GeoIP/** r,
+
+  @{PROC}/@{pid}/net/psched r,
+}

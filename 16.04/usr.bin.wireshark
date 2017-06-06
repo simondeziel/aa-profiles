@@ -1,0 +1,88 @@
+# vim:syntax=apparmor
+# Last Modified: Thu Aug 25 13:37:56 2005
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+#include <tunables/global>
+
+/usr/bin/wireshark {
+  #include <abstractions/base>
+  #include <abstractions/bash>
+  #include <abstractions/consoles>
+  #include <abstractions/dconf>
+  #include <abstractions/dbus-session-strict>
+  #include <abstractions/ibus>
+  #include <abstractions/kde>
+  #include <abstractions/nameservice>
+  #include <abstractions/gnome>
+  #include <abstractions/user-write>
+  #include <abstractions/X>
+
+  # XXX: not upstream (sdeziel)
+  # for menus
+  #include <abstractions/dbus-session>
+
+  #include <abstractions/dbus-accessibility-strict>
+  dbus (send)
+       bus=session
+       peer=(name=org.a11y.Bus),
+  dbus (receive)
+       bus=session
+       interface=org.a11y.atspi**,
+  dbus (receive, send)
+       bus=accessibility,
+
+  capability net_raw,
+
+  # From abstractions/evince
+  deny /run/udev/data/** r,
+
+  /etc/ethers r,
+  /etc/udev/udev.conf r,
+  /etc/wireshark/** r,
+
+  owner @{HOME}/.wireshark/* rw,
+  owner @{HOME}/.config/wireshark/* rw,
+  owner @{HOME}/.config/QtProject.conf rw,
+  owner @{HOME}/.config/QtProject.conf.lock rw,
+  owner @{HOME}/.fonts.cache-* r,
+
+  owner @{HOME}/.config/dconf/user w,
+  owner /{,var/}run/user/*/dconf/user w,
+  owner @{PROC}/@{pid}/cmdline r,
+  owner @{PROC}/@{pid}/fd/ r,
+  @{PROC}/@{pid}/net/dev r,
+  /sys/devices/pci[0-9]*/**/uevent r,
+
+  /etc/pango/pango.modules r,
+  /usr/lib/gtk-*/*/loaders/* mr,
+  /usr/share/icons/   r,
+  /usr/share/icons/** rk,
+  /usr/share/glib-2.0/schemas/gschemas.compiled r,
+  /usr/share/mime/* r,
+  /usr/lib/firefox/firefox.sh rPx,
+  /usr/bin/wireshark mixr,
+  /usr/share/mime/* r,
+  /usr/share/qt5/translations/* r,
+  /usr/share/snmp/mibs r,
+  /usr/share/snmp/mibs/* r,
+  /usr/share/snmp/mibs/.index rw,
+  /usr/share/wireshark/** r,
+  /usr/share/GeoIP/ r,
+  /usr/share/GeoIP/** r,
+  /usr/lib/@{multiarch}/wireshark/extcap/* ix,
+  /usr/lib/@{multiarch}/wireshark/plugins/**/   r,
+  /usr/lib/@{multiarch}/wireshark/plugins/**.so mr,
+
+  /usr/bin/dumpcap Px,
+
+  # for reading pcaps
+  /**.pcap r,
+}
