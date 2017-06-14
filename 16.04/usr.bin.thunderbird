@@ -205,7 +205,6 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     # Required to import keys from keyservers
     #include <abstractions/nameservice>
     #include <abstractions/p11-kit>
-    /usr/lib/gnupg2/gpg2keys_hkp ix,
 
     /usr/share/xul-ext/enigmail/chrome/enigmail.jar r,
 
@@ -229,6 +228,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     /usr/bin/gpgconf mr,
     /usr/bin/gpg-connect-agent mr,
     /usr/lib/gnupg/gpgkeys_* ix,
+    /usr/lib/gnupg2/gpg2keys_* ix,
     owner @{HOME}/.gnupg/ rw,
     owner @{HOME}/.gnupg/gpg.conf r,
     owner @{HOME}/.gnupg/random_seed rwk,
