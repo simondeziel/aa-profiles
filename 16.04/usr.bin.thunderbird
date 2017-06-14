@@ -191,7 +191,13 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   /bin/uname Uxr,
   /usr/bin/locale Uxr,
 
-  /usr/bin/gpg Cx -> gpg,
+  /usr/bin/gpg               Cx -> gpg,
+  /usr/bin/gpg2              Cx -> gpg,
+  /usr/bin/gpgconf           Cx -> gpg,
+  /usr/bin/gpg-connect-agent Cx -> gpg,
+
+  # TB tries to create this file but has no business doing so
+  deny @{HOME}/.gnupg/gpg-agent.conf w,
 
   profile gpg {
     #include <abstractions/base>
@@ -199,8 +205,16 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     # Required to import keys from keyservers
     #include <abstractions/nameservice>
     #include <abstractions/p11-kit>
+    /usr/lib/gnupg2/gpg2keys_hkp ix,
 
     /usr/share/xul-ext/enigmail/chrome/enigmail.jar r,
+
+    # silence noise from enigmail 1.9+
+    deny owner @{HOME}/.{icedove,thunderbird}/*/.parentlock w,
+    deny owner @{HOME}/.{icedove,thunderbird}/*/panacea.dat w,
+    deny owner @{HOME}/.{icedove,thunderbird}/*/*.mab w,
+    deny owner @{HOME}/.{icedove,thunderbird}/**/*.msf w,
+    deny owner @{HOME}/.cache/thunderbird/**/_CACHE_* w,
 
     # For smartcards?
     /dev/bus/usb/ r,
@@ -211,77 +225,28 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     /etc/ldap/ldap.conf r,
 
     /usr/bin/gpg mr,
-    /usr/lib/gnupg/gpgkeys_* ix,
-    owner @{HOME}/.gnupg r,
-    owner @{HOME}/.gnupg/gpg.conf r,
-    owner @{HOME}/.gnupg/random_seed rwk,
-    owner @{HOME}/.gnupg/pubring.gpg{,~} rw,
-    owner @{HOME}/.gnupg/secring.gpg rw,
-    owner @{HOME}/.gnupg/trustdb.gpg rw,
-    owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
-    owner @{HOME}/.gnupg/.#*[0-9]  rw,
-    owner @{HOME}/.gnupg/.#*[0-9]x rwl,
-    owner @{HOME}/** r,
-
-    owner /run/user/[0-9]*/keyring-*/gpg rw,
-
-    # for inline pgp
-    owner /tmp/encfile rw,
-    owner /tmp/encfile-[0-9]* rw,
-
-    /usr/share/sounds/** r,
-  }
-
-  /usr/bin/gpg2              Cx -> gpg2,
-  /usr/bin/gpgconf           Cx -> gpg2,
-  /usr/bin/gpg-connect-agent Cx -> gpg2,
-
-  # TB tries to create this file but has no business doing so
-  deny @{HOME}/.gnupg/gpg-agent.conf w,
-
-  profile gpg2 {
-    #include <abstractions/base>
-
-    # Required to import keys from keyservers
-    #include <abstractions/nameservice>
-    #include <abstractions/p11-kit>
-    /usr/lib/gnupg2/gpg2keys_hkp ix,
-
-    # silence noise from enigmail 1.9+
-    deny owner @{HOME}/.{icedove,thunderbird}/*/.parentlock w,
-    deny owner @{HOME}/.{icedove,thunderbird}/*/panacea.dat w,
-    deny owner @{HOME}/.{icedove,thunderbird}/*/*.mab w,
-    deny owner @{HOME}/.{icedove,thunderbird}/**/*.msf w,
-    deny owner @{HOME}/.cache/thunderbird/**/_CACHE_* w,
-
-    /usr/share/xul-ext/enigmail/chrome/enigmail.jar r,
-
-    # For smartcards?
-    /dev/bus/usb/ r,
-    /dev/bus/usb/[0-9]*/ r,
-    /dev/bus/usb/[0-9]*/[0-9]* r,
-
-    # LDAP key servers
-    /etc/ldap/ldap.conf r,
-
-    /usr/bin/gpg-connect-agent mr,
-    owner @{HOME}/.gnupg/S.gpg-agent rw,
-    owner @{HOME}/.gnupg/S.dirmngr rw,
-
     /usr/bin/gpg2 mr,
+    /usr/bin/gpg-connect-agent mr,
+    /usr/lib/gnupg/gpgkeys_* ix,
     owner @{HOME}/.gnupg/ rw,
     owner @{HOME}/.gnupg/gpg.conf r,
     owner @{HOME}/.gnupg/random_seed rwk,
     owner @{HOME}/.gnupg/pubring.gpg{,~} rw,
     owner @{HOME}/.gnupg/secring.gpg rw,
     owner @{HOME}/.gnupg/trustdb.gpg rw,
+    owner @{HOME}/.gnupg/S.gpg-agent rw,
+    owner @{HOME}/.gnupg/S.dirmngr rw,
     owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.gpg-*.lock rwl,
     owner @{HOME}/.gnupg/gnupg_spawn_*.lock rwl,
+    owner @{HOME}/.gnupg/.#*[0-9]  rw,
+    owner @{HOME}/.gnupg/.#*[0-9]x rwl,
     owner @{HOME}/.gnupg/.#lk0x[0-9a-f]* rwl,
     owner @{HOME}/.gnupg/.gpg-v[0-9]*-migrated rw,
     owner @{HOME}/** r,
     owner @{PROC}/@{pids}/mountinfo r,
+
+    owner /run/user/[0-9]*/keyring-*/gpg rw,
 
     # for inline pgp
     owner /tmp/encfile rw,
