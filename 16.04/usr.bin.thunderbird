@@ -226,6 +226,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
 
     /usr/bin/gpg mr,
     /usr/bin/gpg2 mr,
+    /usr/bin/gpgconf mr,
     /usr/bin/gpg-connect-agent mr,
     /usr/lib/gnupg/gpgkeys_* ix,
     owner @{HOME}/.gnupg/ rw,
