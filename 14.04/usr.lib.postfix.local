@@ -35,7 +35,7 @@
   /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/*         rw,
   /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/          rw,
   /{var/spool/postfix/,}active/[0-9A-F]/                   rw,
-  /{var/spool/postfix/,}pid/unix.local                     rw,
+  /{var/spool/postfix/,}pid/unix.local                     krw,
   /{var/spool/postfix/,}private/{bounce,defer,flush,lmtp,rewrite}         rw,
   /{var/spool/postfix/,}public/{cleanup,flush}             rw,
   /etc/postfix/virtual.db                               r,
