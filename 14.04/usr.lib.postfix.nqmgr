@@ -15,27 +15,13 @@
   #include <abstractions/kerberosclient>
   #include <abstractions/nameservice>
   #include <abstractions/postfix-common>
+  #include <abstractions/postfix-spool-active>
+  #include <abstractions/postfix-spool-defer>
+  #include <abstractions/postfix-spool-deferred>
+  #include <abstractions/postfix-spool-incoming>
 
   /usr/lib/postfix/nqmgr                      rmix,
 
-  /{var/spool/postfix/,}active/                                   r,
-  /{var/spool/postfix/,}active/[0-9A-F]/                          r,
-  /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/*                rwl,
-  /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/                 rwl,
-  /{var/spool/postfix/,}active/[0-9A-F]/                          rwl,
-  /{var/spool/postfix/,}defer/                                    r,
-  /{var/spool/postfix/,}defer/[0-9A-F]/                           r,
-  /{var/spool/postfix/,}defer/[0-9A-F]/[0-9A-F]/*                 rwl,
-  /{var/spool/postfix/,}defer/[0-9A-F]/[0-9A-F]/                  rwl,
-  /{var/spool/postfix/,}defer/[0-9A-F]/                           rwl,
-  /{var/spool/postfix/,}deferred/                                 r,
-  /{var/spool/postfix/,}deferred/[0-9A-F]/                        r,
-  /{var/spool/postfix/,}deferred/[0-9A-F]/[0-9A-F]/*              rwl,
-  /{var/spool/postfix/,}deferred/[0-9A-F]/[0-9A-F]/               rwl,
-  /{var/spool/postfix/,}incoming/                                 r,
-  /{var/spool/postfix/,}incoming/[0-9A-F]/[0-9A-F]/*              rwl,
-  /{var/spool/postfix/,}incoming/[0-9A-F]/[0-9A-F]/               rwl,
-  /{var/spool/postfix/,}incoming/[0-9A-F]/                        rwl,
   /{var/spool/postfix/,}private/bounce                            w,
   /{var/spool/postfix/,}private/defer                             w,
   /{var/spool/postfix/,}private/rewrite                           w,
