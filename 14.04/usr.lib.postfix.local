@@ -17,6 +17,7 @@
   #include <abstractions/kerberosclient>
   #include <abstractions/user-mail>
   #include <abstractions/postfix-common>
+  #include <abstractions/postfix-spool-active>
 
   /usr/bin/procmail                                     Px,
 
@@ -32,9 +33,8 @@
   /etc/{postfix/,}aliases.db                            r,
   # mailman on SuSE is configed to have its own alias file
   /var/lib/mailman/data/aliases.db                      r,
-  /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/*         rw,
-  /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/          rw,
-  /{var/spool/postfix/,}active/[0-9A-F]/                   rw,
+  /var/mail/                                            r,
+  /var/mail/*.lock                                      rwl,
   /{var/spool/postfix/,}pid/unix.local                     krw,
   /{var/spool/postfix/,}private/{bounce,defer,flush,lmtp,rewrite}         rw,
   /{var/spool/postfix/,}public/{cleanup,flush}             rw,
