@@ -34,7 +34,7 @@
   # mailman on SuSE is configed to have its own alias file
   /var/lib/mailman/data/aliases.db                      r,
   /var/mail/                                            r,
-  /var/mail/*.lock                                      rwl,
+  /var/mail/*                                           rwlk,
   /{var/spool/postfix/,}pid/unix.local                     krw,
   /{var/spool/postfix/,}private/{bounce,defer,flush,lmtp,rewrite}         rw,
   /{var/spool/postfix/,}public/{cleanup,flush}             rw,
