@@ -29,8 +29,9 @@
   /etc/openvpn/update-resolv-conf PUx,
 
   # secret files only readable by root (before setuid)
-  owner /etc/openvpn/*.conf r,
-  owner /etc/openvpn/*/*    r,
+  owner /etc/openvpn/*.conf  r,
+  owner /etc/openvpn/*.login r,
+  owner /etc/openvpn/*/*     r,
   /etc/openvpn/*/*.crt r,
   /etc/openvpn/**/ r,
   /var/lib/openvpn/** r,
@@ -39,8 +40,6 @@
   owner /var/lib/openvpn/**/tmp/** rw,
   /{,var/}run/openvpn/*.{pid,status} rw,
   /var/log/openvpn/*.log w,
-
-  /run/systemd/journal/dev-log w,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.sbin.openvpn>
