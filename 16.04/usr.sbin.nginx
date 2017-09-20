@@ -49,5 +49,8 @@
   # documentation
   /usr/share/doc/**         r,
 
+  # should be in abstraction/base?
+  /run/systemd/journal/stdout rw,
+
   #include <local/usr.sbin.nginx>
 }
