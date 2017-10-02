@@ -52,5 +52,10 @@
   # should be in abstraction/base?
   /run/systemd/journal/stdout rw,
 
+  # Let's Encrypt
+  /etc/letsencrypt/keys/*.pem r,
+  # dehydrated
+  /var/lib/dehydrated/acme-challenges/* r,
+
   #include <local/usr.sbin.nginx>
 }
