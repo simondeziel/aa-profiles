@@ -2,7 +2,8 @@
 # vim:syntax=apparmor
 #include <tunables/global>
 
-/usr/sbin/nsd {
+# XXX: attach_disconnected needed because of Protect{Home,System}
+/usr/sbin/nsd flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
@@ -11,16 +12,18 @@
   capability setgid,
   capability setuid,
   capability sys_chroot,
+
+  # for pid and control socket?
   capability chown,
   capability dac_override,
 
   /etc/nsd/**          r,
-  owner /etc/nsd/slave/** rw,
-  owner /etc/nsd/*.key r,
   /var/lib/nsd/   r,
   /var/lib/nsd/** r,
   owner /var/lib/nsd/nsd.db     rw,
   owner /var/lib/nsd/xfrd.state rw,
+  owner /var/lib/nsd/zone.list  rw,
+  owner /var/lib/nsd/zones/**   rw,
   owner /tmp/nsd.@{pid}.task.[0-9]* rw,
   owner /tmp/nsd-xfr-@{pid}/    rw,
   owner /tmp/nsd-xfr-@{pid}/*   rw,
