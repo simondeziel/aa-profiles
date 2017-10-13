@@ -2,12 +2,12 @@
 # vim:syntax=apparmor
 #include <tunables/global>
 
-/usr/sbin/unbound {
+/usr/sbin/unbound flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/openssl>
 
-  # needlessly chown'ing the PID
+  # needlessly chown'ing the PID/control socket
   deny capability chown,
 
   capability net_bind_service,
@@ -18,6 +18,9 @@
 
   # root trust anchor
   owner /var/lib/unbound/root.key* rw,
+
+  # root hints from dns-data-root
+  /usr/share/dns/root.* r,
 
   # non-chrooted paths
   /etc/unbound/** r,
@@ -33,8 +36,11 @@
 
   /usr/sbin/unbound mr,
 
+  /{,var/}run/systemd/notify w,
   /{,var/}run/{unbound/,}unbound.pid rw,
 
   # Unix control socket
   /{,var/}run/unbound.ctl rw,
+
+  #include <local/usr.sbin.unbound>
 }
