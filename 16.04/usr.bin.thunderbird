@@ -25,6 +25,11 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   #include <abstractions/ubuntu-browsers>
   #include <abstractions/ubuntu-helpers>
 
+  # Allow opening attachments
+  # TODO: create and use abstractions for opening various file formats
+  /{usr/local/,usr/,}bin/* Cx -> sanitized_helper,
+  /usr/lib/libreoffice/program/soffice Cxr -> sanitized_helper,
+
   # For Xubuntu to launch the browser
   /usr/bin/exo-open ixr,
   /usr/lib/@{multiarch}/xfce4/exo-1/exo-helper-1 ixr,
@@ -80,8 +85,6 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   owner @{HOME}/.local/share/applications/defaults.list r,
   owner @{HOME}/.local/share/applications/mimeapps.list r,
   owner @{HOME}/.local/share/applications/mimeinfo.cache r,
-  owner /tmp/** m,
-  owner /var/tmp/** m,
   /tmp/.X[0-9]*-lock r,
   /etc/udev/udev.conf r,
   # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
