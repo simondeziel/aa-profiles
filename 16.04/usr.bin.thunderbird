@@ -191,8 +191,8 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # so running with 'Ux', while not ideal, is ok because we will at least
   # benefit from glibc's secure execute.
   /usr/bin/mkfifo Uxr,  # investigate
-  /bin/ps Uxr,
-  /bin/uname Uxr,
+  /{usr/,}bin/ps Uxr,
+  /{usr/,}bin/uname Uxr,
   /usr/bin/locale Uxr,
 
   /usr/bin/gpg               Cx -> gpg,
@@ -275,7 +275,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     #include <abstractions/base>
     #include <abstractions/python>
     /usr/bin/lsb_release r,
-    /bin/dash ixr,
+    /{usr/,}bin/dash ixr,
     /usr/bin/dpkg-query ixr,
     /usr/include/python2.[4567]/pyconfig.h r,
     /etc/lsb-release r,
@@ -297,3 +297,4 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.thunderbird>
 }
+
