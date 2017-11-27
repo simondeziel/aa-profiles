@@ -16,8 +16,8 @@
   capability sys_chroot,
   capability sys_resource,
 
-  # root trust anchor
-  owner /var/lib/unbound/root.key* rw,
+  # auto trust anchors
+  owner /var/lib/unbound/*.key* rw,
 
   # root hints from dns-data-root
   /usr/share/dns/root.* r,
