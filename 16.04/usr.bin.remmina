@@ -70,6 +70,11 @@
   # Necessary for saved Remmina profiles 
   owner @{HOME}/.config/freerdp/known_hosts rw,	
 
+  # enable if you trust remmina's built-in SSH client
+  #owner @{HOME}/.ssh/id_{rsa,dsa,ecdsa,ed25519}{,.pub} r,
+  owner @{HOME}/.ssh/ r,
+  owner @{HOME}/.ssh/known_hosts r,
+
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.remmina>
 }
