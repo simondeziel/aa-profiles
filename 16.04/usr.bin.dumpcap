@@ -35,6 +35,9 @@
 
   @{PROC}/@{pid}/net/psched r,
 
+
+  @{HOME}/ rw,
+  owner @{HOME}/**.pcap{,ng} rw,
   /tmp/ rw,
-  owner /tmp/wireshark_*.pcapng rw,
+  owner /tmp/*.pcap{,ng} rw,
 }
