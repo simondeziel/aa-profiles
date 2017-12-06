@@ -71,6 +71,7 @@
   /usr/share/remmina/external_tools/** rix,
   /usr/bin/gnome-terminal rix,
   /usr/bin/gnome-terminal.real rix,
+  /bin/dash rix,
   
   # Necessary for saved Remmina profiles 
   owner @{HOME}/.config/freerdp/known_hosts rw,	
