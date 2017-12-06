@@ -52,6 +52,7 @@
        interface=org.freedesktop.DBus.Properties
        member=Set,
 
+  /etc/timezone r,
   /usr/share/glib-2.0/schemas/gschemas.compiled r,
 
   owner @{HOME}/.remmina/   rw,
