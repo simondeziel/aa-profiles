@@ -67,12 +67,6 @@
   # plugins
   /usr/lib/@{multiarch}/remmina/plugins/*.so rm,
   
-  # external tools (works for ping.sh; nslookup.sh & traceroute.sh. Filezilla tools were not tested)
-  /usr/share/remmina/external_tools/ r,
-  /usr/share/remmina/external_tools/** rix,
-  /usr/bin/gnome-terminal rix,
-  /usr/bin/gnome-terminal.real rix,
-  
   # Necessary for saved Remmina profiles 
   owner @{HOME}/.config/freerdp/known_hosts rw,	
 
