@@ -4,6 +4,12 @@
 
 /usr/bin/dumpcap {
   #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_admin,
+  capability net_raw,
+
+  signal (receive) peer=/usr/bin/wireshark,
 
   # TCP/UDP network access
   network inet  stream,
@@ -16,7 +22,8 @@
   network packet,
 
   # for finding an interface
-  @{PROC}/[0-9]*/net/dev r,
+  @{PROC}/@{pid}/net/dev r,
+  @{PROC}/sys/net/core/bpf_jit_enable rw,
   /sys/bus/usb/devices/ r,
   /sys/class/net/ r,
   /sys/devices/**/net/* r,
@@ -27,4 +34,7 @@
   /usr/share/GeoIP/** r,
 
   @{PROC}/@{pid}/net/psched r,
+
+  /tmp/ rw,
+  owner /tmp/wireshark_*.pcapng rw,
 }
