@@ -17,7 +17,7 @@
   #include <abstractions/bash>
   #include <abstractions/consoles>
   #include <abstractions/dconf>
-  #include <abstractions/dbus-session-strict>
+  #include <abstractions/dbus-session>
   #include <abstractions/ibus>
   #include <abstractions/kde>
   #include <abstractions/nameservice>
@@ -25,9 +25,7 @@
   #include <abstractions/user-write>
   #include <abstractions/X>
 
-  # XXX: not upstream (sdeziel)
-  # for menus
-  #include <abstractions/dbus-session>
+  signal (send) peer=/usr/bin/dumpcap,
 
   #include <abstractions/dbus-accessibility-strict>
   dbus (send)
@@ -44,6 +42,7 @@
   # From abstractions/evince
   deny /run/udev/data/** r,
 
+  /dev/dri/ r,
   /etc/ethers r,
   /etc/udev/udev.conf r,
   /etc/wireshark/** r,
@@ -59,7 +58,11 @@
   owner @{PROC}/@{pid}/cmdline r,
   owner @{PROC}/@{pid}/fd/ r,
   @{PROC}/@{pid}/net/dev r,
+  /sys/devices/pci[0-9]*/**/device r,
+  /sys/devices/pci[0-9]*/**/subsystem_device r,
+  /sys/devices/pci[0-9]*/**/subsystem_vendor r,
   /sys/devices/pci[0-9]*/**/uevent r,
+  /sys/devices/pci[0-9]*/**/vendor r,
 
   /etc/pango/pango.modules r,
   /usr/lib/gtk-*/*/loaders/* mr,
