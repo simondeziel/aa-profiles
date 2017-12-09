@@ -1,0 +1,20 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+/usr/lib/quagga/bgpd flags=(complain) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability setgid,
+  capability setuid,
+  capability net_raw,
+
+  owner /etc/quagga/bgpd.conf* rwl,
+
+  /run/quagga/bgpd.pid  rw,
+  /run/quagga/bgpd.vty  rw,
+  /run/quagga/zserv.api rw,
+
+  #include <local/usr.lib.quagga.bgpd>
+}
