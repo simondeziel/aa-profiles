@@ -2,7 +2,7 @@
 
 #include <tunables/global>
 
-/usr/lib/quagga/bgpd flags=(complain) {
+/usr/lib/quagga/bgpd {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
