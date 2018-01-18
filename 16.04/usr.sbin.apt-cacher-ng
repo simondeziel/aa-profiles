@@ -4,7 +4,7 @@
 
 #include <tunables/global>
 
-/usr/sbin/apt-cacher-ng {
+/usr/sbin/apt-cacher-ng flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/user-tmp>
