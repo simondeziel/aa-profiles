@@ -49,9 +49,6 @@
   # documentation
   /usr/share/doc/**         r,
 
-  # should be in abstraction/base?
-  /run/systemd/journal/stdout rw,
-
   # Let's Encrypt
   /etc/letsencrypt/keys/*.pem r,
   # dehydrated
