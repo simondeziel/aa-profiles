@@ -9,7 +9,7 @@
   #include <abstractions/ssl_certs>
 
 
-  /usr/bin/msmtp          r,
+  /usr/bin/msmtp          rm,
   /etc/msmtprc            r,
   /etc/aliases            r,
   owner @{HOME}/.msmtp*   r,
