@@ -36,6 +36,7 @@
 
     @{PROC}/version           r,
     @{PROC}/version_signature r,
+    owner @{PROC}/@{pid}/fd/  r,
 
     /etc/apt/**       r,
     /var/cache/apt/** r,
