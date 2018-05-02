@@ -6,6 +6,9 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  # for confirmation prompts
+  owner /dev/pts/[0-9]* rw,
+
   /usr/local/bin/apt-dater-host-wrapper ixr,
 
   @{PROC}/version   r,
@@ -16,9 +19,6 @@
 
   # Allow to terminate unconfined processes
   signal (send) set=("kill") peer=unconfined,
-
-  # workaround AA bug with file_inherit
-  owner /dev/pts/[0-9]* rw,
 
   /usr/local/bin/apt-dater-host Cx -> aptdater,
 
@@ -52,7 +52,7 @@
     /etc/apt-dater-host.uuid      r,
     /usr/local/bin/apt-dater-host r,
 
-    # workaround AA bug with file_inherit
+    # for confirmation prompts
     owner /dev/pts/[0-9]* rw,
 
     # XXX: Cx doesn't work. For details, see
@@ -84,7 +84,7 @@
 
     /dev/tty rw,
 
-    # workaround AA bug with file_inherit
+    # for confirmation prompts
     owner /dev/pts/[0-9]* rw,
 
     owner @{PROC}/@{pid}/stat r,
