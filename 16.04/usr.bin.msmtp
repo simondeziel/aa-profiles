@@ -2,7 +2,7 @@
 
 #include <tunables/global>
 
-/usr/bin/msmtp {
+/usr/bin/msmtp flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/p11-kit>
