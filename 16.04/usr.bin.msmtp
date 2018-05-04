@@ -16,6 +16,9 @@
   owner @{HOME}/.netrc    r,
   owner @{HOME}/.tls-crls r,
 
+  owner @{HOME}/.msmtp.log wk,
+  /var/log/msmtp           wk,
+
   /tmp/                   rw,
   owner /tmp/msmtp*       rw,
 
