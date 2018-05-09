@@ -1,0 +1,19 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+/usr/bin/wget {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/user-tmp>
+  #include <abstractions/user-write>
+  #include <abstractions/ubuntu-browsers.d/user-files>
+  #include <abstractions/openssl>
+  #include <abstractions/ssl_certs>
+
+  /etc/wgetrc              r,
+  owner @{HOME}/.wgetrc    r,
+  owner @{HOME}/.wget-hsts rw,
+
+  #include <local/usr.bin.wget>
+}
