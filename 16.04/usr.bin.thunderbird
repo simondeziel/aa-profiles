@@ -239,6 +239,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     /usr/bin/gpg-connect-agent mr,
     /usr/lib/gnupg/gpgkeys_* ix,
     /usr/lib/gnupg2/gpg2keys_* ix,
+    /usr/share/gnupg2/*.pem r,
     owner @{HOME}/.gnupg/ rw,
     owner @{HOME}/.gnupg/gpg.conf r,
     owner @{HOME}/.gnupg/random_seed rwk,
