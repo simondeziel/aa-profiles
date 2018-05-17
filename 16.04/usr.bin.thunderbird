@@ -19,6 +19,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   #include <abstractions/nameservice>
+  #include <abstractions/nvidia>
   #include <abstractions/p11-kit>
   #include <abstractions/private-files>
   #include <abstractions/ssl_certs>
@@ -218,6 +219,11 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     deny owner @{HOME}/.{icedove,thunderbird}/*/*.mab w,
     deny owner @{HOME}/.{icedove,thunderbird}/**/*.msf w,
     deny owner @{HOME}/.cache/thunderbird/**/_CACHE_* w,
+    deny owner @{HOME}/.cache/thunderbird/*/cache2/entries/* w,
+
+    # noise from inherited files
+    deny /usr/{lib,share}/thunderbird/omni.ja r,
+    deny owner @{HOME}/.{icedove,thunderbird}/**/filterlog.html r,
 
     # For smartcards?
     /dev/bus/usb/ r,
@@ -236,12 +242,12 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/ rw,
     owner @{HOME}/.gnupg/gpg.conf r,
     owner @{HOME}/.gnupg/random_seed rwk,
-    owner @{HOME}/.gnupg/pubring.gpg{,~} rw,
+    owner @{HOME}/.gnupg/pubring.{gpg,kbx}{,~} rw,
     owner @{HOME}/.gnupg/secring.gpg rw,
     owner @{HOME}/.gnupg/trustdb.gpg rw,
     owner @{HOME}/.gnupg/S.gpg-agent rw,
     owner @{HOME}/.gnupg/S.dirmngr rw,
-    owner @{HOME}/.gnupg/*.gpg.{lock,tmp} rwl,
+    owner @{HOME}/.gnupg/*.{gpg,kbx}.{lock,tmp} rwl,
     owner @{HOME}/.gnupg/.gpg-*.lock rwl,
     owner @{HOME}/.gnupg/gnupg_spawn_*.lock rwl,
     owner @{HOME}/.gnupg/.#*[0-9]  rw,
@@ -256,6 +262,14 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     # for inline pgp
     owner /tmp/encfile rw,
     owner /tmp/encfile-[0-9]* rw,
+
+    # for key import
+    /usr/bin/dirmngr ix,
+    owner  @{PROC}/@{pids}/task/@{tid}/comm rw,
+    owner /tmp/enigmail_import/.#lk0x[0-9a-f]*  rw,
+    owner /tmp/enigmail_import/.#lk0x[0-9a-f]*x rwl,
+    owner /tmp/enigmail_import/{keyring,trustdb}.lock rwl,
+    owner /tmp/enigmail_import/{keyring,trustdb}{,~,.tmp} rw,
 
     # for signature generation
     owner /tmp/nsemail.eml w,
