@@ -5,10 +5,11 @@
 
 # Declare an apparmor variable to help with overrides
 @{MOZ_LIBDIR}=/usr/lib/thunderbird
+@{thunderbird_executable} = /usr/lib/thunderbird/thunderbird{,-bin}
 
 #include <tunables/global>
 
-profile thunderbird /usr/lib/thunderbird/thunderbird {
+profile thunderbird @{thunderbird_executable} {
   #include <abstractions/audio>
   #include <abstractions/aspell>
   #include <abstractions/cups-client>
@@ -16,6 +17,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   #include <abstractions/dbus>
   #include <abstractions/dbus-accessibility>
   #include <abstractions/dbus-session>
+  #include <abstractions/dconf>
   #include <abstractions/gnome>
   #include <abstractions/ibus>
   #include <abstractions/nameservice>
@@ -24,7 +26,11 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   #include <abstractions/private-files>
   #include <abstractions/ssl_certs>
   #include <abstractions/ubuntu-browsers>
+  #include <abstractions/ubuntu-browsers.d/java>
   #include <abstractions/ubuntu-helpers>
+
+  # Backported from the dri-enumerate abstraction, available in AppArmor 2.13
+  /sys/devices/pci[0-9]*/**/{device,subsystem_device,subsystem_vendor,uevent,vendor} r,
 
   # Allow opening attachments
   # TODO: create and use abstractions for opening various file formats
@@ -40,12 +46,13 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # for crash reports?
   ptrace (read,trace) peer=@{profile_name},
 
-  /usr/lib/thunderbird/thunderbird ixr,
+  @{thunderbird_executable} ixr,
 
   # Pulseaudio
   /usr/bin/pulseaudio Pixr,
 
   owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner @{HOME}/.cache/thumbnails/** r,
   owner /run/user/[0-9]*/dconf/user rw,
   owner @{HOME}/.config/gtk-3.0/bookmarks r,
   deny owner @{HOME}/.local/share/gvfs-metadata/* r,
@@ -60,6 +67,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # other commonly used locations
   /{data,media,mnt,srv}/** r,
   owner /{data,media,mnt,srv}/** rw,
+  owner @{HOME}/.signature* r,
 
   # Required for LVM setups
   /sys/devices/virtual/block/dm-[0-9]*/uevent r,
@@ -83,9 +91,12 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   /etc/xdg/*buntu/applications/defaults.list    r, # for all derivatives
   /etc/xfce4/defaults.list r,
   /usr/share/xubuntu/applications/defaults.list r,
+  owner /dev/shm/org.chromium.* rw, # for Chromium IPC
+  owner @{HOME}/.cache/fontconfig/*.cache-* rwk,
   owner @{HOME}/.local/share/applications/defaults.list r,
   owner @{HOME}/.local/share/applications/mimeapps.list r,
   owner @{HOME}/.local/share/applications/mimeinfo.cache r,
+  owner @{HOME}/.recently-used r,
   /tmp/.X[0-9]*-lock r,
   /etc/udev/udev.conf r,
   # Doesn't seem to be required, but noisy. Maybe allow 'r' for 'b*' if needed.
@@ -176,8 +187,11 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   # /usr/share/.../extensions/... is already covered by '/usr/** r', above.
   # Allow 'x' for downloaded extensions, but inherit policy for safety
   owner @{HOME}/.{icedove,thunderbird}/**/extensions/** mixrw,
+  owner @{HOME}/.mozilla/ rw,
+  owner @{HOME}/.mozilla/extensions/          rw,
   owner @{HOME}/.mozilla/extensions/**        mixr,
   /usr/share/xul-ext/**/*.sqlite              rk,
+  /usr/lib/mozilla/plugins/*.so               rm,
   /usr/lib/xul-ext/**/*.sqlite                rk,
   /usr/lib/thunderbird-addons/extensions/**/*.sqlite rk,
 
@@ -186,15 +200,6 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
   deny /usr/lib/xulrunner-addons/extensions/**/ w,
   deny /usr/share/mozilla/extensions/**/ w,
   deny /usr/share/mozilla/ w,
-
-  # Miscellaneous (to be abstracted)
-  # Ideally these would use a child profile. They are all ELF executables
-  # so running with 'Ux', while not ideal, is ok because we will at least
-  # benefit from glibc's secure execute.
-  /usr/bin/mkfifo Uxr,  # investigate
-  /{usr/,}bin/ps Uxr,
-  /{usr/,}bin/uname Uxr,
-  /usr/bin/locale Uxr,
 
   /usr/bin/gpg               Cx -> gpg,
   /usr/bin/gpg2              Cx -> gpg,
@@ -211,7 +216,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     #include <abstractions/nameservice>
     #include <abstractions/p11-kit>
 
-    /usr/share/xul-ext/enigmail/chrome/enigmail.jar r,
+    /usr/share/xul-ext/enigmail/chrome/** r,
 
     # silence noise from enigmail 1.9+
     deny owner @{HOME}/.{icedove,thunderbird}/*/.parentlock w,
@@ -219,11 +224,11 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     deny owner @{HOME}/.{icedove,thunderbird}/*/*.mab w,
     deny owner @{HOME}/.{icedove,thunderbird}/**/*.msf w,
     deny owner @{HOME}/.cache/thunderbird/**/_CACHE_* w,
-    deny owner @{HOME}/.cache/thunderbird/*/cache2/entries/* w,
 
     # noise from inherited files
+    deny @{HOME}/.{icedove,thunderbird}/*/ImapMail/*/INBOX w,
     deny /usr/{lib,share}/thunderbird/omni.ja r,
-    deny owner @{HOME}/.{icedove,thunderbird}/**/filterlog.html r,
+    deny /usr/share/thunderbird/extensions/** r,
 
     # For smartcards?
     /dev/bus/usb/ r,
@@ -246,6 +251,7 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/pubring.{gpg,kbx}{,~} rw,
     owner @{HOME}/.gnupg/secring.gpg rw,
     owner @{HOME}/.gnupg/trustdb.gpg rw,
+    owner @{HOME}/.gnupg/tofu.db{,-journal} rwk,
     owner @{HOME}/.gnupg/S.gpg-agent rw,
     owner @{HOME}/.gnupg/S.dirmngr rw,
     owner @{HOME}/.gnupg/*.{gpg,kbx}.{lock,tmp} rwl,
@@ -255,22 +261,34 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     owner @{HOME}/.gnupg/.#*[0-9]x rwl,
     owner @{HOME}/.gnupg/.#lk0x[0-9a-f]* rwl,
     owner @{HOME}/.gnupg/.gpg-v[0-9]*-migrated rw,
+    owner @{HOME}/.gnupg/openpgp-revocs.d/{,[A-F0-9]*.rev} rw,
     owner @{HOME}/** r,
     owner @{PROC}/@{pids}/mountinfo r,
 
+    # For gpgconf
+    owner @{PROC}/@{pids}/fd/ r,
+
     owner /run/user/[0-9]*/keyring-*/gpg rw,
+
+    # For encryption + signature
+    /tmp/gpgOutput.* rw,
 
     # for inline pgp
     owner /tmp/encfile rw,
     owner /tmp/encfile-[0-9]* rw,
 
     # for key import
-    /usr/bin/dirmngr ix,
-    owner  @{PROC}/@{pids}/task/@{tid}/comm rw,
     owner /tmp/enigmail_import/.#lk0x[0-9a-f]*  rw,
     owner /tmp/enigmail_import/.#lk0x[0-9a-f]*x rwl,
     owner /tmp/enigmail_import/{keyring,trustdb}.lock rwl,
     owner /tmp/enigmail_import/{keyring,trustdb}{,~,.tmp} rw,
+    /usr/bin/dirmngr ix,
+    owner @{PROC}/@{pids}/task/@{tid}/comm rw,
+
+    # for revocation certificate generation in the Enigmail setup wizard
+    owner @{HOME}/.{icedove,thunderbird}/*/0x[A-F0-9]*_rev.asc rw,
+    # for revocation certificate generation in the Enigmail key manager
+    owner @{HOME}/*0x[A-F0-9]**.asc rw,
 
     # for signature generation
     owner /tmp/nsemail.eml w,
@@ -285,31 +303,6 @@ profile thunderbird /usr/lib/thunderbird/thunderbird {
     /usr/share/sounds/** r,
   }
 
-  /usr/bin/lsb_release Cxr -> lsb_release,
-  profile lsb_release {
-    #include <abstractions/base>
-    #include <abstractions/python>
-    /usr/bin/lsb_release r,
-    /{usr/,}bin/dash ixr,
-    /usr/bin/dpkg-query ixr,
-    /usr/include/python2.[4567]/pyconfig.h r,
-    /etc/lsb-release r,
-    /etc/debian_version r,
-    /var/lib/dpkg/** r,
-
-    /usr/local/lib/python3.[0-9]/dist-packages/ r,
-    /usr/bin/ r,
-    /usr/bin/python3.[0-9] r,
-
-    /etc/apt/apt.conf.d/ r,
-    /etc/default/apport r,
-    /usr/share/distro-info/debian.csv r,
-
-    # file_inherit
-    deny /tmp/gtalkplugin.log w,
-  }
-
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.bin.thunderbird>
 }
-
