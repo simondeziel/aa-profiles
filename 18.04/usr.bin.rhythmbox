@@ -32,6 +32,13 @@
       interface=org.freedesktop.DBus.Properties
       member=GetAll,
 
+  dbus send
+      bus=system
+      path=/
+      interface=org.freedesktop.DBus.Peer
+      member=Ping
+      peer=(name=(org.freedesktop.Avahi)),
+
   # missing from abstractions/python
   /usr/local/lib/python3.3/dist-packages/ r,
   /usr/local/lib/python3.3/dist-packages/** r,
