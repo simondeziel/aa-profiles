@@ -1,0 +1,36 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/bin/sftp {
+  #include <abstractions/base>
+
+  signal (send) set=(int,term,winch) peer=/usr/bin/ssh,
+
+  unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+
+  # sftp mostly uses ssh
+  /usr/bin/ssh Px,
+
+  # except for local commands (lcd, lls, etc)
+  # where it uses the user's shell
+  /bin/ash Ux,
+  /bin/bash Ux,
+  /bin/bash2 Ux,
+  /bin/bsh Ux,
+  /bin/csh Ux,
+  /bin/dash Ux,
+  /bin/ksh Ux,
+  /bin/sh Ux,
+  /bin/tcsh Ux,
+  /bin/zsh Ux,
+  /bin/zsh4 Ux,
+  /bin/zsh5 Ux,
+
+  # for file transfers
+  owner /** rw,
+  /   r,
+  /** r,
+
+  #include <local/usr.bin.sftp>
+}

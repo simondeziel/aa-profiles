@@ -1,0 +1,142 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/bin/ssh {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+  #include <abstractions/X>
+
+  capability setuid,
+  capability setgid,
+
+  signal (receive) set=(int,term,winch) peer=/usr/bin/scp,
+  signal (receive) set=(int,term,winch) peer=/usr/bin/sftp,
+
+  unix (send,receive) type=stream peer=(label=/usr/bin/sftp),
+  unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+  unix (send,receive) type=stream peer=(label=/usr/bin/ssh//*),
+
+  /etc/ssh/ssh_config r,
+  /etc/ssh/ssh_known_hosts{,2} r,
+
+  # for tun/tap tunneling
+  /dev/net/tun rw,
+
+  # to unlock private keys
+  /dev/tty rw,
+  /usr/lib/openssh/gnome-ssh-askpass mix,
+  /usr/lib/ssh/ssh-askpass mix,
+
+  owner /dev/pts/[0-9]* rw,
+  owner /tmp/ssh-*/ rw,
+  owner /tmp/ssh-*/agent.@{pid} rw,
+  owner /run/user/[0-9]*/keyring*/ssh rw,
+  owner @{PROC}/@{pid}/fd/ r,
+
+  # human users
+  owner @{HOME}/.ssh/   rw,
+  owner @{HOME}/.ssh/** rl,
+  owner @{HOME}/.ssh/known_hosts{,.*} rwl,
+  owner @{HOME}/.ssh/*control*[0-9][0-9]* rwl,
+  owner @{HOME}/.ssh/control/** rwl,
+  audit deny @{HOME}/.ssh/authorized_keys{,2} rw,
+  audit deny @{HOME}/.ssh/config w,
+  audit deny @{HOME}/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
+
+  # system users
+  owner /var/lib/*/.ssh/   rw,
+  owner /var/lib/*/.ssh/** rl,
+  owner /var/lib/*/.ssh/known_hosts{,.*} rwl,
+  owner /var/lib/*/.ssh/*control*[0-9][0-9]* rwl,
+  owner /var/lib/*/.ssh/control/** rwl,
+  audit deny /var/lib/*/.ssh/authorized_keys{,2} rw,
+  audit deny /var/lib/*/.ssh/config w,
+  audit deny /var/lib/*/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
+
+  # for ProxyCommand
+  /bin/ash      Cx -> proxycommand,
+  /bin/bash     Cx -> proxycommand,
+  /bin/bash2    Cx -> proxycommand,
+  /bin/bsh      Cx -> proxycommand,
+  /bin/csh      Cx -> proxycommand,
+  /bin/dash     Cx -> proxycommand,
+  /bin/ksh      Cx -> proxycommand,
+  /bin/sh       Cx -> proxycommand,
+  /bin/tcsh     Cx -> proxycommand,
+  /bin/zsh      Cx -> proxycommand,
+  /bin/zsh4     Cx -> proxycommand,
+  /bin/zsh5     Cx -> proxycommand,
+  /usr/bin/ssh  mr,
+
+  profile proxycommand {
+    #include <abstractions/base>
+
+    unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+
+    /bin/ash      mr,
+    /bin/bash     mr,
+    /bin/bash2    mr,
+    /bin/bsh      mr,
+    /bin/csh      mr,
+    /bin/dash     mr,
+    /bin/ksh      mr,
+    /bin/sh       mr,
+    /bin/tcsh     mr,
+    /bin/zsh      mr,
+    /bin/zsh4     mr,
+    /bin/zsh5     mr,
+    /usr/bin/ssh  Px,
+
+    # XXX: Cx doesn't work. For details, see
+    # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
+    #/usr/bin/xauth Cx -> xauth,
+    /usr/bin/xauth Px -> /usr/bin/ssh//xauth,
+    #/bin/nc.openbsd Cx -> nc,
+    /bin/nc.openbsd Px -> /usr/bin/ssh//nc,
+
+    # unlocking the key is done by the parent so why is this needed?
+    /dev/tty rw,
+  }
+
+  /tmp/.X11-unix/* r,
+  owner /tmp/ssh-*/xauthfile w,
+  profile xauth {
+    #include <abstractions/base>
+    #include <abstractions/X>
+
+    unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+
+    /usr/bin/xauth r,
+    /tmp/.X11-unix/* rw,
+
+    owner link /tmp/ssh-*/xauthfile   -> /tmp/ssh-*/xauthfile-n,
+    owner link /tmp/ssh-*/xauthfile-l -> /tmp/ssh-*/xauthfile-c,
+    owner /tmp/ssh-*/xauthfile   r,
+    owner /tmp/ssh-*/xauthfile-c w,
+    owner /tmp/ssh-*/xauthfile-l w,
+    owner /tmp/ssh-*/xauthfile-n w,
+
+    # for ssh -Y
+    owner link @{HOME}/.Xauthority-l -> /**/.Xauthority-c,
+    owner @{HOME}/.Xauthority-c w,
+  }
+
+  # XXX: for configs using "/bin/nc" instead of "ssh -W"
+  /bin/nc.openbsd mr,
+  signal (send) set=("hup") peer=/usr/bin/ssh//nc,
+  profile nc {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+
+    # Accept HUP from parent
+    signal (receive) set=("hup") peer=/usr/bin/ssh,
+
+    /bin/nc.openbsd rix,
+  }
+
+  #include <local/usr.bin.ssh>
+}
