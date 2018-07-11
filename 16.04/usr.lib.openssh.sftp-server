@@ -5,7 +5,11 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  /usr/lib/openssh/sftp-server rm,
+
   /         r,
   /**       r,
   owner /** rwl,
+
+  #include <local/usr.lib.openssh.sftp-server>
 }
