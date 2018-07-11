@@ -59,10 +59,10 @@
   /etc/ssh/** r,
   /etc/ssl/openssl.cnf r,
   /usr/sbin/sshd mrix,
+  /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,
   owner /{,var/}run/sshd{,.init}.pid wl,
   @{HOME}/.ssh/authorized_keys{,2} r,
-
 
   @{PROC}/cmdline r,
   @{PROC}/1/environ r,
@@ -77,8 +77,6 @@
   /sys/fs/cgroup/*/user/*/[0-9]*/ rw,
   /sys/fs/cgroup/systemd/user.slice/user-[0-9]*.slice/session-c[0-9]*.scope/ rw,
 
-  # should only be here for use in non-change-hat openssh
-  # duplicated from EXEC hat (+r)
   /bin/ash      Uxr,
   /bin/bash     Uxr,
   /bin/bash2    Uxr,
@@ -111,7 +109,7 @@
     capability setuid,
     capability setgid,
 
-    /usr/bin/passwd r,
+    /usr/bin/passwd rm,
     /dev/pts/[0-9]* rw,
     /{,var/}run/utmp rwk,
 
@@ -128,7 +126,21 @@
     owner @{HOME}/.cache/keyring-*/control rw,
   }
 
-  # duplicated from AUTHENTICATED
+  # after password change when expired
+  owner /etc/.pwd.lock rwk,
+  /usr/bin/gnome-keyring-daemon Cx -> gnome_keyring_daemon,
+
+  profile gnome_keyring_daemon {
+    #include <abstractions/base>
+  }
+
+  dbus (send)
+       bus=system
+       path=/org/freedesktop/systemd1
+       interface=org.freedesktop.systemd1.Manager
+       member=LookupDynamicUserByName
+       peer=(name=(org.freedesktop.systemd1)),
+
   /etc.legal r,
   /etc/motd r,
   /{,var/}run/motd{,.dynamic}{,.new} rw,
