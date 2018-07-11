@@ -7,6 +7,8 @@
   #include <abstractions/nameservice>
   #include <abstractions/ssl_certs>
 
+  /usr/bin/dirmngr rm,
+
   /etc/gnupg/trusted-certs/** r,
   /etc/gnupg/extra-certs/**   r,
   /usr/share/gnupg/** r,
