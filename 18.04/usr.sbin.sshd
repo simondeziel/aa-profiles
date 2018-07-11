@@ -126,6 +126,21 @@
     owner @{HOME}/.cache/keyring-*/control rw,
   }
 
+  # after password change when expired
+  owner /etc/.pwd.lock rwk,
+  /usr/bin/gnome-keyring-daemon Cx -> gnome_keyring_daemon,
+
+  profile gnome_keyring_daemon {
+    #include <abstractions/base>
+  }
+
+  dbus (send)
+       bus=system
+       path=/org/freedesktop/systemd1
+       interface=org.freedesktop.systemd1.Manager
+       member=LookupDynamicUserByName
+       peer=(name=(org.freedesktop.systemd1)),
+
   /etc.legal r,
   /etc/motd r,
   /{,var/}run/motd{,.dynamic}{,.new} rw,
