@@ -13,8 +13,10 @@
   /etc/gnupg/extra-certs/**   r,
   /usr/share/gnupg/** r,
 
-  owner @{HOME}/.gnupg/*.conf    r,
-  owner @{HOME}/.gnupg/crls.d/** r,
+  owner @{HOME}/.gnupg/         rw,
+  owner @{HOME}/.gnupg/**/      rw,
+  owner @{HOME}/.gnupg/*.conf   r,
+  owner @{HOME}/.gnupg/crls.d/* rw,
 
   owner /run/user/[0-9]*/gnupg/S.dirmngr rw,
   owner @{PROC}/@{pid}/task/@{pid}/comm  rw,
