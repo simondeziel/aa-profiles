@@ -109,7 +109,7 @@
     capability setuid,
     capability setgid,
 
-    /usr/bin/passwd r,
+    /usr/bin/passwd rm,
     /dev/pts/[0-9]* rw,
     /{,var/}run/utmp rwk,
 
