@@ -1,0 +1,59 @@
+# Author: James Troup <james.troup@canonical.com>
+
+#include <tunables/global>
+
+/sbin/wpa_supplicant {
+  #include <abstractions/base>
+  #include <abstractions/dbus-strict>
+
+  capability net_admin,
+  capability net_raw,
+  capability dac_override,
+  capability dac_read_search,
+  capability sys_module,
+  network inet dgram,
+  network inet raw,
+  network packet dgram,
+  network netlink,
+
+  /sbin/wpa_supplicant mr,
+
+  /run/wpa_supplicant/ rw,
+  /run/wpa_supplicant/** rw,
+
+  @{HOME}/   r,
+  @{HOME}/** r,
+  @{HOME}/.config/wpasupplicant/** rk,
+
+  /run/dbus/system_bus_socket rw,
+  /run/sendsigs.omit.d/wpasupplicant.pid rw,
+ 
+  owner @{PROC}/@{pid}/net/psched r,
+
+  owner /tmp/wpa_ctrl_* r,
+
+  /dev/rfkill r,
+
+  dbus send
+       bus=system
+       path=/org/freedesktop/DBus,
+
+  dbus bind
+       bus=system
+       name={fi.w1.wpa_supplicant1,fi.epitest.hostap.WPASupplicant},
+
+  dbus (send, receive)
+       bus=system
+       path=/fi/w1/wpa_supplicant1,
+
+  dbus (send, receive)
+       bus=system
+       path=/fi/w1/wpa_supplicant1/**,
+
+  dbus (send,receive)
+       bus=system
+       path=/fi/epitest/hostap/WPASupplicant/**,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/sbin.wpa_supplicant>
+}
