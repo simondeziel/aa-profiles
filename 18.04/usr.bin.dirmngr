@@ -1,0 +1,22 @@
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/bin/dirmngr {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+
+  /etc/gnupg/trusted-certs/** r,
+  /etc/gnupg/extra-certs/**   r,
+  /usr/share/gnupg/** r,
+
+  owner @{HOME}/.gnupg/*.conf    r,
+  owner @{HOME}/.gnupg/crls.d/** r,
+
+  owner /run/user/[0-9]*/gnupg/S.dirmngr rw,
+  owner @{PROC}/@{pid}/task/@{pid}/comm  rw,
+
+  # Site-specific additions and overrides.  See local/README for details.
+  #include <local/usr.bin.dirmngr>
+}
