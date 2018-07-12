@@ -12,7 +12,6 @@
   capability setgid,
   capability sys_chroot,
   capability dac_override,
-  capability dac_read_search,
 
   # For mlock support
   capability ipc_lock,
