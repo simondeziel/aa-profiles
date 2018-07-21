@@ -1,0 +1,92 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/bin/git {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability dac_override,
+  capability dac_read_search,
+  capability fowner,
+
+  /usr/bin/git        ix,
+  /usr/lib/git-core/* ix,
+
+  # compile fails because of abstractions/base
+  # necessary evil
+  #/**/.git/hooks/**   PUx,
+  /etc/.git/hooks/**  PUx,
+
+  # needed when parent process is contained by Apparmor
+  /dev/pts/[0-9]* rw,
+
+  # for password prompts
+  /dev/tty rw,
+
+  # editor
+  /usr/bin/vim   PUx,
+  /usr/bin/vim.* PUx,
+
+  # gpg
+  /usr/bin/gpg   PUx,
+  /usr/bin/gpg2  PUx,
+
+  # pager
+  /bin/less PUx,
+  /bin/more PUx,
+
+  # utilities
+  /bin/cat          PUx,
+  /bin/cp           PUx,
+  /bin/date         PUx,
+  /bin/grep         PUx,
+  /bin/mkdir        PUx,
+  /bin/mv           PUx,
+  /bin/rm           PUx,
+  /bin/sed          PUx,
+  /bin/uname        PUx,
+  /usr/bin/basename PUx,
+  /usr/bin/cut      PUx,
+  /usr/bin/envsubst PUx,
+  /usr/bin/expr     PUx,
+  /usr/bin/gettext  PUx,
+  /usr/bin/ngettext PUx,
+  /usr/bin/tr       PUx,
+  /usr/bin/xargs    PUx,
+  /usr/bin/wc       PUx,
+
+  # for --help
+  /usr/bin/man PUx,
+
+  # for git-ubuntu
+  /usr/bin/snap PUx,
+
+  /   r,
+  /** rkl,
+  owner /** rwkl,
+
+  # perl .so
+  /usr/lib/@{multiarch}/perl/**/*.so mr,
+
+  /bin/dash Cx -> dash,
+  profile dash {
+    #include <abstractions/base>
+    /bin/dash           rm,
+    /usr/lib/git-core/* Px -> /usr/bin/git,
+
+    # editor
+    /usr/bin/vim   PUx,
+    /usr/bin/vim.* PUx,
+
+    # for filter-branch
+    /bin/cat       PUx,
+    owner /**/.git-rewrite/** rw,
+  }
+
+  # transports
+  /usr/bin/rsync PUx,
+  /usr/bin/ssh   PUx,
+
+  #include <local/usr.bin.git>
+}
