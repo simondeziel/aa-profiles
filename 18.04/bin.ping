@@ -6,5 +6,6 @@
   #include <abstractions/nameservice>
 
   capability net_raw,
-  network raw,
+  network inet raw,
+  network inet6 raw,
 }
