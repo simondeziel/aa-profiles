@@ -1,0 +1,10 @@
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/bin/ping {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability net_raw,
+  network raw,
+}
