@@ -61,6 +61,7 @@
 
   # for git-ubuntu
   /usr/bin/snap PUx,
+  signal (send) set=("int") peer=snap.git-ubuntu.git-ubuntu,
 
   /   r,
   /** rkl,
