@@ -1,0 +1,21 @@
+#include <tunables/global>
+
+/usr/bin/dnstop {
+  #include <abstractions/base>
+
+  network inet,
+  capability net_raw,
+  network raw,
+
+  # for finding an interface
+  @{PROC}/[0-9]*/net/dev r,
+  /sys/bus/usb/devices/ r,
+  /sys/class/net/ r,
+  /sys/devices/**/net/* r,
+
+  # reading pcaps
+  /**pcap r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.dnstop>
+}
