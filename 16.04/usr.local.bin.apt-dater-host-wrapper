@@ -84,7 +84,7 @@
     /etc/environment r,
     /etc/default/locale r,
 
-    /usr/bin/sudo r,
+    /usr/bin/sudo mr,
     /usr/lib/sudo/*.so m,
 
     /dev/tty rw,
