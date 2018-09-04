@@ -65,6 +65,8 @@
     capability dac_override,
     capability dac_read_search,
 
+    /usr/bin/rsync m,
+
     # not needed
     deny capability sys_ptrace,
     deny ptrace,
