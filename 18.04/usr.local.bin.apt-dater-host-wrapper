@@ -6,6 +6,8 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  /bin/dash mr,
+
   # for confirmation prompts
   owner /dev/pts/[0-9]* rw,
 
@@ -42,6 +44,7 @@
     /var/cache/apt/** r,
     /var/lib/apt/**   r,
     /usr/bin/apt-get  ix,
+    /usr/lib/apt/methods/* ix,
 
     /etc/dpkg/**        r,
     /usr/share/dpkg/**  r,
@@ -52,6 +55,8 @@
     /etc/apt-dater-host.conf      r,
     /etc/apt-dater-host.uuid      r,
     /usr/local/bin/apt-dater-host r,
+
+    /var/log/apt/eipp.log.xz rw,
 
     # for confirmation prompts
     owner /dev/pts/[0-9]* rw,

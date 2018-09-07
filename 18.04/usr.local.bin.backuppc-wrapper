@@ -6,6 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  /bin/dash mr,
   /usr/local/bin/backuppc-wrapper r,
 
   @{PROC}/version   r,
@@ -61,11 +62,11 @@
     capability dac_override,
     capability dac_read_search,
 
+    /usr/bin/rsync m,
+
     # not needed
     deny capability sys_ptrace,
     deny ptrace,
-
-    /usr/bin/rsync m,
 
     /   r,
     /** r,

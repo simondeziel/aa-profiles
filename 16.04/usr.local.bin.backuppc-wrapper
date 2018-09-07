@@ -6,7 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
-  /bin/dash r,
+  /bin/dash mr,
   /usr/local/bin/backuppc-wrapper r,
 
   @{PROC}/version   r,
@@ -48,8 +48,8 @@
 
     /dev/tty rw,
 
-    @{PROC}/@{pid}/stat r,
-    @{PROC}/@{pid}/fd/ r,
+    owner @{PROC}/@{pid}/stat r,
+    owner @{PROC}/@{pid}/fd/ r,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html

@@ -6,7 +6,7 @@
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
-  /bin/dash r,
+  /bin/dash mr,
 
   # for confirmation prompts
   owner /dev/pts/[0-9]* rw,
@@ -44,8 +44,10 @@
     /var/cache/apt/** r,
     /var/lib/apt/**   r,
     /usr/bin/apt-get  ix,
+    /usr/lib/apt/methods/* ix,
 
     /etc/dpkg/**        r,
+    /usr/share/dpkg/**  r,
     /var/lib/dpkg/**    r,
     /usr/bin/dpkg       ix,
     /usr/bin/dpkg-query ix,
@@ -54,8 +56,12 @@
     /etc/apt-dater-host.uuid      r,
     /usr/local/bin/apt-dater-host r,
 
+    /var/log/apt/eipp.log.xz rw,
+
     # for confirmation prompts
     owner /dev/pts/[0-9]* rw,
+
+    owner /tmp/fileutl.message.?????? rw,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
@@ -92,8 +98,8 @@
     # for confirmation prompts
     /dev/pts/[0-9]* rw,
 
-    @{PROC}/@{pid}/stat r,
-    @{PROC}/@{pid}/fd/ r,
+    owner @{PROC}/@{pid}/stat r,
+    owner @{PROC}/@{pid}/fd/ r,
 
     /usr/bin/apt-get PUx,
   }
