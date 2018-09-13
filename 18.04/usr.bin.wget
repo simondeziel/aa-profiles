@@ -14,6 +14,7 @@
   /etc/wgetrc              r,
   owner @{HOME}/.wgetrc    r,
   owner @{HOME}/.wget-hsts rwk,
+  /usr/share/publicsuffix/* r,
 
   #include <local/usr.bin.wget>
 }
