@@ -45,6 +45,7 @@
     /var/lib/apt/**   r,
     /usr/bin/apt-get  ix,
     /usr/lib/apt/methods/* ix,
+    /usr/lib/@{multiarch}/perl-base/auto/List/Util/Util.so m,
 
     /etc/dpkg/**        r,
     /usr/share/dpkg/**  r,
