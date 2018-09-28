@@ -10,6 +10,8 @@
   # scp is almost just a wrapper around ssh
   /usr/bin/ssh Px,
 
+  /usr/bin/scp m,
+
   # for file transfers
   owner /** rw,
   /** r,
@@ -20,6 +22,9 @@
     #include <abstractions/base>
     capability chown,
     capability fowner,
+
+    /bin/cp m,
+
     owner /** rw,
     /** r,
   }
