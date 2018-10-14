@@ -17,6 +17,7 @@
   # XXX: requires to comment out encrypted $HOME rules
   # from abstractions/base to avoid compilation failures
   /**/.git/hooks/** PUx,
+  owner @{HOME}/**  PUx,
 
   # needed when parent process is contained by Apparmor
   /dev/pts/[0-9]* rw,
