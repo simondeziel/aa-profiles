@@ -21,6 +21,12 @@
   owner /run/user/[0-9]*/gnupg/S.dirmngr rw,
   owner @{PROC}/@{pid}/task/@{pid}/comm  rw,
 
+  # apt-key
+  owner /tmp/apt-key-gpghome.*/          r,
+  owner /tmp/apt-key-gpghome.*/**/       rw,
+  owner /tmp/apt-key-gpghome.*/crls.d/*  rw,
+  owner /tmp/apt-key-gpghome.*/S.dirmngr rw,
+
   # Site-specific additions and overrides.  See local/README for details.
   #include <local/usr.bin.dirmngr>
 }
