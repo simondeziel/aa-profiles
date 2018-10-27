@@ -31,6 +31,7 @@
 
   /usr/sbin/nsd mr,
 
+  /{,var/}run/systemd/notify w,
   /{,var/}run/nsd/nsd.pid rw,
 
   # Site-specific additions and overrides. See local/README for details.
