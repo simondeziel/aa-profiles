@@ -1,0 +1,34 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+/usr/bin/msmtp flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/p11-kit>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  /usr/bin/msmtp          mr,
+  /etc/aliases            r,
+  /etc/msmtprc            r,
+  /etc/netrc              r,
+  owner @{HOME}/.msmtp*   r,
+  owner @{HOME}/.netrc    r,
+  owner @{HOME}/.tls-crls r,
+
+  owner @{HOME}/.msmtp.log wk,
+  /var/log/msmtp           wk,
+
+  @{PROC}/@{pid}/loginuid r,
+  owner /tmp/msmtp*       rw,
+
+  # to type password interactively
+  owner /dev/pts/[0-9]*   rw,
+
+  # secret helpers
+  /usr/bin/secret-tool    PUx,
+  /usr/bin/gpg{,2}        PUx,
+
+  #include <local/usr.bin.msmtp>
+}
