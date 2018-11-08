@@ -39,8 +39,8 @@
   # cache
   /var/cache/nginx/               r,
   owner /var/cache/nginx/**       rw,
-  /run/shm/nginx-cache/           r,
-  owner /run/shm/nginx-cache/**   rw,
+  /dev/shm/nginx-cache/           r,
+  owner /dev/shm/nginx-cache/**   rw,
 
   # reexec during upgrade
   /usr/sbin/nginx           rix,
