@@ -1,0 +1,58 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+# XXX: attach_disconnected needed if using systemd Protect{Home,System}
+/usr/sbin/nginx flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  network inet stream,
+  network inet6 stream,
+
+  capability chown,
+  capability setuid,
+  capability setgid,
+  capability dac_override,
+
+  /etc/nginx/**                r,
+  owner @{PROC}/[0-9]*/auxv    r,
+  /var/log/nginx/*.log         w,
+  /var/log/nginx/**/*.log      w,
+  /{,var/}run/nginx.pid        rw,
+  /{,var/}run/nginx.pid.oldbin rw,
+
+  # document root
+  /var/www/                 r,
+  /var/www/**               r,
+  /usr/share/nginx/**       r,
+
+  # backend unix sockets
+  /{,var/}run/php*.sock rw,
+  /{,var/}run/php/*.sock rw,
+  /{,var/}run/php/**/*.sock rw,
+  /{,var/}run/thin/*.sock rw,
+  /{,var/}run/thin/**/*.sock rw,
+
+  # cache
+  /var/cache/nginx/               r,
+  owner /var/cache/nginx/**       rw,
+  /dev/shm/nginx-cache/           r,
+  owner /dev/shm/nginx-cache/**   rw,
+
+  # reexec during upgrade
+  /usr/sbin/nginx           rix,
+  /var/lib/nginx/**         rw,
+
+  # documentation
+  /usr/share/doc/**         r,
+
+  # Let's Encrypt
+  /etc/letsencrypt/keys/*.pem r,
+  # dehydrated
+  /var/lib/dehydrated/acme-challenges/* r,
+
+  #include <local/usr.sbin.nginx>
+}
