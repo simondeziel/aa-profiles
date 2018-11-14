@@ -23,6 +23,7 @@
   /var/log/nginx/**/*.log      w,
   /{,var/}run/nginx.pid        rw,
   /{,var/}run/nginx.pid.oldbin rw,
+  /usr/{,local/}lib/nginx/modules/*.so* mr,
 
   # document root
   /var/www/                 r,
