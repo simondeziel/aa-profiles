@@ -1,0 +1,22 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+/usr/bin/ssh-agent {
+  #include <abstractions/base>
+  #include <abstractions/openssl>
+
+  /tmp/                         rw,
+  owner /tmp/ssh-*/             rw,
+  owner /tmp/ssh-*/agent.@{pid} rw,
+  owner /run/user/[0-9]*/keyring/.ssh rw,
+
+  # ssh-askpass providers
+  /usr/bin/im-launch                 PUx,
+  /usr/bin/kwalletaskpass            PUx,
+  /usr/bin/ksshaskpass               PUx,
+  /usr/bin/ssh-askpass-fullscreen    PUx,
+  /usr/lib/openssh/gnome-ssh-askpass PUx,
+
+  #include <local/usr.bin.ssh-agent>
+}
