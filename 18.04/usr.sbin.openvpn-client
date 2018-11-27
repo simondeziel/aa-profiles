@@ -41,7 +41,7 @@ profile openvpn-client flags=(attach_disconnected) {
   /var/lib/openvpn/**/ r,
   /var/lib/openvpn/**/tmp/ rw,
   owner /var/lib/openvpn/**/tmp/** rw,
-  /run/openvpn/*.{pid,status} rw,
+  /run/openvpn-client/** rw,
   /run/systemd/notify w,
   /var/log/openvpn/*.log w,
 
