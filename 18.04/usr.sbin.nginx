@@ -50,12 +50,11 @@
   # documentation
   /usr/share/doc/**         r,
 
-  # certbot / letsncrypt
+  # certbot / letsencrypt
   /etc/letsencrypt/archive/*/cert*.pem r,
   /etc/letsencrypt/archive/*/chain*.pem r,
   /etc/letsencrypt/archive/*/fullchain*.pem r,
   owner /etc/letsencrypt/archive/*/privkey*.pem r,
-  owner /etc/letsencrypt/keys/*.pem r,
 
   # dehydrated
   /var/lib/dehydrated/acme-challenges/* r,
