@@ -1,0 +1,60 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+/usr/local/bin/acme-challenges {
+  #include <abstractions/base>
+
+  /bin/dash mr,
+  /usr/local/bin/acme-challenges r,
+
+  /usr/bin/sudo Cx -> sudo_challenge,
+
+  profile sudo_challenge {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    #include <abstractions/authentication>
+    #include <abstractions/wutmp>
+
+    capability audit_write,
+    capability sys_ptrace,
+    capability sys_resource,
+    capability setuid,
+    capability setgid,
+
+    /etc/sudoers r,
+    /etc/sudoers.d/ r,
+    /etc/sudoers.d/* r,
+    /etc/environment r,
+    /etc/default/locale r,
+
+    /usr/bin/sudo mr,
+    /usr/lib/sudo/*.so m,
+
+    /dev/tty rw,
+
+    owner @{PROC}/@{pid}/stat r,
+    owner @{PROC}/@{pid}/fd/ r,
+
+    # XXX: Cx doesn't work. For details, see
+    # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
+    #/usr/bin/rsync Cx -> rsync,
+    /usr/bin/tee Px -> /usr/local/bin/acme-challenges//tee_unlink,
+    /usr/bin/unlink Px -> /usr/local/bin/acme-challenges//tee_unlink,
+
+    signal (send) peer=/usr/local/bin/acme-challenges//tee_unlink,
+  }
+
+  profile tee_unlink {
+    #include <abstractions/base>
+
+    signal (receive) peer=/usr/local/bin/acme-challenges//sudo_challenge,
+
+    /usr/bin/tee    mr,
+    /usr/bin/unlink mr,
+    /var/lib/dehydrated/acme-challenges/* w,
+  }
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.local.bin.acme-challenges>
+}
