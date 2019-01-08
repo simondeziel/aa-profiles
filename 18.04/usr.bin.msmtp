@@ -21,6 +21,7 @@
   /var/log/msmtp            wk,
 
   @{PROC}/@{pid}/loginuid r,
+  /tmp/                   rw,
   owner /tmp/*            rw,
 
   # to type password interactively
