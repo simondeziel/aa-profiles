@@ -17,11 +17,11 @@
   owner @{HOME}/.netrc    r,
   owner @{HOME}/.tls-crls r,
 
-  owner @{HOME}/.msmtp.log wk,
-  /var/log/msmtp           wk,
+  owner @{HOME}/.msmtp*.log wk,
+  /var/log/msmtp            wk,
 
   @{PROC}/@{pid}/loginuid r,
-  owner /tmp/msmtp*       rw,
+  owner /tmp/*            rw,
 
   # to type password interactively
   owner /dev/pts/[0-9]*   rw,
