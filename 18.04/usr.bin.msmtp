@@ -20,6 +20,12 @@
   owner @{HOME}/.msmtp*.log wk,
   /var/log/msmtp            wk,
 
+  owner @{HOME}/**/.msmtprc        r,
+  owner @{HOME}/**/dot_msmtprc     r,
+  owner @{HOME}/.config/msmtp/*    r,
+  owner @{HOME}/.cache/msmtp/*     r,
+  owner @{HOME}/.cache/msmtp/*.log wk,
+
   @{PROC}/@{pid}/loginuid r,
   /tmp/                   rw,
   owner /tmp/*            rw,
@@ -28,8 +34,21 @@
   owner /dev/pts/[0-9]*   rw,
 
   # secret helpers
-  /usr/bin/secret-tool    PUx,
-  /usr/bin/gpg{,2}        PUx,
+  /{,usr/}bin/bash Cx -> helpers,
+  /{,usr/}bin/dash Cx -> helpers,
+  profile helpers {
+    #include <abstractions/base>
+    /{,usr/}bin/bash mr,
+    /{,usr/}bin/dash mr,
+    /tmp/            rw,
+    owner /tmp/*     rw,
+
+    /usr/bin/secret-tool PUx,
+    /usr/bin/gpg{,2}     PUx,
+    /usr/bin/pass        PUx,
+    /usr/bin/head        PUx,
+    /{,usr/}bin/cat      PUx,
+  }
 
   #include <local/usr.bin.msmtp>
 }
