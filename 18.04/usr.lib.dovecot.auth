@@ -42,6 +42,7 @@
   /var/tmp/smtp_* rw,
 
   /run/dovecot/auth-master rw,
+  /run/dovecot/auth-userdb rw,
   /run/dovecot/auth-worker rw,
   /run/dovecot/login/login rw,
   /{var/,}run/dovecot/auth-token-secret.dat{,.tmp} rw,
@@ -49,7 +50,7 @@
   /{var/,}run/dovecot/stats-user rw,
   /{var/,}run/dovecot/anvil-auth-penalty rw,
 
-  /var/spool/postfix/private/auth w,
+  /var/spool/postfix/private/auth rw,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.lib.dovecot.auth>
