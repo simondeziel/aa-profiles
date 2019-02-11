@@ -18,6 +18,8 @@
   capability setuid,
   capability sys_chroot,
 
+  unix (receive, send) type=stream peer=(label=dovecot),
+
   /run/dovecot/anvil rw,
   /usr/lib/dovecot/anvil mr,
 

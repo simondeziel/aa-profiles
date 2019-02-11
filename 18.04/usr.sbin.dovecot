@@ -33,6 +33,8 @@ profile dovecot /usr/{bin,sbin}/dovecot flags=(attach_disconnected) {
 
   signal send set=(int,quit) peer=/usr/lib/dovecot/*,
 
+  unix (receive, send) type=stream peer=(label=/usr/lib/dovecot/anvil),
+
   /etc/dovecot/** r,
   /etc/mtab r,
   /etc/lsb-release r,
