@@ -25,6 +25,7 @@
   capability dac_override,
   capability dac_read_search,
   capability setuid,
+  capability sys_chroot,
 
   /etc/my.cnf r,
   /etc/my.cnf.d/ r,
@@ -32,6 +33,7 @@
 
   /etc/dovecot/* r,
   /usr/lib/dovecot/auth mr,
+  /var/lib/dovecot/auth-chroot/* r,
 
   # kerberos replay cache
   /var/tmp/imap_* rw,
