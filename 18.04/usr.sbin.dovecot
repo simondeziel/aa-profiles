@@ -1,0 +1,72 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2009-2013 Canonical Ltd.
+#    Copyright (C) 2011-2013 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+#include <tunables/global>
+
+profile dovecot /usr/{bin,sbin}/dovecot flags=(attach_disconnected) {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/dovecot-common>
+  #include <abstractions/mysql>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  capability chown,
+  capability dac_override,
+  capability dac_read_search,
+  capability fsetid,
+  capability kill,
+  capability net_bind_service,
+  capability setuid,
+  capability sys_chroot,
+  capability sys_resource,
+
+  signal send set=(int,quit) peer=/usr/lib/dovecot/*,
+
+  /etc/dovecot/** r,
+  /etc/mtab r,
+  /etc/lsb-release r,
+  /etc/SuSE-release r,
+  @{PROC}/@{pid}/mounts r,
+  @{PROC}/sys/fs/suid_dumpable r,
+  /usr/bin/doveconf rix,
+  /usr/lib/dovecot/anvil mrPx,
+  /usr/lib/dovecot/auth mrPx,
+  /usr/lib/dovecot/config mrPx,
+  /usr/lib/dovecot/dict mrPx,
+  /usr/lib/dovecot/dovecot-auth Pxmr,
+  /usr/lib/dovecot/imap Pxmr,
+  /usr/lib/dovecot/imap-login Pxmr,
+  /usr/lib/dovecot/lmtp mrPx,
+  /usr/lib/dovecot/log mrPx,
+  /usr/lib/dovecot/managesieve mrPx,
+  /usr/lib/dovecot/managesieve-login Pxmr,
+  /usr/lib/dovecot/pop3 mrPx,
+  /usr/lib/dovecot/pop3-login Pxmr,
+  /usr/lib/dovecot/ssl-build-param rix,
+  /usr/lib/dovecot/ssl-params mrPx,
+  /usr/lib/dovecot/stats Px,
+  /usr/{bin,sbin}/dovecot mrix,
+  /usr/share/dovecot/protocols.d/   r,
+  /usr/share/dovecot/protocols.d/** r,
+  /var/lib/dovecot/ w,
+  /var/lib/dovecot/* rwkl,
+  /var/spool/postfix/private/auth w,
+  /var/spool/postfix/private/dovecot-lmtp w,
+  /{,var/}run/dovecot/ rw,
+  /{,var/}run/dovecot/** rw,
+  link /{,var/}run/dovecot/** -> /var/lib/dovecot/**,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.dovecot>
+}

@@ -1,0 +1,54 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2013-2018 Christian Boltz
+#    Copyright (C) 2014 Christian Wittmer
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+#include <tunables/global>
+
+/usr/lib/dovecot/auth {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/mysql>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+  #include <abstractions/wutmp>
+  #include <abstractions/dovecot-common>
+
+  capability audit_write,
+  capability dac_override,
+  capability dac_read_search,
+  capability setuid,
+
+  /etc/my.cnf r,
+  /etc/my.cnf.d/ r,
+  /etc/my.cnf.d/*.cnf r,
+
+  /etc/dovecot/* r,
+  /usr/lib/dovecot/auth mr,
+
+  # kerberos replay cache
+  /var/tmp/imap_* rw,
+  /var/tmp/pop_* rw,
+  /var/tmp/sieve_* rw,
+  /var/tmp/smtp_* rw,
+
+  /run/dovecot/auth-master rw,
+  /run/dovecot/auth-worker rw,
+  /run/dovecot/login/login rw,
+  /{var/,}run/dovecot/auth-token-secret.dat{,.tmp} rw,
+  /{var/,}run/dovecot/old-stats-user w,
+  /{var/,}run/dovecot/stats-user rw,
+  /{var/,}run/dovecot/anvil-auth-penalty rw,
+
+  /var/spool/postfix/private/auth w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.lib.dovecot.auth>
+}
