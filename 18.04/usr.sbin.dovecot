@@ -41,6 +41,7 @@ profile dovecot /usr/{bin,sbin}/dovecot flags=(attach_disconnected) {
   /etc/SuSE-release r,
   @{PROC}/@{pid}/mounts r,
   @{PROC}/sys/fs/suid_dumpable r,
+  /usr/bin/doveadm mrPx,
   /usr/bin/doveconf rix,
   /usr/lib/dovecot/anvil mrPx,
   /usr/lib/dovecot/auth mrPx,
