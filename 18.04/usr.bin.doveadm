@@ -16,7 +16,10 @@
   #include <abstractions/base>
   #include <abstractions/dovecot-common>
 
+  signal send set=(term) peer=dovecot,
+
   /usr/bin/doveadm mr,
+  /run/dovecot/master.pid r,
 
   /dev/tty rw,
 
