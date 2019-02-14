@@ -15,8 +15,6 @@
 /usr/lib/dovecot/pop3-login {
   #include <abstractions/base>
   #include <abstractions/nameservice>
-  #include <abstractions/ssl_certs>
-  #include <abstractions/ssl_keys>
   #include <abstractions/dovecot-common>
 
   capability setuid,

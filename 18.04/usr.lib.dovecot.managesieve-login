@@ -16,8 +16,6 @@
 
 /usr/lib/dovecot/managesieve-login {
   #include <abstractions/base>
-  #include <abstractions/ssl_certs>
-  #include <abstractions/ssl_keys>
   #include <abstractions/dovecot-common>
 
   capability setuid,

@@ -13,8 +13,6 @@
 #include <tunables/global>
 /usr/lib/dovecot/imap-login {
   #include <abstractions/base>
-  #include <abstractions/ssl_certs>
-  #include <abstractions/ssl_keys>
   #include <abstractions/dovecot-common>
 
   capability setuid,
