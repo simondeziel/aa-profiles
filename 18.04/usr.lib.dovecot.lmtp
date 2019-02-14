@@ -17,6 +17,7 @@
   #include <abstractions/nameservice>
   #include <abstractions/dovecot-common>
   #include <abstractions/openssl>
+  #include <abstractions/ssl_certs>
   #include <abstractions/ssl_keys>
 
   capability dac_override,
