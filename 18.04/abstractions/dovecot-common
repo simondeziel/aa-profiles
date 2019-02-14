@@ -17,3 +17,6 @@
   signal receive peer=dovecot,
 
   /{var/,}run/dovecot/config rw,
+
+  # XXX: sdeziel
+  audit deny other /etc/dovecot/certs/** rw,
