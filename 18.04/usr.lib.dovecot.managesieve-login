@@ -13,16 +13,17 @@
 # vim: ft=apparmor
 
 #include <tunables/global>
-
 /usr/lib/dovecot/managesieve-login {
   #include <abstractions/base>
   #include <abstractions/dovecot-common>
+  #include <abstractions/openssl>
 
   capability setuid,
   capability sys_chroot,
 
   network inet stream,
   network inet6 stream,
+  network unix stream,
 
   /usr/lib/dovecot/managesieve-login mr,
   /{,var/}run/dovecot/login-master-notify* rw,
