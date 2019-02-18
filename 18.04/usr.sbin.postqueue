@@ -1,0 +1,33 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+#include <tunables/global>
+
+/usr/sbin/postqueue {
+  #include <abstractions/base>
+  #include <abstractions/consoles>
+  #include <abstractions/nameservice>
+  #include <abstractions/kerberosclient>
+  #include <abstractions/postfix-common>
+
+  # This is needed at least for permissions=paranoid
+  capability dac_override,
+
+  /etc/postfix                         r,
+  /usr/sbin/postqueue                  rmix,
+  /usr/lib/postfix/showq               Px,
+  /var/spool/postfix                   r,
+  /var/spool/postfix/maildrop          r,
+  /var/spool/postfix/maildrop/*        rwl,
+  /var/spool/postfix/pid               r,
+  /var/spool/postfix/public/showq      w,
+  /var/spool/postfix/public/qmgr       w,
+  /var/spool/postfix/public/pickup     w,
+}
