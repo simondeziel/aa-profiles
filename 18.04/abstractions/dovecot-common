@@ -16,7 +16,9 @@
   # dovecot's master can send us signals
   signal receive peer=dovecot,
 
-  /{var/,}run/dovecot/config rw,
+  # XXX: sdeziel
+  #/{var/,}run/dovecot/config rw,
+  owner /run/dovecot/config rw,
 
   # XXX: sdeziel
   audit deny other /etc/dovecot/certs/** rw,
