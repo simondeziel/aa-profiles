@@ -31,7 +31,6 @@ profile postfix-smtpd /usr/lib/postfix/{sbin/,}smtpd {
   /var/lib/mailman/data/aliases.db             rk,
   /etc/mtab                                   r,
   /etc/fstab                                  r,
-  /etc/postfix/*.db                           r,
   /etc/postfix/{ssl/,}*.pem                   r,
   /etc/postfix/smtpd_scache.dir               r,
   /etc/postfix/smtpd_scache.pag               rw,
