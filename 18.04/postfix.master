@@ -27,6 +27,7 @@ profile postfix-master /usr/lib/postfix/{sbin/,}master {
   unix (send receive) type=stream peer=(label=postfix-*),
 
   /etc/postfix/master.cf                       r,
+  /var/lib/postfix/master.lock                 rwk,
   /{var/spool/postfix/,}pid/master.pid            rwk,
   /{var/spool/postfix/,}private/*                 wl,
   /{var/spool/postfix/,}private/tlsmgr            rwl,
