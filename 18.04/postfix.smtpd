@@ -37,8 +37,6 @@ profile postfix-smtpd /usr/lib/postfix/{sbin/,}smtpd {
   /etc/postfix/main.cf                        r,
   /etc/postfix/prng_exch                      rw,
 
-  /usr/share/ssl/certs/ca-bundle.crt          r,
-
   /{var/spool/postfix/,}pid/inet.*               rwk,
   /{var/spool/postfix/,}private/anvil            rw,
   /{var/spool/postfix/,}private/proxymap         rw,
