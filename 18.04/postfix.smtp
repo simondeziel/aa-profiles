@@ -16,6 +16,7 @@ profile postfix-smtp /usr/lib/postfix/{sbin/,}smtp {
   #include <abstractions/nameservice>
   #include <abstractions/postfix-common>
   #include <abstractions/openssl>
+  #include <abstractions/ssl_cert>
 
   capability dac_override,
   capability dac_read_search,
@@ -38,7 +39,6 @@ profile postfix-smtp /usr/lib/postfix/{sbin/,}smtp {
   /{var/spool/postfix/,}pid/unix.relay           rw,
   /etc/postfix/{ssl/,}*.pem                   r,
   /etc/postfix/prng_exch                      rw,
-  /usr/share/ssl/certs/ca-bundle.crt          r,
   /etc/postfix/virtual.db                     r,
   /etc/postfix/sasl_passwd.db                 r,
   /etc/mtab                                   r,
