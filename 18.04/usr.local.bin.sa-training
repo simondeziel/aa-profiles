@@ -1,0 +1,17 @@
+#include <tunables/global>
+
+/usr/local/bin/sa-training {
+  #include <abstractions/base>
+  #include <abstractions/perl>
+
+  /usr/local/bin/sa-training r,
+
+  owner /tmp/msg-*/     rw,
+  owner /tmp/msg-*/**   rw,
+
+  /usr/bin/pyzor        PUx,
+  /usr/bin/sa-learn     PUx,
+  /usr/bin/spamassassin PUx,
+
+  #include <local/usr.local.bin.sa-training>
+}
