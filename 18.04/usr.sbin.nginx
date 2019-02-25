@@ -36,6 +36,7 @@
   /run/php/**/*.sock        rw,
   /run/thin/*.sock          rw,
   /run/thin/**/*.sock       rw,
+  /run/uwsgi/**/socket      rw,
 
   # cache
   /var/cache/nginx/               r,
