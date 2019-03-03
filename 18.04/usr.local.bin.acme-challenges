@@ -6,6 +6,7 @@
   #include <abstractions/base>
 
   /bin/dash mr,
+  /dev/tty rw,
   /usr/local/bin/acme-challenges r,
 
   /usr/bin/sudo Cx -> sudo_challenge,
