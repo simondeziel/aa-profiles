@@ -6,8 +6,8 @@
 
   /usr/local/bin/sa-training r,
 
-  owner /tmp/msg-*/     rw,
-  owner /tmp/msg-*/**   rw,
+  owner /tmp/           rw,
+  owner /tmp/**         rw,
 
   /usr/bin/pyzor        PUx,
   /usr/bin/sa-learn     PUx,
