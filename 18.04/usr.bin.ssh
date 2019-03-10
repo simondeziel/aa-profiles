@@ -57,6 +57,9 @@
   audit deny /var/lib/*/.ssh/config w,
   audit deny /var/lib/*/.ssh/id_{dsa,rsa,ecdsa,ed25519}{,.pub} w,
 
+  # uvtools
+  owner /tmp/uvt-kvm.known_hoststmp?????? r,
+
   # for ProxyCommand
   /bin/ash      Cx -> proxycommand,
   /bin/bash     Cx -> proxycommand,
