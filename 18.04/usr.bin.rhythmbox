@@ -79,6 +79,7 @@
   /usr/share/rhythmbox/**      r,
   /var/lib/dbus/machine-id r,
   /etc/fstab r,
+  /run/mount/utab r,
 
   /usr/share/gstreamer-[0-9]*/** r,
   /usr/lib/gstreamer[0-9]*/gstreamer-[0-9]*/gst-plugin-scanner ix,
