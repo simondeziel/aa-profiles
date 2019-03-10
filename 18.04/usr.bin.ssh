@@ -13,10 +13,12 @@
 
   signal (receive) set=(int,term,winch) peer=/usr/bin/scp,
   signal (receive) set=(int,term,winch) peer=/usr/bin/sftp,
+  signal (receive) set=(int,term,winch) peer=/usr/bin/sshfs,
 
   unix (send,receive) type=stream peer=(label=/usr/bin/sftp),
   unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
   unix (send,receive) type=stream peer=(label=/usr/bin/ssh//*),
+  unix (send,receive) type=stream peer=(label=/usr/bin/sshfs),
 
   /etc/ssh/ssh_config r,
   /etc/ssh/ssh_known_hosts{,2} r,
