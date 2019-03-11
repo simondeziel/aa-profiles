@@ -17,7 +17,7 @@
   /dev/fuse rw,
   /**/ r,
 
-  /bin/fusermount pux,
+  /bin/fusermount PUx,
   /usr/bin/ssh    PUx,
 
   #include <local/usr.bin.sshfs>
