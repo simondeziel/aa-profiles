@@ -5,7 +5,7 @@
 /usr/bin/scp {
   #include <abstractions/base>
 
-  signal (send) set=(int,term,winch) peer=/usr/bin/ssh,
+  signal (send) set=(int,stp,term,winch) peer=/usr/bin/ssh,
 
   # scp is almost just a wrapper around ssh
   /usr/bin/ssh Px,
