@@ -31,7 +31,7 @@ profile dovecot /usr/{bin,sbin}/dovecot flags=(attach_disconnected) {
   capability sys_chroot,
   capability sys_resource,
 
-  signal send set=(int,quit) peer=/usr/lib/dovecot/*,
+  signal send set=(int,quit,term) peer=/usr/lib/dovecot/*,
 
   unix (receive, send) type=stream peer=(label=/usr/lib/dovecot/anvil),
 
