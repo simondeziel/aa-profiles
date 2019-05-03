@@ -26,5 +26,8 @@
   owner /run/haproxy.pid w,
   /run/systemd/notify w,
 
+  # workaround LP: #1641236
+  /dev/pts/[0-9]* rw,
+
   #include <local/usr.sbin.haproxy>
 }
