@@ -2,7 +2,7 @@
 # vim:syntax=apparmor
 
 #include <tunables/global>
-/usr/sbin/nrpe {
+/usr/sbin/nrpe flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
@@ -20,7 +20,7 @@
 
   /usr/bin/sudo Cx -> sudo_nrpe,
 
-  profile sudo_nrpe {
+  profile sudo_nrpe flags=(attach_disconnected) {
     #include <abstractions/base>
     #include <abstractions/nameservice>
     #include <abstractions/authentication>
@@ -41,7 +41,7 @@
     /etc/environment r,
     /etc/default/locale r,
 
-    /usr/bin/sudo r,
+    /usr/bin/sudo mr,
     /usr/lib/sudo/*.so m,
 
     /dev/tty rw,
