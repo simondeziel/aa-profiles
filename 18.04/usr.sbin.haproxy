@@ -21,6 +21,7 @@
   /etc/haproxy/** r,
   /usr/sbin/haproxy mr,
   /var/lib/haproxy/dev/log w,
+  /etc/ssl/openssl.cnf r,
 
   owner /run/haproxy/** rwl,
   owner /run/haproxy.pid w,
