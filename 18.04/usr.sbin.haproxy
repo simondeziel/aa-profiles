@@ -14,6 +14,7 @@
   capability dac_override,
   capability fsetid,
   capability kill,
+  capability net_admin,
   capability setuid,
   capability setgid,
   capability sys_chroot,
