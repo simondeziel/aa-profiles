@@ -13,6 +13,7 @@
   /etc/nagios/** r,
   /etc/hosts.deny r,
   /etc/hosts.allow r,
+  /etc/ssl/openssl.cnf r,
   /{,var/}run/nagios/nrpe.pid  rw,
 
   /bin/dash ix,
