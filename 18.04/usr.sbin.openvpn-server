@@ -16,6 +16,7 @@ profile openvpn-server flags=(attach_disconnected) {
   # For mlock support
   capability ipc_lock,
 
+  /etc/ssl/openssl.cnf r,
   /usr/lib/openvpn/*.so mr,
   /dev/net/tun rw,
 

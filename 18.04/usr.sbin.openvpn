@@ -20,6 +20,7 @@
   /dev/tty  rw,
   /bin/systemd-ask-password PUx,
 
+  /etc/ssl/openssl.cnf r,
   /usr/lib/openvpn/*.so mr,
   /dev/net/tun rw,
 
