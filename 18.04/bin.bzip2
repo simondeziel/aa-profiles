@@ -1,0 +1,16 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/{,usr/}bin/bzip2 {
+  #include <abstractions/base>
+
+  # the full <abstraction/base> isn't needed
+  audit deny ptrace,
+  audit deny unix,
+
+  /{,usr/}bin/bzip2 rm,
+  audit deny /{,usr/}bin/bzip2 w,
+
+  /** rw,
+}
