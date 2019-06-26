@@ -13,7 +13,7 @@
   # config
   /etc/amavis/** r,
   /etc/mailname  r,
-  /usr/sbin/amavisd-new r,
+  /usr/sbin/amavisd-new rm,
   /usr/share/amavis/**  r,
   owner /var/lib/amavis/**    rw,
   owner /var/lib/amavis/.spamassassin/bayes.mutex    rwk,
@@ -40,7 +40,7 @@
   /bin/dash Cx -> dash,
   profile dash {
     #include <abstractions/base>
-    /bin/dash r,
+    /bin/dash rm,
 
     /etc/amavis/** r,
     /usr/share/amavis/** r,
@@ -58,11 +58,11 @@
   /usr/bin/xz   Cx -> extractor,
   profile extractor {
     #include <abstractions/base>
-    /bin/bzip2   r,
-    /bin/gzip    r,
-    /usr/bin/7zr r,
-    /usr/bin/ar  r,
-    /usr/bin/xz  r,
+    /bin/bzip2   rm,
+    /bin/gzip    rm,
+    /usr/bin/7zr rm,
+    /usr/bin/ar  rm,
+    /usr/bin/xz  rm,
 
     owner /var/lib/amavis/tmp/amavis-*/ r,
     owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
@@ -76,7 +76,7 @@
     /etc/group         r,
     /etc/passwd        r,
 
-    /bin/pax r,
+    /bin/pax rm,
     deny /dev/tty rw,
 
     owner /var/lib/amavis/tmp/amavis-*/ r,
@@ -88,7 +88,7 @@
     #include <abstractions/base>
 
     /etc/magic r,
-    /usr/bin/file r,
+    /usr/bin/file rm,
     /usr/share/file/** r,
     /usr/lib/libmagic.so* ix,
 
@@ -112,6 +112,6 @@
     owner /var/lib/amavis/tmp/amavis-*/ r,
     owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
     owner /var/lib/amavis/.pyzor/** r,
-    /usr/bin/pyzor r,
+    /usr/bin/pyzor rm,
   }
 }
