@@ -15,6 +15,7 @@
   /etc/hosts.allow r,
   /etc/ssl/openssl.cnf r,
   /{,var/}run/nagios/nrpe.pid  rw,
+  /usr/sbin/nrpe mr,
 
   /bin/dash ix,
   /usr/{,local/}lib/nagios/plugins/** PUx,
