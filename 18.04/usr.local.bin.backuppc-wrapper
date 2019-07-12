@@ -16,9 +16,9 @@
   # Allow to terminate unconfined processes
   signal (send) set=("kill") peer=unconfined,
 
-  /usr/bin/sudo Cx -> sudo_rsync,
+  /usr/bin/sudo Cx -> sudo,
 
-  profile sudo_rsync {
+  profile sudo {
     #include <abstractions/base>
     #include <abstractions/nameservice>
     #include <abstractions/authentication>
@@ -50,12 +50,14 @@
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
     #/usr/bin/rsync Cx -> rsync,
     /usr/bin/rsync Px -> /usr/local/bin/backuppc-wrapper//rsync,
+
+    /{,snap/core/[0-9]*/}usr/bin/snap mrPx -> /usr/local/bin/backuppc-wrapper//snap_lxc,
   }
 
   profile rsync {
     #include <abstractions/base>
 
-    signal (receive) peer=/usr/local/bin/backuppc-wrapper//sudo_rsync,
+    signal (receive) peer=/usr/local/bin/backuppc-wrapper//sudo,
 
     capability dac_override,
     capability dac_read_search,
@@ -68,6 +70,37 @@
 
     /   r,
     /** r,
+  }
+
+  profile snap_lxc {
+    #include <abstractions/base>
+    signal (receive) peer=/usr/local/bin/backuppc-wrapper//sudo,
+
+    /etc/passwd r,
+    /etc/group r,
+    /etc/nsswitch.conf r,
+
+    /{,snap/core/[0-9]*/}usr/bin/snap mrix,  # re-exec
+    /etc/fstab r,
+    @{PROC}/version r,
+    @{PROC}/sys/net/core/somaxconn r,
+    @{PROC}/sys/kernel/seccomp/actions_avail r,
+    owner @{PROC}/@{pid}/mountinfo r,
+    owner @{HOME}/.snap/auth.json r,         # if exists, required
+    /run/snapd.socket rw,
+    /snap/core/[0-9]*/usr/lib/snapd/info r,
+    /snap/core/[0-9]*/usr/lib/snapd/snapd r,
+    /var/lib/snapd/system-key r,
+
+    /{,snap/core/[0-9]*/}usr/lib/snapd/snap-confine Pix,
+    /{,snap/core/[0-9]*/}usr/lib/snapd/snap-seccomp ixr,
+    /sys/kernel/security/apparmor/features/{,**} r,
+    /etc/apparmor/*.conf r,
+    /sbin/apparmor_parser ix,
+
+    # allow launching lxd snap
+    /snap/lxd/[0-9]*/meta/snap.yaml r,
+    /snap/lxd/[0-9]*/meta/hooks{,/*} r,
   }
 
   # Site-specific additions and overrides. See local/README for details.
