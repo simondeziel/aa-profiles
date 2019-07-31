@@ -61,7 +61,7 @@
   /usr/sbin/sshd mrix,
   /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,
-  owner /{,var/}run/sshd{,.init}.pid wl,
+  owner /run/sshd{,.init}.pid wl,
   @{HOME}/.ssh/authorized_keys{,2} r,
 
   @{PROC}/cmdline r,
@@ -111,7 +111,7 @@
 
     /usr/bin/passwd rm,
     /dev/pts/[0-9]* rw,
-    /{,var/}run/utmp rwk,
+    /run/utmp rwk,
 
     owner /etc/.pwd.lock rwk,
     owner /etc/nshadow rw,
@@ -143,7 +143,7 @@
 
   /etc.legal r,
   /etc/motd r,
-  /{,var/}run/motd{,.dynamic}{,.new} rw,
+  /run/motd{,.dynamic}{,.new} rw,
   /tmp/ssh-[a-zA-Z0-9]*/ w,
   /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
 
