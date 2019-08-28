@@ -45,6 +45,7 @@
     /var/lib/apt/**   r,
     /usr/bin/apt-get  ix,
     /usr/lib/apt/methods/* ix,
+    /usr/lib/@{multiarch}/perl-base/auto/List/Util/Util.so m,
 
     /etc/dpkg/**        r,
     /usr/share/dpkg/**  r,
@@ -76,9 +77,6 @@
     #include <abstractions/wutmp>
 
     capability audit_write,
-    capability dac_override,
-    capability dac_read_search,
-    capability net_admin,
     capability sys_ptrace,
     capability sys_resource,
     capability setuid,
