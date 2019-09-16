@@ -30,7 +30,7 @@
   owner /tmp/nsd-xfr-@{pid}/*   rw,
   /var/log/nsd.log w,
 
-  /usr/sbin/nsd mr,
+  /usr/sbin/nsd mrix,
 
   /{,var/}run/systemd/notify w,
   /{,var/}run/nsd/nsd.pid rw,
