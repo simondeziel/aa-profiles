@@ -6,6 +6,7 @@
 /usr/sbin/nsd flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
 
   capability net_admin,
   capability net_bind_service,

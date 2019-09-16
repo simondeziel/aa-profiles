@@ -22,6 +22,7 @@
   #include <abstractions/consoles>
   #include <abstractions/libpam-systemd>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
   #include <abstractions/wutmp>
 
   capability sys_chroot,
@@ -57,7 +58,6 @@
   /etc/modules.conf r,
   /etc/security/** r,
   /etc/ssh/** r,
-  /etc/ssl/openssl.cnf r,
   /usr/sbin/sshd mrix,
   /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,

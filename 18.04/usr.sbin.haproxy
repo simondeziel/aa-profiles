@@ -6,6 +6,7 @@
 /usr/sbin/haproxy flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
 
   network inet stream,
   network inet6 stream,
@@ -22,7 +23,6 @@
   /etc/haproxy/** r,
   /usr/sbin/haproxy mr,
   /var/lib/haproxy/dev/log w,
-  /etc/ssl/openssl.cnf r,
 
   owner /run/haproxy/** rwl,
   owner /run/haproxy.pid w,

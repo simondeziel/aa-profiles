@@ -5,6 +5,7 @@
 /sbin/wpa_supplicant {
   #include <abstractions/base>
   #include <abstractions/dbus-strict>
+  #include <abstractions/openssl>
 
   capability net_admin,
   capability net_raw,
@@ -16,7 +17,6 @@
   network packet dgram,
   network netlink,
 
-  /etc/ssl/openssl.cnf r,
   /sbin/wpa_supplicant mr,
 
   /run/wpa_supplicant/ rw,

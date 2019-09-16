@@ -5,6 +5,7 @@
 /usr/sbin/nrpe flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
 
   capability dac_override,
   capability setuid,
@@ -13,7 +14,6 @@
   /etc/nagios/** r,
   /etc/hosts.deny r,
   /etc/hosts.allow r,
-  /etc/ssl/openssl.cnf r,
   /{,var/}run/nagios/nrpe.pid  rw,
   /usr/sbin/nrpe mr,
 

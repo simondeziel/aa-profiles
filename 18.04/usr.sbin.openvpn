@@ -6,6 +6,7 @@
 /usr/sbin/openvpn flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
+  #include <abstractions/openssl>
 
   capability net_admin,
   capability setuid,
@@ -20,7 +21,6 @@
   /dev/tty  rw,
   /bin/systemd-ask-password PUx,
 
-  /etc/ssl/openssl.cnf r,
   /usr/lib/openvpn/*.so mr,
   /dev/net/tun rw,
 
