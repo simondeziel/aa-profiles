@@ -12,7 +12,6 @@
   /etc/apt-cacher-ng/ r,
   /etc/apt-cacher-ng/** r,
   /etc/hosts.{deny,allow} r,
-  /etc/ssl/openssl.cnf r,
 
   /var/lib/apt-cacher-ng/** r,
   /{,var/}run/apt-cacher-ng/* rw,
