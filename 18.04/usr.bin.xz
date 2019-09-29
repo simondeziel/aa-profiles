@@ -1,0 +1,19 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/bin/xz {
+  #include <abstractions/base>
+  capability chown,
+  capability dac_read_search,
+  capability fowner,
+
+  # the full <abstraction/base> isn't needed
+  audit deny ptrace,
+  audit deny unix,
+
+  /usr/bin/xz rm,
+  audit deny /usr/bin/xz w,
+
+  /** rw,
+}
