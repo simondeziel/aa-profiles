@@ -4,6 +4,9 @@
 
 /{,usr/}bin/bzip2 {
   #include <abstractions/base>
+  capability chown,
+  capability dac_read_search,
+  capability fowner,
 
   # the full <abstraction/base> isn't needed
   audit deny ptrace,
