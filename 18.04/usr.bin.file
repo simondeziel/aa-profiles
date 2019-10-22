@@ -1,0 +1,14 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+/usr/bin/file {
+  #include <abstractions/base>
+
+  # the full <abstraction/base> isn't needed
+  audit deny ptrace,
+  audit deny unix,
+
+  /usr/bin/file rm,
+  /** r,
+}
