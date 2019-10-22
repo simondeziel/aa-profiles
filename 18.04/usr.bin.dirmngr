@@ -27,6 +27,12 @@
   owner /tmp/apt-key-gpghome.*/crls.d/*  rw,
   owner /tmp/apt-key-gpghome.*/S.dirmngr rw,
 
+  # distrobuilder
+  owner /tmp/distrobuilder.*/          r,
+  owner /tmp/distrobuilder.*/**/       rw,
+  owner /tmp/distrobuilder.*/crls.d/*  rw,
+  owner /tmp/distrobuilder.*/S.dirmngr rw,
+
   # Site-specific additions and overrides.  See local/README for details.
   #include <local/usr.bin.dirmngr>
 }
