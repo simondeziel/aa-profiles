@@ -25,3 +25,6 @@
   # If you want to allow Pidgin to update any DConf setting:
   owner @{HOME}/.{cache,config}/dconf/user rw,
   owner /run/user/[0-9]*/dconf/user rwk,
+
+  # snap
+  /var/lib/snapd/desktop/icons/ r,
