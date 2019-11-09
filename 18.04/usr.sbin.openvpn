@@ -21,6 +21,7 @@
   /dev/tty  rw,
   /bin/systemd-ask-password PUx,
 
+  /usr/sbin/openvpn mr,
   /usr/lib/openvpn/*.so mr,
   /dev/net/tun rw,
 

@@ -24,6 +24,7 @@ profile openvpn-client flags=(attach_disconnected) {
   owner @{PROC}/sys/kernel/osrelease r,
   owner @{PROC}/@{pids}/{environ,sched,stat} r,
 
+  /usr/sbin/openvpn mr,
   /usr/lib/openvpn/*.so mr,
   /dev/net/tun rw,
 
