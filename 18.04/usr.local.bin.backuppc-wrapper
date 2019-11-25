@@ -12,6 +12,14 @@
   @{PROC}/version   r,
   /usr/bin/basename ix,
   /usr/bin/logger   ix,
+  /bin/sed          ix,
+
+  # to create a dummy directory
+  /bin/mktemp               ix,
+  /bin/rmdir                ix,
+  /usr/bin/unlink           ix,
+  owner /tmp/backuppc-wrapper.*/  rw,
+  owner /tmp/backuppc-wrapper.*/* rw,
 
   # Allow to terminate unconfined processes
   signal (send) set=("kill") peer=unconfined,
@@ -45,6 +53,7 @@
 
     owner @{PROC}/@{pid}/stat r,
     owner @{PROC}/@{pid}/fd/ r,
+    owner /run/sudo/ts/backup rwk,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
