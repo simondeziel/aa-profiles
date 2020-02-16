@@ -48,9 +48,6 @@
   /usr/sbin/nginx           rix,
   /var/lib/nginx/**         rw,
 
-  # documentation
-  /usr/share/doc/**         r,
-
   # certbot / letsencrypt
   /etc/letsencrypt/archive/*/cert*.pem r,
   /etc/letsencrypt/archive/*/chain*.pem r,
