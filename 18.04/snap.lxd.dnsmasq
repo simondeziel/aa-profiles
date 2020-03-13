@@ -34,6 +34,7 @@ profile snap-lxd-dnsmasq /snap/lxd/[0-9]*/bin/dnsmasq flags=(attach_disconnected
   /var/lib/snapd/hostfs/run/systemd/resolve/stub-resolv.conf r,
 
   /snap/lxd/[0-9]*/lib/**.so*                  mr,
+  /run/dnsmasq.pid                             w,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/snap.lxd.dnsmasq>
