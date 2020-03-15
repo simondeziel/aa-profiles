@@ -1,0 +1,33 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+/usr/bin/scp {
+  #include <abstractions/base>
+
+  signal (send) set=(int,stp,term,winch) peer=/usr/bin/ssh,
+
+  # scp is almost just a wrapper around ssh
+  /usr/bin/ssh Px,
+
+  /usr/bin/scp m,
+
+  # for file transfers
+  owner /** rw,
+  /** r,
+
+  # can fallback to cp if only local paths are provided
+  /{,usr/}bin/cp Cx -> cp_fallback,
+  profile cp_fallback {
+    #include <abstractions/base>
+    capability chown,
+    capability fowner,
+
+    /{,usr/}bin/cp m,
+
+    owner /** rw,
+    /** r,
+  }
+
+  #include <local/usr.bin.scp>
+}
