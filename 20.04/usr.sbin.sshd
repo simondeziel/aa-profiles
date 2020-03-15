@@ -1,0 +1,159 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#    Copyright (C) 2012 Canonical Ltd.
+#    Copyright (C) 2015-2016 Simon Deziel
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# will need to revalidate this profile once we finish re-architecting
+# the change_hat patch.
+#
+# vim:syntax=apparmor
+
+#include <tunables/global>
+
+/usr/sbin/sshd {
+  #include <abstractions/authentication>
+  #include <abstractions/base>
+  #include <abstractions/consoles>
+  #include <abstractions/libpam-systemd>
+  #include <abstractions/nameservice>
+  #include <abstractions/openssl>
+  #include <abstractions/wutmp>
+
+  capability sys_chroot,
+  capability sys_resource,
+  capability sys_tty_config,
+  capability net_bind_service,
+  capability chown,
+  capability fowner,
+  capability kill,
+  capability setgid,
+  capability setuid,
+  capability audit_control,
+  capability audit_write,
+  capability dac_override,
+  capability dac_read_search,
+  capability sys_ptrace,
+
+  # sshd doesn't require net_admin. libpam-systemd tries to
+  # use it if available to set the send/receive buffers size,
+  # but will fall back to a non-privileged version if it fails.
+  deny capability net_admin,
+
+  # needed when /proc is mounted with hidepid>=1
+  ptrace (read,trace) peer="unconfined",
+
+  /dev/ptmx rw,
+  /dev/pts/[0-9]* rw,
+  /dev/urandom r,
+  /etc/default/locale r,
+  /etc/environment r,
+  /etc/hosts.allow r,
+  /etc/hosts.deny r,
+  /etc/modules.conf r,
+  /etc/security/** r,
+  /etc/ssh/** r,
+  /usr/sbin/sshd mrix,
+  /usr/share/ssh/blacklist.* r,
+  /var/log/btmp rw,
+  owner /run/sshd{,.init}.pid wl,
+  @{HOME}/.ssh/authorized_keys{,2} r,
+
+  @{PROC}/cmdline r,
+  @{PROC}/1/environ r,
+  @{PROC}/@{pids}/fd/ r,  # pid of the just-logged in user's shell
+  owner @{PROC}/@{pid}/loginuid rw,
+  owner @{PROC}/@{pid}/limits r,
+  owner @{PROC}/@{pid}/uid_map r,
+  owner @{PROC}/@{pid}/mounts r,
+  owner @{PROC}/@{pid}/oom_adj rw,
+  owner @{PROC}/@{pid}/oom_score_adj rw,
+
+  /sys/fs/cgroup/*/user/*/[0-9]*/ rw,
+  /sys/fs/cgroup/systemd/user.slice/user-[0-9]*.slice/session-c[0-9]*.scope/ rw,
+
+  /{,usr/}bin/ash      Uxr,
+  /{,usr/}bin/bash     Uxr,
+  /{,usr/}bin/bash2    Uxr,
+  /{,usr/}bin/bsh      Uxr,
+  /{,usr/}bin/csh      Uxr,
+  /{,usr/}bin/dash     Uxr,
+  /{,usr/}bin/ksh      Uxr,
+  /{,usr/}bin/sh       Uxr,
+  /{,usr/}bin/tcsh     Uxr,
+  /{,usr/}bin/zsh      Uxr,
+  /{,usr/}bin/zsh4     Uxr,
+  /{,usr/}bin/zsh5     Uxr,
+  /{,usr/}sbin/nologin Uxr,
+  /{,usr/}bin/false    Uxr,
+
+  # XXX: this needs to be enabled otherwise we risk locking out a user
+  # Call passwd for password change when expired
+  /usr/bin/passwd Cx -> passwd,
+
+  # to set memory protection for passwd
+  @{PROC}/@{pid}/task/@{pid}/attr/exec w,
+  profile passwd {
+    #include <abstractions/authentication>
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    capability audit_write,
+    capability chown,
+    capability fsetid,
+    capability setuid,
+    capability setgid,
+
+    /usr/bin/passwd rm,
+    /dev/pts/[0-9]* rw,
+    /run/utmp rwk,
+
+    owner /etc/.pwd.lock rwk,
+    owner /etc/nshadow rw,
+    owner /etc/shadow  rw,
+    owner @{PROC}/@{pid}/loginuid r,
+
+    # XXX: put into another subprofile?
+    /usr/bin/gnome-keyring-daemon ix,
+    capability ipc_lock,
+    owner @{PROC}/@{pid}/status r,
+    owner @{HOME}/.cache/keyring-*/        rw,
+    owner @{HOME}/.cache/keyring-*/control rw,
+  }
+
+  # after password change when expired
+  owner /etc/.pwd.lock rwk,
+  /usr/bin/gnome-keyring-daemon Cx -> gnome_keyring_daemon,
+
+  profile gnome_keyring_daemon {
+    #include <abstractions/base>
+  }
+
+  dbus (send)
+       bus=system
+       path=/org/freedesktop/systemd1
+       interface=org.freedesktop.systemd1.Manager
+       member=LookupDynamicUserByName
+       peer=(name=(org.freedesktop.systemd1)),
+
+  /etc.legal r,
+  /etc/motd r,
+  /run/motd{,.dynamic}{,.new} rw,
+  /tmp/ssh-[a-zA-Z0-9]*/ w,
+  /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
+
+  # for internal-sftp
+  /         r,
+  /**       r,
+  owner /** rwl,
+
+  /usr/lib/openssh/sftp-server PUx,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.sbin.sshd>
+}
