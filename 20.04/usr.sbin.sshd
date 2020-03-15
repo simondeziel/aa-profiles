@@ -16,7 +16,7 @@
 
 #include <tunables/global>
 
-/usr/sbin/sshd {
+/usr/sbin/sshd flags=(attach_disconnected) {
   #include <abstractions/authentication>
   #include <abstractions/base>
   #include <abstractions/consoles>
@@ -62,6 +62,7 @@
   /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,
   owner /run/sshd{,.init}.pid wl,
+  owner /run/systemd/sessions/[0-9].ref w,
   @{HOME}/.ssh/authorized_keys{,2} r,
 
   @{PROC}/cmdline r,
