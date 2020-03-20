@@ -62,7 +62,7 @@
     # for confirmation prompts
     owner /dev/pts/[0-9]* rw,
 
-    owner /tmp/fileutl.message.?????? rw,
+    owner /tmp/{clearsigned,fileutl}.message.?????? rw,
 
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
