@@ -99,8 +99,6 @@
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
     #/usr/bin/xauth Cx -> xauth,
     /usr/bin/xauth Px -> /usr/bin/ssh//xauth,
-    #/{,usr/}bin/nc.openbsd Cx -> nc,
-    /{,usr/}bin/nc.openbsd Px -> /usr/bin/ssh//nc,
 
     # unlocking the key is done by the parent so why is this needed?
     /dev/tty rw,
@@ -127,21 +125,6 @@
     # for ssh -Y
     owner link @{HOME}/.Xauthority-l -> /**/.Xauthority-c,
     owner @{HOME}/.Xauthority-c w,
-  }
-
-  # XXX: for configs using "/{,usr/}bin/nc" instead of "ssh -W"
-  /{,usr/}bin/nc.openbsd mr,
-  signal (send) set=("hup") peer=/usr/bin/ssh//nc,
-  profile nc {
-    #include <abstractions/base>
-    #include <abstractions/nameservice>
-
-    unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
-
-    # Accept HUP from parent
-    signal (receive) set=("hup") peer=/usr/bin/ssh,
-
-    /{,usr/}bin/nc.openbsd rix,
   }
 
   #include <local/usr.bin.ssh>
