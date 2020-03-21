@@ -62,18 +62,9 @@
   owner /tmp/uvt-kvm.known_hoststmp?????? r,
 
   # for ProxyCommand
-  /{,usr/}bin/ash   Cx -> proxycommand,
   /{,usr/}bin/bash  Cx -> proxycommand,
-  /{,usr/}bin/bash2 Cx -> proxycommand,
-  /{,usr/}bin/bsh   Cx -> proxycommand,
-  /{,usr/}bin/csh   Cx -> proxycommand,
   /{,usr/}bin/dash  Cx -> proxycommand,
-  /{,usr/}bin/ksh   Cx -> proxycommand,
-  /{,usr/}bin/sh    Cx -> proxycommand,
-  /{,usr/}bin/tcsh  Cx -> proxycommand,
   /{,usr/}bin/zsh   Cx -> proxycommand,
-  /{,usr/}bin/zsh4  Cx -> proxycommand,
-  /{,usr/}bin/zsh5  Cx -> proxycommand,
   /usr/bin/ssh      mr,
 
   profile proxycommand {
@@ -81,18 +72,9 @@
 
     unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
 
-    /{,usr/}bin/ash   mr,
     /{,usr/}bin/bash  mr,
-    /{,usr/}bin/bash2 mr,
-    /{,usr/}bin/bsh   mr,
-    /{,usr/}bin/csh   mr,
     /{,usr/}bin/dash  mr,
-    /{,usr/}bin/ksh   mr,
-    /{,usr/}bin/sh    mr,
-    /{,usr/}bin/tcsh  mr,
     /{,usr/}bin/zsh   mr,
-    /{,usr/}bin/zsh4  mr,
-    /{,usr/}bin/zsh5  mr,
     /usr/bin/ssh      Px,
 
     # XXX: Cx doesn't work. For details, see
