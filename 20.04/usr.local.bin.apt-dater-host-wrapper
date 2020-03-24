@@ -76,6 +76,13 @@
     #include <abstractions/authentication>
     #include <abstractions/wutmp>
 
+    dbus (send)
+         bus=system
+         path=/org/freedesktop/systemd1
+         interface=org.freedesktop.systemd1.Manager
+         member=GetDynamicUsers
+         peer=(name=(org.freedesktop.systemd1)),
+
     capability audit_write,
     capability sys_ptrace,
     capability sys_resource,
