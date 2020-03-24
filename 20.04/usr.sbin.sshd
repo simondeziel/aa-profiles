@@ -139,7 +139,7 @@
        bus=system
        path=/org/freedesktop/systemd1
        interface=org.freedesktop.systemd1.Manager
-       member=LookupDynamicUserByName
+       member={GetDynamicUsers,LookupDynamicUserByName}
        peer=(name=(org.freedesktop.systemd1)),
 
   /etc.legal r,
