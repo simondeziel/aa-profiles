@@ -61,6 +61,9 @@
   # uvtools
   owner /tmp/uvt-kvm.known_hoststmp?????? r,
 
+  # syncoid
+  owner /tmp/syncoid-*@* rwl,
+
   # for ProxyCommand
   /bin/ash      Cx -> proxycommand,
   /bin/bash     Cx -> proxycommand,
