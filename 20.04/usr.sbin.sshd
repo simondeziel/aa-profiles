@@ -142,6 +142,10 @@
        member={GetDynamicUsers,LookupDynamicUserByName}
        peer=(name=(org.freedesktop.systemd1)),
 
+  unix bind
+     type=dgram
+     addr="@userdb-*",
+
   /etc.legal r,
   /etc/motd r,
   /run/motd{,.dynamic}{,.new} rw,
