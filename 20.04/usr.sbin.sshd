@@ -16,7 +16,7 @@
 
 #include <tunables/global>
 
-/usr/sbin/sshd flags=(attach_disconnected) {
+profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   #include <abstractions/authentication>
   #include <abstractions/base>
   #include <abstractions/consoles>
