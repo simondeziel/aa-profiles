@@ -2,12 +2,12 @@
 
 #include <tunables/global>
 
-/usr/bin/sftp {
+profile sftp /usr/bin/sftp {
   #include <abstractions/base>
 
-  signal (send) set=(int,stp,term,winch) peer=/usr/bin/ssh,
+  signal (send) set=(int,stp,term,winch) peer=ssh,
 
-  unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+  unix (send,receive) type=stream peer=(label=ssh),
 
   # sftp mostly uses ssh
   /usr/bin/ssh Px,

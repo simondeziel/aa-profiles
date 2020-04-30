@@ -2,10 +2,10 @@
 
 #include <tunables/global>
 
-/usr/bin/scp {
+profile scp /usr/bin/scp {
   #include <abstractions/base>
 
-  signal (send) set=(int,stp,term,winch) peer=/usr/bin/ssh,
+  signal (send) set=(int,stp,term,winch) peer=ssh,
 
   # scp is almost just a wrapper around ssh
   /usr/bin/ssh Px,

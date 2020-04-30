@@ -2,7 +2,7 @@
 
 #include <tunables/global>
 
-/usr/bin/ssh {
+profile ssh /usr/bin/ssh {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/openssl>
@@ -11,14 +11,14 @@
   capability setuid,
   capability setgid,
 
-  signal (receive) set=(int,stp,term,winch) peer=/usr/bin/scp,
-  signal (receive) set=(int,stp,term,winch) peer=/usr/bin/sftp,
-  signal (receive) set=(int,stp,term,winch) peer=/usr/bin/sshfs,
+  signal (receive) set=(int,stp,term,winch) peer=scp,
+  signal (receive) set=(int,stp,term,winch) peer=sftp,
+  signal (receive) set=(int,stp,term,winch) peer=sshfs,
 
-  unix (send,receive) type=stream peer=(label=/usr/bin/sftp),
-  unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
-  unix (send,receive) type=stream peer=(label=/usr/bin/ssh//*),
-  unix (send,receive) type=stream peer=(label=/usr/bin/sshfs),
+  unix (send,receive) type=stream peer=(label=sftp),
+  unix (send,receive) type=stream peer=(label=ssh),
+  unix (send,receive) type=stream peer=(label=ssh//*),
+  unix (send,receive) type=stream peer=(label=sshfs),
 
   /etc/ssh/ssh_config r,
   /etc/ssh/ssh_known_hosts{,2} r,
@@ -73,7 +73,7 @@
   profile proxycommand {
     #include <abstractions/base>
 
-    unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+    unix (send,receive) type=stream peer=(label=ssh),
 
     /{,usr/}bin/bash  mr,
     /{,usr/}bin/dash  mr,
@@ -95,7 +95,7 @@
     #include <abstractions/base>
     #include <abstractions/X>
 
-    unix (send,receive) type=stream peer=(label=/usr/bin/ssh),
+    unix (send,receive) type=stream peer=(label=ssh),
 
     /usr/bin/xauth r,
     /tmp/.X11-unix/* rw,
