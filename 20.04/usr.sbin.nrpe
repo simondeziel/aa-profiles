@@ -2,7 +2,7 @@
 # vim:syntax=apparmor
 
 #include <tunables/global>
-/usr/sbin/nrpe flags=(attach_disconnected) {
+profile nrpe /usr/sbin/nrpe flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/openssl>
