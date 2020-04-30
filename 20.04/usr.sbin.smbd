@@ -1,6 +1,6 @@
 #include <tunables/global>
 
-/usr/sbin/smbd flags=(attach_disconnected) {
+profile smbd /usr/sbin/smbd flags=(attach_disconnected) {
   #include <abstractions/authentication>
   #include <abstractions/base>
   #include <abstractions/consoles>
