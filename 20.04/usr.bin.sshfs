@@ -1,0 +1,24 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+profile sshfs /usr/bin/sshfs {
+  #include <abstractions/base>
+
+  capability sys_admin,
+
+  signal (send) set=(int,stp,term,winch) peer=ssh,
+
+  unix (send,receive) type=stream peer=(label=ssh),
+
+  mount fstype=fuse.sshfs,
+  umount fstype=fuse.sshfs,
+
+  /dev/fuse rw,
+  /**/ r,
+
+  /bin/fusermount PUx,
+  /usr/bin/ssh    PUx,
+
+  #include <local/usr.bin.sshfs>
+}
