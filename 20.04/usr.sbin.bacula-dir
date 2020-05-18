@@ -1,0 +1,24 @@
+# vim:syntax=apparmor
+# Author: Boris Gulay <boris@gulay.name>
+
+include <tunables/global>
+
+/usr/sbin/bacula-dir {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+
+  capability setgid,
+  capability setuid,
+
+  /etc/bacula/** r,
+  /etc/hosts.allow r,
+  /etc/hosts.deny r,
+  /var/lib/bacula/ r,
+  /var/lib/bacula/** rw,
+  /var/log/bacula/* w,
+
+  /usr/sbin/bacula-dir mr,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include <local/usr.sbin.bacula-dir>
+}
