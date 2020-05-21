@@ -3,7 +3,7 @@
 
 include <tunables/global>
 
-/usr/sbin/bacula-dir {
+profile bacula-dir /usr/sbin/bacula-dir {
   include <abstractions/base>
   include <abstractions/nameservice>
 
