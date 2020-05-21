@@ -2,7 +2,7 @@
 # Better use local sockets if clients are on local machine only
 
 # PostgreSQL with local socket
-#/var/spool/postfix/pgsql/.s.PGSQL.5432 rw,
+#/{,var/}run/postgresql/.s.PGSQL.5432 rw,
 
 # MySQL with local socket
 #/var/run/mysqld/mysqld.sock rw,
