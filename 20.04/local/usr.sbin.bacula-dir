@@ -1,1 +1,12 @@
 # To allow database connectivity place rules here
+# Better use local sockets if clients are on local machine only
+
+# PostgreSQL with local socket
+#/var/spool/postfix/pgsql/.s.PGSQL.5432 rw,
+
+# MySQL with local socket
+#/var/run/mysqld/mysqld.sock rw,
+
+# If connecting to DB over network
+#network inet stream
+#network inet6 stream
