@@ -5,7 +5,7 @@
 #/{,var/}run/postgresql/.s.PGSQL.5432 rw,
 
 # MySQL with local socket
-#/var/run/mysqld/mysqld.sock rw,
+#/{,var/}run/mysqld/mysqld.sock rw,
 
 # If connecting to DB over network
 #network inet stream
