@@ -1,0 +1,41 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+#include <tunables/global>
+
+profile snap-lxd-dnsmasq /snap/lxd/[0-9]*/bin/dnsmasq flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/dbus>
+  #include <abstractions/nameservice>
+
+  capability chown,
+  capability net_bind_service,
+  capability setgid,
+  capability setuid,
+  capability dac_override,
+  capability net_admin,         # for DHCP server
+  capability net_raw,           # for DHCP server ping checks
+  network inet raw,
+  network inet6 raw,
+
+  /var/snap/lxd/common/lxd/networks/*/dnsmasq.{leases,pid,raw} rw,
+  /var/snap/lxd/common/lxd/networks/*/dnsmasq.hosts/{,*} rw,
+
+  @{PROC}/sys/net/ipv6/conf/*/mtu r,
+  /var/lib/snapd/hostfs/etc/group              r,
+  /var/lib/snapd/hostfs/etc/host.conf          r,
+  /var/lib/snapd/hostfs/etc/hosts              r,
+  /var/lib/snapd/hostfs/etc/nsswitch.conf      r,
+  /var/lib/snapd/hostfs/etc/gai.conf           r,
+  /var/lib/snapd/hostfs/etc/passwd             r,
+  /var/lib/snapd/hostfs/etc/protocols          r,
+  /var/lib/snapd/hostfs/etc/resolv.conf        r,
+
+  /var/lib/snapd/hostfs/run/{resolvconf,NetworkManager,systemd/resolve,connman}/resolv.conf r,
+  /var/lib/snapd/hostfs/etc/resolvconf/run/resolv.conf r,
+  /var/lib/snapd/hostfs/run/systemd/resolve/stub-resolv.conf r,
+
+  /snap/lxd/[0-9]*/lib/**.so*                  mr,
+  /run/dnsmasq.pid                             w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/snap.lxd.dnsmasq>
+}
