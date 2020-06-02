@@ -12,11 +12,11 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
   @{PROC}/version   r,
   /usr/bin/basename ix,
   /usr/bin/logger   ix,
-  /bin/sed          ix,
+  /{,usr/}bin/sed   ix,
 
   # to create a dummy directory
-  /bin/mktemp               ix,
-  /bin/rmdir                ix,
+  /{,usr/}bin/mktemp        ix,
+  /{,usr/}bin/rmdir         ix,
   /usr/bin/unlink           ix,
   owner /tmp/backuppc-wrapper.*/  rw,
   owner /tmp/backuppc-wrapper.*/* rw,
@@ -105,7 +105,7 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
     /{,snap/core/[0-9]*/}usr/lib/snapd/snap-seccomp ixr,
     /sys/kernel/security/apparmor/features/{,**} r,
     /etc/apparmor/*.conf r,
-    /sbin/apparmor_parser ix,
+    /{,usr/}sbin/apparmor_parser ix,
 
     # allow launching lxd snap
     /snap/lxd/[0-9]*/meta/snap.yaml r,
