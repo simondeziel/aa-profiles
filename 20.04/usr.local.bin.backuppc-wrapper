@@ -99,10 +99,12 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
     /run/snapd.socket rw,
     /snap/core/[0-9]*/usr/lib/snapd/info r,
     /snap/core/[0-9]*/usr/lib/snapd/snapd r,
+    /snap/snapd/[0-9]*/usr/lib/snapd/info r,
     /var/lib/snapd/system-key r,
 
     /{,snap/core/[0-9]*/}usr/lib/snapd/snap-confine Pix,
     /{,snap/core/[0-9]*/}usr/lib/snapd/snap-seccomp ixr,
+    /sys/kernel/mm/transparent_hugepage/hpage_pmd_size r,
     /sys/kernel/security/apparmor/features/{,**} r,
     /etc/apparmor/*.conf r,
     /{,usr/}sbin/apparmor_parser ix,
