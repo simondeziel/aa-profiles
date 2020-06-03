@@ -59,8 +59,5 @@ profile nginx /usr/sbin/nginx flags=(attach_disconnected) {
   # dehydrated
   /var/lib/dehydrated/acme-challenges/* r,
 
-  # LP: #1872564
-  @{PROC}/sys/kernel/random/boot_id r,
-
   #include <local/usr.sbin.nginx>
 }
