@@ -1,0 +1,6 @@
+# for internal-sftp
+/         r,
+/**       r,
+owner /** rwl,
+
+/usr/lib/openssh/sftp-server PUx,
