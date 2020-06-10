@@ -152,6 +152,8 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /tmp/ssh-[a-zA-Z0-9]*/ w,
   /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
 
+  /run/systemd/notify w,
+
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.sbin.sshd>
 }
