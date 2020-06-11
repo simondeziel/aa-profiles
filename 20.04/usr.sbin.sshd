@@ -150,7 +150,7 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
      type=dgram
      addr="@userdb-*",
 
-  /etc.legal r,
+  /etc/legal r,
   /etc/motd r,
   /run/motd{,.dynamic}{,.new} rw,
   /tmp/ssh-[a-zA-Z0-9]*/ w,
