@@ -64,7 +64,7 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,
   owner /run/sshd{,.init}.pid wl,
-  owner /run/systemd/sessions/[0-9].ref w,
+  owner /run/systemd/sessions/[0-9]*.ref w,
   @{HOME}/.ssh/authorized_keys{,2} r,
 
   @{PROC}/cmdline r,
