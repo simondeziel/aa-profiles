@@ -53,6 +53,8 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /dev/urandom r,
   /etc/default/locale r,
   /etc/environment r,
+  /etc/gss/mech.d/ r,
+  /etc/gss/mech.d/** r,
   /etc/hosts.allow r,
   /etc/hosts.deny r,
   /etc/modules.conf r,
