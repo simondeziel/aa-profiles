@@ -66,6 +66,8 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   owner /run/sshd{,.init}.pid wl,
   owner /run/systemd/sessions/[0-9]*.ref w,
   owner @{HOME}/.ssh/authorized_keys r,
+  owner @{HOME}/.cache/                     rw,
+  owner @{HOME}/.cache/motd.legal-displayed rw,
 
   @{PROC}/cmdline r,
   @{PROC}/1/environ r,
