@@ -57,6 +57,7 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /etc/gss/mech.d/** r,
   /etc/hosts.allow r,
   /etc/hosts.deny r,
+  /etc/issue.net r,
   /etc/modules.conf r,
   /etc/security/** r,
   /etc/ssh/** r,
