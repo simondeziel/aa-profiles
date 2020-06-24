@@ -71,9 +71,9 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   owner @{HOME}/.cache/motd.legal-displayed rw,
 
   # system users (backup and others)
-  owner /var/{backup,lib/*}/.ssh/authorized_keys        r,
-  owner /var/{backup,lib/*}/.cache/                     rw,
-  owner /var/{backup,lib/*}/.cache/motd.legal-displayed rw,
+  owner /var/{backups,lib/*}/.ssh/authorized_keys        r,
+  owner /var/{backups,lib/*}/.cache/                     rw,
+  owner /var/{backups,lib/*}/.cache/motd.legal-displayed rw,
 
   @{PROC}/cmdline r,
   @{PROC}/1/environ r,
