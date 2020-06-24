@@ -60,7 +60,7 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
     #/usr/bin/rsync Cx -> rsync,
     /usr/bin/rsync Px -> backuppc-wrapper//rsync,
 
-    /{,snap/core/[0-9]*/}usr/bin/snap mrPx -> backuppc-wrapper//snap_lxc,
+    /usr/bin/snap mrPx -> backuppc-wrapper//snap_lxc,
   }
 
   profile rsync {
@@ -89,7 +89,7 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
     /etc/group r,
     /etc/nsswitch.conf r,
 
-    /{,snap/core/[0-9]*/}usr/bin/snap mrix,  # re-exec
+    /usr/bin/snap mrix,  # re-exec
     /etc/fstab r,
     @{PROC}/version r,
     @{PROC}/sys/net/core/somaxconn r,
@@ -97,13 +97,13 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
     owner @{PROC}/@{pid}/mountinfo r,
     owner @{HOME}/.snap/auth.json r,         # if exists, required
     /run/snapd.socket rw,
-    /snap/core/[0-9]*/usr/lib/snapd/info r,
-    /snap/core/[0-9]*/usr/lib/snapd/snapd r,
     /snap/snapd/[0-9]*/usr/lib/snapd/info r,
+    /snap/snapd/[0-9]*/usr/lib/snapd/snapd r,
+    /snap/snapd/[0-9]*/usr/bin/snap ixr,
     /var/lib/snapd/system-key r,
 
-    /{,snap/core/[0-9]*/}usr/lib/snapd/snap-confine Pix,
-    /{,snap/core/[0-9]*/}usr/lib/snapd/snap-seccomp ixr,
+    /{,snap/snapd/[0-9]*/}usr/lib/snapd/snap-confine Pix,
+    /{,snap/snapd/[0-9]*/}usr/lib/snapd/snap-seccomp ixr,
     /sys/kernel/mm/transparent_hugepage/hpage_pmd_size r,
     /sys/kernel/security/apparmor/features/{,**} r,
     /etc/apparmor/*.conf r,
