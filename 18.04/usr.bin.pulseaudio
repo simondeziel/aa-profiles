@@ -74,6 +74,7 @@
   /sys/devices/virtual/dmi/id/board_vendor r,
   /sys/devices/virtual/dmi/id/sys_vendor r,
   /sys/devices/virtual/sound/**/uevent r,
+  /sys/module/apparmor/parameters/enabled r,
 
   /usr/share/alsa/** r,
   /usr/share/applications/ r,
@@ -100,6 +101,7 @@
 
   owner @{PROC}/@{pid}/fd/ r,
   owner @{PROC}/@{pid}/maps r,
+  owner @{PROC}/@{pid}/mounts r,
   owner @{PROC}/@{pid}/stat r,
 
   owner /tmp/pulse-*/pid rwk,
