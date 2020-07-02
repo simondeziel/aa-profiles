@@ -82,6 +82,10 @@
     capability setuid,
     capability setgid,
 
+    # silence noise
+    # https://github.com/fedora-selinux/selinux-policy/blob/rawhide/policy/modules/admin/sudo.te
+    deny capability net_admin,
+
     /etc/sudoers r,
     /etc/sudoers.d/ r,
     /etc/sudoers.d/* r,
