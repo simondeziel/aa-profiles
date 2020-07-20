@@ -5,7 +5,7 @@
 profile acme-challenges /usr/local/bin/acme-challenges {
   #include <abstractions/base>
 
-  /usr/bin/dash mr,
+  /usr/bin/bash mr,
   /dev/tty rw,
   /usr/local/bin/acme-challenges r,
 
@@ -40,16 +40,16 @@ profile acme-challenges /usr/local/bin/acme-challenges {
     # XXX: Cx doesn't work. For details, see
     # https://lists.ubuntu.com/archives/apparmor/2012-November/003114.html
     #/usr/bin/rsync Cx -> rsync,
-    /usr/bin/tee Px -> /usr/local/bin/acme-challenges//tee_unlink,
-    /usr/bin/unlink Px -> /usr/local/bin/acme-challenges//tee_unlink,
+    /usr/bin/tee    Px -> acme-challenges//tee_unlink,
+    /usr/bin/unlink Px -> acme-challenges//tee_unlink,
 
-    signal (send) peer=/usr/local/bin/acme-challenges//tee_unlink,
+    signal (send) peer=acme-challenges//tee_unlink,
   }
 
   profile tee_unlink {
     #include <abstractions/base>
 
-    signal (receive) peer=/usr/local/bin/acme-challenges//sudo_challenge,
+    signal (receive) peer=acme-challenges//sudo_challenge,
 
     /usr/bin/tee    mr,
     /usr/bin/unlink mr,
