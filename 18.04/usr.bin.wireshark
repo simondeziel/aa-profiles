@@ -37,6 +37,11 @@
   dbus (receive, send)
        bus=accessibility,
 
+  dbus (receive)
+       bus=session
+       interface=org.freedesktop.DBus.Introspectable
+       member=Introspect,
+
   capability net_raw,
 
   # From abstractions/evince
