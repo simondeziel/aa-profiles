@@ -99,6 +99,7 @@
   /var/lib/pulse/*-default-source rw,
   /var/lib/pulse/*.tdb rw,
 
+  owner @{PROC}/@{pid}/attr/current r,
   owner @{PROC}/@{pid}/fd/ r,
   owner @{PROC}/@{pid}/maps r,
   owner @{PROC}/@{pid}/mounts r,
