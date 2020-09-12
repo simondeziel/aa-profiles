@@ -63,6 +63,9 @@
   # sd_notify
   /run/user/[0-9]*/systemd/notify w,
 
+  # snap
+  /run/snapd.socket rw,
+
   /sys/bus/ r,
   /sys/class/ r,
   /sys/class/sound/ r,
