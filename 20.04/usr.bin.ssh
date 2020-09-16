@@ -21,6 +21,7 @@ profile ssh /usr/bin/ssh {
   unix (send,receive) type=stream peer=(label=sshfs),
 
   /etc/ssh/ssh_config r,
+  /etc/ssh/ssh_config.d/ r,
   /etc/ssh/ssh_config.d/** r,
   /etc/ssh/ssh_known_hosts{,2} r,
 
