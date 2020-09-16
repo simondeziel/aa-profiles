@@ -95,6 +95,7 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
 
     /usr/bin/snap mrix,  # re-exec
     /etc/fstab r,
+    @{PROC}/cmdline r,
     @{PROC}/version r,
     @{PROC}/sys/net/core/somaxconn r,
     @{PROC}/sys/kernel/seccomp/actions_avail r,
