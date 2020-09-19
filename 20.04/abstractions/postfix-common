@@ -11,8 +11,6 @@
 # ------------------------------------------------------------------
 # used with postfix/*
 
-  abi <abi/3.0>,
-
 
   capability            setuid,
   capability            setgid,
