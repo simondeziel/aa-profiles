@@ -39,8 +39,9 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   /usr/bin/head   ix,
   /usr/bin/uptime ix,
 
+  signal (send) set=("term") peer=amavisd-new//*,
+
   /bin/dash Cx -> dash,
-  signal (send) set=("term") peer=amavisd-new//dash,
   profile dash flags=(attach_disconnected) {
     #include <abstractions/base>
     /bin/dash rm,
@@ -59,7 +60,6 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   /bin/bin/7zr  Cx -> extractor,
   /bin/bin/ar   Cx -> extractor,
   /usr/bin/xz   Cx -> extractor,
-  signal (send) set=("term") peer=amavisd-new//extractor,
   profile extractor flags=(attach_disconnected) {
     #include <abstractions/base>
     audit deny ptrace,
@@ -75,7 +75,6 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   }
 
   /bin/pax Cx -> pax,
-  signal (send) set=("term") peer=amavisd-new//pax,
   profile pax flags=(attach_disconnected) {
     #include <abstractions/base>
     audit deny ptrace,
@@ -93,7 +92,6 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   }
 
   /usr/bin/file Cx -> filebin,
-  signal (send) set=("term") peer=amavisd-new//filebin,
   profile filebin flags=(attach_disconnected) {
     #include <abstractions/base>
     audit deny ptrace,
@@ -108,7 +106,6 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   }
 
   /usr/bin/pyzor Cx -> pyzor,
-  signal (send) set=("term") peer=amavisd-new//pyzor,
   profile pyzor flags=(attach_disconnected) {
     #include <abstractions/base>
     #include <abstractions/nameservice>
