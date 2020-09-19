@@ -10,8 +10,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 include <tunables/dovecot>
 
@@ -39,9 +37,9 @@ profile dovecot-imap /usr/lib/dovecot/imap {
   /usr/bin/doveconf rix,
   /usr/lib/dovecot/imap mrix,
   /usr/share/dovecot/** r,
-  @{run}/dovecot/login/imap rw,
-  @{run}/dovecot/auth-master rw,
-  @{run}/dovecot/mounts r,
+  /run/dovecot/login/imap rw,
+  /run/dovecot/auth-master rw,
+  /run/dovecot/mounts r,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/usr.lib.dovecot.imap>

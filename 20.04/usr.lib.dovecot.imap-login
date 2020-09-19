@@ -10,8 +10,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile dovecot-imap-login /usr/lib/dovecot/imap-login {
@@ -27,10 +25,10 @@ profile dovecot-imap-login /usr/lib/dovecot/imap-login {
   network unix stream,
 
   /usr/lib/dovecot/imap-login mr,
-  @{run}/dovecot/anvil rw,
-  @{run}/dovecot/login-master-notify* rw,
-  @{run}/dovecot/login/ r,
-  @{run}/dovecot/login/* rw,
+  /run/dovecot/anvil rw,
+  /run/dovecot/login-master-notify* rw,
+  /run/dovecot/login/ r,
+  /run/dovecot/login/* rw,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/usr.lib.dovecot.imap-login>

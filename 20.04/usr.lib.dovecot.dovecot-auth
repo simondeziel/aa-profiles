@@ -10,8 +10,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile dovecot-dovecot-auth /usr/lib/dovecot/dovecot-auth {
@@ -26,7 +24,7 @@ profile dovecot-dovecot-auth /usr/lib/dovecot/dovecot-auth {
 
   @{PROC}/@{pid}/mounts r,
   /usr/lib/dovecot/dovecot-auth mr,
-  @{run}/dovecot/** rw,
+  /run/dovecot/** rw,
   # required for postfix+dovecot integration
   /var/spool/postfix/private/dovecot-auth w,
 

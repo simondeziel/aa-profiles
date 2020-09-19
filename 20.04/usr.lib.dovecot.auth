@@ -10,8 +10,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile dovecot-auth /usr/lib/dovecot/auth {
@@ -43,14 +41,14 @@ profile dovecot-auth /usr/lib/dovecot/auth {
   /var/tmp/sieve_* rw,
   /var/tmp/smtp_* rw,
 
-  @{run}/dovecot/auth-master rw,
-  @{run}/dovecot/auth-userdb rw,
-  @{run}/dovecot/auth-worker rw,
-  @{run}/dovecot/login/login rw,
-  @{run}/dovecot/auth-token-secret.dat{,.tmp} rw,
-  @{run}/dovecot/old-stats-user w,
-  @{run}/dovecot/stats-user rw,
-  @{run}/dovecot/anvil-auth-penalty rw,
+  /run/dovecot/auth-master rw,
+  /run/dovecot/auth-userdb rw,
+  /run/dovecot/auth-worker rw,
+  /run/dovecot/login/login rw,
+  /run/dovecot/auth-token-secret.dat{,.tmp} rw,
+  /run/dovecot/old-stats-user w,
+  /run/dovecot/stats-user rw,
+  /run/dovecot/anvil-auth-penalty rw,
 
   /var/spool/postfix/private/auth rw,
 

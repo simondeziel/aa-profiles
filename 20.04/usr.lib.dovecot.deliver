@@ -11,8 +11,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 include <tunables/dovecot>
 

@@ -10,8 +10,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile dovecot /usr/{bin,sbin}/dovecot flags=(attach_disconnected) {
@@ -69,9 +67,9 @@ profile dovecot /usr/{bin,sbin}/dovecot flags=(attach_disconnected) {
   /var/lib/dovecot/* rwkl,
   /var/spool/postfix/private/auth w,
   /var/spool/postfix/private/dovecot-lmtp w,
-  @{run}/dovecot/ rw,
-  @{run}/dovecot/** rw,
-  link @{run}/dovecot/** -> /var/lib/dovecot/**,
+  /run/dovecot/ rw,
+  /run/dovecot/** rw,
+  link /run/dovecot/** -> /var/lib/dovecot/**,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/usr.sbin.dovecot>

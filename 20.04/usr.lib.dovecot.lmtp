@@ -9,8 +9,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 include <tunables/dovecot>
 
@@ -34,7 +32,7 @@ profile dovecot-lmtp /usr/lib/dovecot/lmtp {
   @{PROC}/*/mounts r,
   /tmp/dovecot.lmtp.* rw,
   /usr/lib/dovecot/lmtp mr,
-  @{run}/dovecot/mounts r,
+  /run/dovecot/mounts r,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/usr.lib.dovecot.lmtp>

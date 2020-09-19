@@ -12,8 +12,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile dovecot-managesieve-login /usr/lib/dovecot/managesieve-login {
@@ -29,9 +27,9 @@ profile dovecot-managesieve-login /usr/lib/dovecot/managesieve-login {
   network unix stream,
 
   /usr/lib/dovecot/managesieve-login mr,
-  @{run}/dovecot/login-master-notify* rw,
-  @{run}/dovecot/login/ r,
-  @{run}/dovecot/login/* rw,
+  /run/dovecot/login-master-notify* rw,
+  /run/dovecot/login/ r,
+  /run/dovecot/login/* rw,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/usr.lib.dovecot.managesieve-login>

@@ -9,8 +9,6 @@
 # ------------------------------------------------------------------
 # vim: ft=apparmor
 
-abi <abi/3.0>,
-
 include <tunables/global>
 include <tunables/dovecot>
 
@@ -27,8 +25,8 @@ profile dovecot-dovecot-lda /usr/lib/dovecot/dovecot-lda flags=(attach_disconnec
   /etc/dovecot/** r,
   @{PROC}/*/mounts r,
   owner /tmp/dovecot.lda.* rw,
-  @{run}/dovecot/mounts r,
-  @{run}/dovecot/auth-userdb rw,
+  /run/dovecot/mounts r,
+  /run/dovecot/auth-userdb rw,
   /usr/bin/doveconf mrix,
   /usr/lib/dovecot/dovecot-lda mrix,
   /usr/{bin,sbin}/sendmail Cx -> sendmail,
@@ -78,9 +76,9 @@ profile dovecot-dovecot-lda /usr/lib/dovecot/dovecot-lda flags=(attach_disconnec
     /usr/{bin,sbin}/sendmail mrix,
     /usr/{bin,sbin}/sendmail.postfix mrix,
     /usr/{bin,sbin}/sendmail.sendmail mrix,
-    @{run}/sendmail.pid rwl,
-    @{run}/sm-client.pid rwl,
-    @{run}/utmp rw,
+    /run/sendmail.pid rwl,
+    /run/sm-client.pid rwl,
+    /run/utmp rw,
     /var/spool/clientmqueue/* rwl,
     /var/spool/mail/* rwl,
     /var/spool/mqueue/* rwl,
