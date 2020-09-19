@@ -9,8 +9,6 @@
 #
 # ------------------------------------------------------------------
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile postfix-nqmgr /usr/lib/postfix/{bin/,sbin/,}nqmgr {

@@ -10,8 +10,6 @@
 # ------------------------------------------------------------------
 # vim:syntax=apparmor
 
-  abi <abi/3.0>,
-
 include <tunables/global>
 
 profile postfix-discard /usr/lib/postfix/{bin/,sbin/,}discard {

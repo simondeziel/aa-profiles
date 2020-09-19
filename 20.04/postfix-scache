@@ -11,8 +11,6 @@
 # vim:syntax=apparmor
 # Last Modified: Tue May 31 09:46:20 2005
 
-abi <abi/3.0>,
-
 include <tunables/global>
 
 profile postfix-scache /usr/lib/postfix/{bin/,sbin/,}scache {
