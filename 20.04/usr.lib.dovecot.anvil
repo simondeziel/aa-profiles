@@ -1,0 +1,31 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2013-2020 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+abi <abi/3.0>,
+
+include <tunables/global>
+
+profile dovecot-anvil /usr/lib/dovecot/anvil {
+  include <abstractions/base>
+  include <abstractions/dovecot-common>
+
+  capability setuid,
+  capability sys_chroot,
+
+  unix (receive, send) type=stream peer=(label=dovecot),
+
+  @{run}/dovecot/anvil rw,
+  @{run}/dovecot/anvil-auth-penalty rw,
+  /usr/lib/dovecot/anvil mr,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/usr.lib.dovecot.anvil>
+}

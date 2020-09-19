@@ -1,0 +1,41 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2013-2020 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+abi <abi/3.0>,
+
+include <tunables/global>
+include <tunables/dovecot>
+
+profile dovecot-lmtp /usr/lib/dovecot/lmtp {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/dovecot-common>
+  include <abstractions/openssl>
+  include <abstractions/ssl_certs>
+  include <abstractions/ssl_keys>
+
+  capability dac_override,
+  capability dac_read_search,
+  capability setuid,
+
+  @{DOVECOT_MAILSTORE}/ rw,
+  @{DOVECOT_MAILSTORE}/** rwkl,
+
+  @{HOME}/.dovecot.svbin r,
+  @{PROC}/@{pid}/attr/{apparmor/,}current rw,
+  @{PROC}/*/mounts r,
+  /tmp/dovecot.lmtp.* rw,
+  /usr/lib/dovecot/lmtp mr,
+  @{run}/dovecot/mounts r,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/usr.lib.dovecot.lmtp>
+}

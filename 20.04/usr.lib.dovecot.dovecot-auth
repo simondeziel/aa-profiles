@@ -1,0 +1,35 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2009-2013 Canonical Ltd.
+#    Copyright (C) 2013-2020 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+abi <abi/3.0>,
+
+include <tunables/global>
+
+profile dovecot-dovecot-auth /usr/lib/dovecot/dovecot-auth {
+  include <abstractions/authentication>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/wutmp>
+  include <abstractions/dovecot-common>
+
+  capability chown,
+  capability dac_override,
+
+  @{PROC}/@{pid}/mounts r,
+  /usr/lib/dovecot/dovecot-auth mr,
+  @{run}/dovecot/** rw,
+  # required for postfix+dovecot integration
+  /var/spool/postfix/private/dovecot-auth w,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/usr.lib.dovecot.dovecot-auth>
+}

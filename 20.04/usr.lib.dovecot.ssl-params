@@ -1,0 +1,28 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2013-2020 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+abi <abi/3.0>,
+
+include <tunables/global>
+
+profile dovecot-ssl-params /usr/lib/dovecot/ssl-params {
+  include <abstractions/base>
+  include <abstractions/dovecot-common>
+
+  @{run}/dovecot/ssl-params rw,
+  @{run}/dovecot/login/ssl-params rw,
+  /usr/lib/dovecot/ssl-params mr,
+  /var/lib/dovecot/ssl-parameters.dat rw,
+  /var/lib/dovecot/ssl-parameters.dat.tmp rwk,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/usr.lib.dovecot.ssl-params>
+}

@@ -1,0 +1,34 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2013-2020 Christian Boltz
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim: ft=apparmor
+
+abi <abi/3.0>,
+
+include <tunables/global>
+
+profile dovecot-dict /usr/lib/dovecot/dict {
+  include <abstractions/base>
+  include <abstractions/mysql>
+  include <abstractions/nameservice>
+  include <abstractions/openssl>
+  include <abstractions/dovecot-common>
+
+  capability setuid,
+
+  network inet stream,
+
+  /etc/dovecot/dovecot-database.conf.ext r,
+  /etc/dovecot/dovecot-dict-sql.conf.ext r,
+  /etc/my.cnf r,
+  /usr/lib/dovecot/dict mr,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/usr.lib.dovecot.dict>
+}
