@@ -2,7 +2,7 @@
 # vim:syntax=apparmor
 #include <tunables/global>
 
-profile amavisd-new /usr/sbin/amavisd-new {
+profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
   #include <abstractions/perl>
