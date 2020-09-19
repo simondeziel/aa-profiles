@@ -1,0 +1,22 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2018 Canonical, Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim:syntax=apparmor
+
+  abi <abi/3.0>,
+
+include <tunables/global>
+
+profile postfix-dnsblog /usr/lib/postfix/{bin/,sbin/,}dnsblog {
+  include <abstractions/base>
+
+  /usr/lib/postfix/{bin/,sbin/,}dnsblog mrix,
+
+  /var/spool/postfix/private/dnsblog rw,
+}

@@ -1,0 +1,27 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2006 Novell/SUSE
+#    Copyright (C) 2017 Christian Boltz
+#    Copyright (C) 2018 Canonical, Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+  abi <abi/3.0>,
+
+include <tunables/global>
+
+profile postfix-lmtp /usr/lib/postfix/{bin/,sbin/,}lmtp {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/postfix-common>
+
+  /usr/lib/postfix/{bin/,sbin/,}lmtp mrix,
+
+  /var/spool/postfix/active/* rwk,
+  /var/spool/postfix/pid/unix.lmtp rwk,
+
+}

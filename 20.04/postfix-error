@@ -1,0 +1,29 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2006 Novell/SUSE
+#    Copyright (C) 2017 Christian Boltz
+#    Copyright (C) 2018 Canonical, Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+  abi <abi/3.0>,
+
+include <tunables/global>
+
+profile postfix-error /usr/lib/postfix/{bin/,sbin/,}error {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/postfix-common>
+
+  /usr/lib/postfix/{bin/,sbin/,}error mrix,
+
+  owner /var/spool/postfix/active/* rwk,
+  /var/spool/postfix/pid/unix.error rwk,
+  /var/spool/postfix/pid/unix.retry rwk,
+  owner /var/spool/postfix/private/defer w,
+
+}

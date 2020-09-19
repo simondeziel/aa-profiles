@@ -1,0 +1,41 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2006 Novell/SUSE
+#    Copyright (C) 2018 Canonical, Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+  abi <abi/3.0>,
+
+include <tunables/global>
+
+profile postfix-flush /usr/lib/postfix/{bin/,sbin/,}flush {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/postfix-common>
+
+  /usr/lib/postfix/{bin/,sbin/,}flush                mrix,
+
+  /{var/spool/postfix/,}deferred/                    r,
+  /{var/spool/postfix/,}deferred/[0-9A-F]/[0-9A-F]/* rwl,
+  /{var/spool/postfix/,}deferred/[0-9A-F]/[0-9A-F]*  rwl,
+  /{var/spool/postfix/,}deferred/[0-9A-F]/           rwl,
+  /{var/spool/postfix/,}flush/                       rwl,
+  /{var/spool/postfix/,}flush/[0-9A-F]/[0-9A-F]/*    rwl,
+  /{var/spool/postfix/,}flush/[0-9A-F]/[0-9A-F]/     rwl,
+  /{var/spool/postfix/,}flush/[0-9A-F]/              rwl,
+  /{var/spool/postfix/,}incoming/                    r,
+  /{var/spool/postfix/,}incoming/[0-9A-F]/[0-9A-F]/* rwl,
+  /{var/spool/postfix/,}incoming/[0-9A-F]/[0-9A-F]/  rwl,
+  /{var/spool/postfix/,}incoming/[0-9A-F]/           rwl,
+  /{var/spool/postfix/,}public/qmgr                  w,
+  /{var/spool/postfix/,}pid/unix.flush               rw,
+  /etc/mtab                                          r,
+
+  @{HOME}/.forward                            r,
+
+}

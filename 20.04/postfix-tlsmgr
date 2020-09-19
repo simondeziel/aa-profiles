@@ -1,0 +1,31 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2005 Novell/SUSE
+#    Copyright (C) 2018 Canonical, Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+# vim:syntax=apparmor
+
+abi <abi/3.0>,
+
+include <tunables/global>
+
+profile postfix-tlsmgr /usr/lib/postfix/{bin/,sbin/,}tlsmgr {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/postfix-common>
+
+  /usr/lib/postfix/{bin/,sbin/,}tlsmgr mrix,
+
+  /var/spool/postfix/dev/urandom r,
+  /{etc,var/lib}/postfix/prng_exch            rwk,
+  /{var/spool/postfix/,}private/tlsmgr rw,
+  /{,var/}run/__db.smtpd_tls_session_cache.db rw,
+  /{,var/}run/smtpd_tls_session_cache.db rw,
+  /var/lib/postfix/smtpd_scache.db rwk,
+  /var/lib/postfix/smtp_scache.db rwk,
+}

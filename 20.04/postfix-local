@@ -1,0 +1,49 @@
+# ------------------------------------------------------------------
+#
+#    Copyright (C) 2002-2006 Novell/SUSE
+#    Copyright (C) 2018 Canonical, Ltd.
+#
+#    This program is free software; you can redistribute it and/or
+#    modify it under the terms of version 2 of the GNU General Public
+#    License published by the Free Software Foundation.
+#
+# ------------------------------------------------------------------
+
+  abi <abi/3.0>,
+
+include <tunables/global>
+
+profile postfix-local /usr/lib/postfix/{bin/,sbin/,}local {
+  include <abstractions/base>
+  include <abstractions/bash>
+  include <abstractions/nameservice>
+  include <abstractions/user-mail>
+  include <abstractions/postfix-common>
+
+  /usr/bin/procmail                                     Px,
+
+  /usr/lib/mailman/mail/mailman                         Px,
+  /var/mailman/mail/wrapper                             Px,
+  /usr/bin/mlmmj-recieve                                Px,
+
+  /usr/lib/postfix/{bin/,sbin/,}local                   mrix,
+  /{usr/,}bin/bash                                      mixr,
+  /{usr/,}bin/date                                      mixr,
+
+  /dev/tty                                              rw,
+  /etc/{postfix/,}aliases.db                            rk,
+  # mailman on SuSE is configed to have its own alias file
+  /var/lib/mailman/data/aliases.db                      rk,
+  /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/*      rw,
+  /{var/spool/postfix/,}active/[0-9A-F]/[0-9A-F]/       rw,
+  /{var/spool/postfix/,}active/[0-9A-F]/                rw,
+  /{var/spool/postfix/,}active/[0-9A-F]*                rwk,
+  /{var/spool/postfix/,}pid/unix.local                  rwk,
+  /{var/spool/postfix/,}private/{bounce,defer,flush,lmtp,local,rewrite}         rw,
+  /{var/spool/postfix/,}public/{cleanup,flush}          rw,
+  /etc/postfix/virtual.db                               r,
+  /etc/postfix/lists.db                                 r,
+
+  # deliver mail
+  /var/mail/*                                          wk,
+}
