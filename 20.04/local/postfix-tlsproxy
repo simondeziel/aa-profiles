@@ -1,0 +1,3 @@
+
+  /etc/postfix/certs/**/*chain*.pem r,
+  owner /etc/postfix/certs/**/privkey*.pem r,
