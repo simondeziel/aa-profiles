@@ -11,13 +11,14 @@
 
 include <tunables/global>
 
-profile dovecot-stats /usr/lib/dovecot/stats {
+profile dovecot-stats /usr/lib/dovecot/stats flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/dovecot-common>
 
   capability setuid,
   capability sys_chroot,
 
+  /run/dovecot/stats-writer rw,
   /usr/lib/dovecot/stats mr,
 
   # Site-specific additions and overrides. See local/README for details.
