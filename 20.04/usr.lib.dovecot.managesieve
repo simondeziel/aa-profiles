@@ -13,7 +13,7 @@
 include <tunables/global>
 include <tunables/dovecot>
 
-profile dovecot-managesieve /usr/lib/dovecot/managesieve {
+profile dovecot-managesieve /usr/lib/dovecot/managesieve flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/dovecot-common>
 

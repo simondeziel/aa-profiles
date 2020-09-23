@@ -14,7 +14,7 @@
 
 include <tunables/global>
 
-profile dovecot-managesieve-login /usr/lib/dovecot/managesieve-login {
+profile dovecot-managesieve-login /usr/lib/dovecot/managesieve-login flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/dovecot-common>
   include <abstractions/openssl>

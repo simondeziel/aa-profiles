@@ -14,7 +14,7 @@
 include <tunables/global>
 include <tunables/dovecot>
 
-profile dovecot-deliver /usr/lib/dovecot/deliver {
+profile dovecot-deliver /usr/lib/dovecot/deliver flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/nameservice>
   include <abstractions/dovecot-common>

@@ -12,7 +12,7 @@
 
 include <tunables/global>
 
-profile dovecot-imap-login /usr/lib/dovecot/imap-login {
+profile dovecot-imap-login /usr/lib/dovecot/imap-login flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/dovecot-common>
   include <abstractions/openssl>

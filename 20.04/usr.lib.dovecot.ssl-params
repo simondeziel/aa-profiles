@@ -11,7 +11,7 @@
 
 include <tunables/global>
 
-profile dovecot-ssl-params /usr/lib/dovecot/ssl-params {
+profile dovecot-ssl-params /usr/lib/dovecot/ssl-params flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/dovecot-common>
 

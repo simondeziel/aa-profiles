@@ -12,7 +12,7 @@
 
 include <tunables/global>
 
-profile dovecot-pop3-login /usr/lib/dovecot/pop3-login {
+profile dovecot-pop3-login /usr/lib/dovecot/pop3-login flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/dovecot-common>
   include <abstractions/openssl>

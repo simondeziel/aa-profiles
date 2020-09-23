@@ -11,7 +11,7 @@
 
 include <tunables/global>
 
-profile dovecot-dict /usr/lib/dovecot/dict {
+profile dovecot-dict /usr/lib/dovecot/dict flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/mysql>
   include <abstractions/nameservice>

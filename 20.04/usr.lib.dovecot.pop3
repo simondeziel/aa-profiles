@@ -13,7 +13,7 @@
 include <tunables/global>
 include <tunables/dovecot>
 
-profile dovecot-pop3 /usr/lib/dovecot/pop3 {
+profile dovecot-pop3 /usr/lib/dovecot/pop3 flags=(attach_disconnected) {
   include <abstractions/base>
   include <abstractions/nameservice>
   include <abstractions/dovecot-common>

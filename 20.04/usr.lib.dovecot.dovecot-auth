@@ -12,7 +12,7 @@
 
 include <tunables/global>
 
-profile dovecot-dovecot-auth /usr/lib/dovecot/dovecot-auth {
+profile dovecot-dovecot-auth /usr/lib/dovecot/dovecot-auth flags=(attach_disconnected) {
   include <abstractions/authentication>
   include <abstractions/base>
   include <abstractions/nameservice>
