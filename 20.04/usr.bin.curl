@@ -11,5 +11,7 @@ profile curl /usr/bin/curl flags=(attach_disconnected) {
   #include <abstractions/openssl>
   #include <abstractions/ssl_certs>
 
+  /usr/bin/curl mr,
+
   #include <local/usr.bin.curl>
 }
