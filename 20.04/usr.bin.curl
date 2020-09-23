@@ -1,0 +1,15 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+profile curl /usr/bin/curl flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/user-tmp>
+  #include <abstractions/user-write>
+  #include <abstractions/ubuntu-browsers.d/user-files>
+  #include <abstractions/openssl>
+  #include <abstractions/ssl_certs>
+
+  #include <local/usr.bin.curl>
+}
