@@ -9,8 +9,6 @@
 # ------------------------------------------------------------------
 # used with dovecot/*
 
-  abi <abi/3.0>,
-
   capability setgid,
 
   deny capability block_suspend,
@@ -18,7 +16,7 @@
   # dovecot's master can send us signals
   signal receive peer=dovecot,
 
-  owner @{run}/dovecot/config rw,
+  owner /run/dovecot/config rw,
 
   # Include additions to the abstraction
   include if exists <abstractions/dovecot-common.d>
