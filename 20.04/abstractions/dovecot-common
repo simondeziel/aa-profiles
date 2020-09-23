@@ -17,6 +17,7 @@
   signal receive peer=dovecot,
 
   owner /run/dovecot/config rw,
+  owner /run/dovecot/stats-writer rw,
 
   # Include additions to the abstraction
   include if exists <abstractions/dovecot-common.d>
