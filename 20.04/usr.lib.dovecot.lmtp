@@ -34,6 +34,9 @@ profile dovecot-lmtp /usr/lib/dovecot/lmtp flags=(attach_disconnected) {
   /usr/lib/dovecot/lmtp mr,
   /run/dovecot/mounts r,
 
+  /run/dovecot/auth-userdb rw,
+  /var/spool/postfix/private/dovecot-lmtp rw,
+
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/usr.lib.dovecot.lmtp>
 }
