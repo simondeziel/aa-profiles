@@ -33,6 +33,7 @@ profile backuppc-wrapper /usr/local/bin/backuppc-wrapper {
     #include <abstractions/wutmp>
 
     signal (send) peer=backuppc-wrapper//rsync,
+    signal (send) peer=backuppc-wrapper//snap_lxc,
 
     capability audit_write,
     capability sys_ptrace,
