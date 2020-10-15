@@ -30,4 +30,6 @@ profile replicator-wrapper /usr/local/bin/replicator-wrapper {
   owner @{PROC}/@{pid}/cmdline r,
   owner @{PROC}/@{pid}/mounts  r,
   owner @{PROC}/@{pid}/stat    r,
+
+  #include <local/usr.local.bin.replicator-wrapper>
 }
