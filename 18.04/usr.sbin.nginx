@@ -30,6 +30,9 @@
   /var/www/**               r,
   /usr/share/nginx/**       r,
 
+  # php*admin
+  /usr/share/php*admin/{,**} r,
+
   # backend unix sockets
   /run/php*.sock            rw,
   /run/php/*.sock           rw,

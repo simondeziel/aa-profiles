@@ -48,5 +48,8 @@
   # documentation
   /usr/share/doc/**         r,
 
+  # php*admin
+  /usr/share/php*admin/{,**} r,
+
   #include <local/usr.sbin.nginx>
 }

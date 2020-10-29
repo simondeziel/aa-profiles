@@ -51,6 +51,9 @@
   # documentation
   /usr/share/doc/**         r,
 
+  # php*admin
+  /usr/share/php*admin/{,**} r,
+
   # certbot / letsencrypt
   /etc/letsencrypt/archive/*/cert*.pem r,
   /etc/letsencrypt/archive/*/chain*.pem r,
