@@ -13,12 +13,12 @@ profile replicator-wrapper /usr/local/bin/replicator-wrapper {
   /etc/mbuffer.rc  r,
   /usr/bin/mbuffer ixr,
 
-  /usr/bin/ps      ixr,
+  /{,usr/}bin/ps   ixr,
   /usr/bin/which   ixr,
 
   # unconfined
-  /usr/sbin/zfs   PUx,
-  /usr/sbin/zpool PUx,
+  /{,usr/}sbin/zfs   PUx,
+  /{,usr/}sbin/zpool PUx,
 
   /dev/tty                     rw,
   /dev/zfs                     rw,
