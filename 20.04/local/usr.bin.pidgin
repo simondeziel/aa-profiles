@@ -1,0 +1,30 @@
+# Site-specific additions and overrides for usr.bin.pidgin.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  #include <abstractions/user-tmp>
+  owner @{HOME}/work/   r,
+  owner @{HOME}/work/** r,
+
+  # Lockdown unused protocols (for the truely paranoiac)
+  deny /usr/lib/purple*/libaim.so{,.*}      rm,
+  deny /usr/lib/purple*/libbonjour.so{,.*}  rm,
+  deny /usr/lib/purple*/libgg.so{,.*}       rm,
+  deny /usr/lib/purple*/libicq.so{,.*}      rm,
+  deny /usr/lib/purple*/libmsn.so{,.*}      rm,
+  deny /usr/lib/purple*/libmxit.so{,.*}     rm,
+  deny /usr/lib/purple*/libmyspace.so{,.*}  rm,
+  deny /usr/lib/purple*/libnovell.so{,.*}   rm,
+  deny /usr/lib/purple*/liboscar.so{,.*}    rm,
+  deny /usr/lib/purple*/libsametime.so{,.*} rm,
+  deny /usr/lib/purple*/libsimple.so{,.*}   rm,
+  deny /usr/lib/purple*/libyahoojp.so{,.*}  rm,
+  deny /usr/lib/purple*/libyahoo.so{,.*}    rm,
+  deny /usr/lib/purple*/libymsg.so{,.*}     rm,
+  deny /usr/lib/purple*/libzephyr.so{,.*}   rm,
+
+  # If you want to allow Pidgin to update any DConf setting:
+  owner @{HOME}/.{cache,config}/dconf/user rw,
+  owner /run/user/[0-9]*/dconf/user rwk,
+
+  # snap
+  /var/lib/snapd/desktop/icons/ r,
