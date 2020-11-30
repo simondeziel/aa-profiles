@@ -1,0 +1,94 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+profile git /usr/bin/git {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  capability dac_override,
+  capability dac_read_search,
+  capability fowner,
+
+  /usr/bin/git        ix,
+  /usr/lib/git-core/* ix,
+
+  # necessary evil
+  # XXX: requires to comment out encrypted $HOME rules
+  # from abstractions/base to avoid compilation failures
+  /**/.git/hooks/** PUx,
+  owner @{HOME}/**  PUx,
+
+  # needed when parent process is contained by Apparmor
+  /dev/pts/[0-9]* rw,
+
+  # for password prompts
+  /dev/tty rw,
+
+  # editor
+  /usr/bin/vim   PUx,
+  /usr/bin/vim.* PUx,
+
+  # gpg
+  /usr/bin/gpg   PUx,
+  /usr/bin/gpg2  PUx,
+
+  # pager
+  /usr/bin/less PUx,
+  /usr/bin/more PUx,
+
+  # utilities
+  /usr/bin/cat          PUx,
+  /usr/bin/cp           PUx,
+  /usr/bin/date         PUx,
+  /usr/bin/grep         PUx,
+  /usr/bin/mkdir        PUx,
+  /usr/bin/mv           PUx,
+  /usr/bin/rm           PUx,
+  /usr/bin/sed          PUx,
+  /usr/bin/uname        PUx,
+  /usr/bin/basename PUx,
+  /usr/bin/cut      PUx,
+  /usr/bin/envsubst PUx,
+  /usr/bin/expr     PUx,
+  /usr/bin/gettext  PUx,
+  /usr/bin/ngettext PUx,
+  /usr/bin/tr       PUx,
+  /usr/bin/xargs    PUx,
+  /usr/bin/wc       PUx,
+
+  # for --help
+  /usr/bin/man PUx,
+
+  # for git-ubuntu
+  /usr/bin/snap PUx,
+  signal (send) set=("int") peer=snap.git-ubuntu.git-ubuntu,
+
+  /   r,
+  /** rkl,
+  owner /** rwkl,
+
+  # perl .so
+  /usr/lib/@{multiarch}/perl/**/*.so mr,
+
+  /usr/bin/dash Cx -> dash,
+  profile dash {
+    #include <abstractions/base>
+    /usr/bin/dash           rm,
+    /usr/lib/git-core/* Px -> git,
+
+    # editor
+    /usr/bin/vim   PUx,
+    /usr/bin/vim.* PUx,
+
+    # for filter-branch
+    /usr/bin/cat       PUx,
+    owner /**/.git-rewrite/** rw,
+  }
+
+  # transports
+  /usr/bin/rsync PUx,
+  /usr/bin/ssh   PUx,
+
+  #include <local/usr.bin.git>
+}
