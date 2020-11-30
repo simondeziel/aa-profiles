@@ -1,0 +1,12 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+profile mtr /usr/bin/mtr {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  /usr/bin/mtr-packet ix,
+
+  #include <local/usr.bin.mtr>
+}
