@@ -75,6 +75,10 @@ profile pidgin /usr/bin/pidgin {
   /sys/class/         r,
   /dev/               r,
 
+  # missing from abstraction/enchant
+  /usr/share/enchant-2/                            r,
+  /usr/share/enchant-2/enchant.ordering            r,
+
   # to put into an abstraction?
   owner @{HOME}/.gstreamer*/ rw,
   owner @{HOME}/.gstreamer*/** rw,
