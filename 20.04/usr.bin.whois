@@ -1,0 +1,12 @@
+# Author: Simon Deziel <simon@sdeziel.info>
+
+#include <tunables/global>
+
+profile whois /usr/bin/whois {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  /etc/whois.conf         r,
+
+  #include <local/usr.bin.whois>
+}
