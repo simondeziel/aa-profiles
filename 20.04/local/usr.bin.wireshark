@@ -1,0 +1,2 @@
+#
+  deny owner @{HOME}/.cache/mesa_shader_cache/index rw,
