@@ -131,6 +131,9 @@ profile pidgin /usr/bin/pidgin {
   owner @{PROC}/@{pid}/auxv r,
   owner @{PROC}/@{pid}/fd/ r,
 
+  # missing from abstractions/X (https://gitlab.com/apparmor/apparmor/-/commit/1abe10173407c649dd0c604e83d102487223a126)
+  owner /run/user/[0-9]*/ICEauthority r,
+
   # for sound notifications
   owner /{,var/}run/user/[0-9]*/orcexec.* mrw,
 
