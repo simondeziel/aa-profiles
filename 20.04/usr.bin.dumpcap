@@ -9,7 +9,7 @@ profile dumpcap /usr/bin/dumpcap {
   capability net_admin,
   capability net_raw,
 
-  signal (receive) peer=/usr/bin/wireshark,
+  signal (receive) peer=wireshark,
 
   # TCP/UDP network access
   network inet  stream,

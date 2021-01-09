@@ -25,7 +25,7 @@ profile wireshark /usr/bin/wireshark {
   #include <abstractions/user-write>
   #include <abstractions/X>
 
-  signal (send) peer=/usr/bin/dumpcap,
+  signal (send) peer=dumpcap,
 
   #include <abstractions/dbus-accessibility-strict>
   dbus (send)
