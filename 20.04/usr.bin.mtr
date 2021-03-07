@@ -6,6 +6,10 @@ profile mtr /usr/bin/mtr {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
+  capability net_raw,
+  network inet  raw,
+  network inet6 raw,
+
   /usr/bin/mtr-packet ix,
 
   #include <local/usr.bin.mtr>
