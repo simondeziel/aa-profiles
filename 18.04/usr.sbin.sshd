@@ -53,8 +53,11 @@
   /dev/urandom r,
   /etc/default/locale r,
   /etc/environment r,
+  /etc/gss/mech.d/ r,
+  /etc/gss/mech.d/** r,
   /etc/hosts.allow r,
   /etc/hosts.deny r,
+  /etc/issue.net r,
   /etc/modules.conf r,
   /etc/security/** r,
   /etc/ssh/** r,
@@ -62,7 +65,15 @@
   /usr/share/ssh/blacklist.* r,
   /var/log/btmp rw,
   owner /run/sshd{,.init}.pid wl,
-  @{HOME}/.ssh/authorized_keys{,2} r,
+  owner /run/systemd/sessions/[0-9]*.ref w,
+  owner @{HOME}/.ssh/authorized_keys r,
+  owner @{HOME}/.cache/                     rw,
+  owner @{HOME}/.cache/motd.legal-displayed rw,
+
+  # system users (backup and others)
+  owner /var/{backups,lib/*}/.ssh/authorized_keys        r,
+  owner /var/{backups,lib/*}/.cache/                     rw,
+  owner /var/{backups,lib/*}/.cache/motd.legal-displayed rw,
 
   @{PROC}/cmdline r,
   @{PROC}/1/environ r,
@@ -141,18 +152,13 @@
        member=LookupDynamicUserByName
        peer=(name=(org.freedesktop.systemd1)),
 
-  /etc.legal r,
+  /etc/legal r,
   /etc/motd r,
   /run/motd{,.dynamic}{,.new} rw,
   /tmp/ssh-[a-zA-Z0-9]*/ w,
   /tmp/ssh-[a-zA-Z0-9]*/agent.[0-9]* wl,
 
-  # for internal-sftp
-  /         r,
-  /**       r,
-  owner /** rwl,
-
-  /usr/lib/openssh/sftp-server PUx,
+  /run/systemd/notify w,
 
   # Site-specific additions and overrides. See local/README for details.
   #include <local/usr.sbin.sshd>
