@@ -21,6 +21,17 @@ profile vim /usr/bin/vim.{basic,tiny} {
     /dev/tty rw,
     owner /dev/pts/[0-9]* rw,
 
+    # for archives
+    /usr/bin/bzip2 Px -> vim,
+    /usr/bin/file  Px -> vim,
+    /usr/bin/gzip  Px -> vim,
+    /usr/bin/lzip  Px -> vim,
+    /usr/bin/lzma  Px -> vim,
+    /usr/bin/lzop  Px -> vim,
+    /usr/bin/tar   Px -> vim,
+    /usr/bin/xz    Px -> vim,
+    /usr/bin/zstd  Px -> vim,
+
     # list of allowed "!" commands
     /usr/bin/sort Px -> vim,
   }
