@@ -47,6 +47,7 @@ profile smbd /usr/sbin/smbd flags=(attach_disconnected) {
   /usr/lib/@{multiarch}/samba/*.so{,.[0-9]*} mr,
   /usr/lib/@{multiarch}/samba/**/ r,
   /usr/lib/@{multiarch}/samba/**/*.so{,.[0-9]*} mr,
+  /usr/share/samba/** r,
   /usr/sbin/smbd mr,
   /usr/sbin/smbldap-useradd Px,
   /var/cache/samba/** rwk,
