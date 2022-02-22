@@ -69,6 +69,7 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   owner @{HOME}/.ssh/authorized_keys r,
   owner @{HOME}/.cache/                     rw,
   owner @{HOME}/.cache/motd.legal-displayed rw,
+  owner @{HOME}/.google_authenticator{,~}   rw,
 
   # system users (backup and others)
   owner /var/{backups,lib/*}/.ssh/authorized_keys        r,
