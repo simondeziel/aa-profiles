@@ -1,0 +1,20 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+profile flac /usr/bin/flac {
+  #include <abstractions/base>
+
+  /**.{flac,oga,wav} r,
+  owner /**.{flac,oga,wav} w,
+
+  # analyze
+  owner /**.ana w,
+  # re-encoding (temporary filename suffix)
+  owner /**.flac.tmp,fl-ac+en'c rw,
+
+  /usr/bin/flac mrix,
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.bin.flac>
+} 
