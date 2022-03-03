@@ -14,6 +14,7 @@ profile wget /usr/bin/wget flags=(attach_disconnected) {
   /etc/wgetrc              r,
   owner @{HOME}/.wgetrc    r,
   owner @{HOME}/.wget-hsts rwk,
+  owner @{PROC}/@{pid}/fd/[0-9]+ w,
   /usr/bin/wget             mr,
   /usr/share/publicsuffix/* r,
 
