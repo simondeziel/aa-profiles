@@ -1,0 +1,83 @@
+# Author: Simon Deziel
+
+#include <tunables/global>
+
+@{GITOLITE_HOME}=/var/lib/gitolite3
+
+profile gitolite-shell /usr/share/gitolite3/gitolite-shell {
+  #include <abstractions/base>
+  #include <abstractions/perl>
+
+  /etc/gitconfig                      r,
+  /etc/gitolite3/gitolite.rc          r,
+  /usr/bin/gitolite                   rix,
+  /usr/share/gitolite3/**             r,
+  /usr/share/gitolite3/gitolite-shell rix,
+  /usr/share/gitolite3/gitolite       ix,
+  /usr/share/gitolite3/commands/*     ix,
+  /usr/share/gitolite3/triggers/**    ix,
+
+  owner @{GITOLITE_HOME}/.gitconfig         r,
+  owner @{GITOLITE_HOME}/.gitolite.rc       r,
+  owner @{GITOLITE_HOME}/.gitolite/**       r,
+  owner @{GITOLITE_HOME}/.gitolite/conf/    rw,
+  owner @{GITOLITE_HOME}/.gitolite/conf/**  rw,
+  owner @{GITOLITE_HOME}/.gitolite/logs/gitolite-[0-9]*.log rw,
+  owner @{GITOLITE_HOME}/.gitolite/hooks/   rw,
+  owner @{GITOLITE_HOME}/.gitolite/hooks/** rwix,
+  owner @{GITOLITE_HOME}/projects.list*     rw,
+  owner @{GITOLITE_HOME}/repositories/      rw,
+  owner @{GITOLITE_HOME}/repositories/**    rw,
+
+  owner @{GITOLITE_HOME}/.ssh/authorized_keys rw,
+  owner @{GITOLITE_HOME}/.ssh/authorized_keys.[0-9]* rw,
+
+  /usr/bin/ssh-keygen PUx,
+
+  # git
+  /usr/bin/git        ix,
+  /usr/lib/git-core/* Cx -> git_core,
+  profile git_core {
+    #include <abstractions/base>
+    /usr/lib/git-core/* ix,
+
+    owner @{GITOLITE_HOME}/ r,
+    owner @{GITOLITE_HOME}/** rw,
+
+    /etc/gitconfig                   r,
+    /usr/share/git-core/templates/   r,
+    /usr/share/git-core/templates/** r,
+
+    link @{GITOLITE_HOME}/** -> @{GITOLITE_HOME}/**,
+
+    # exec under the parent profile
+    owner @{GITOLITE_HOME}/.gitolite/hooks/** Px -> gitolite-shell,
+  }
+
+  /usr/bin/grep   ix,
+  /usr/bin/mktemp ix,
+  /usr/bin/mv     ix,
+  /usr/bin/rm     ix,
+  /usr/bin/sed    ix,
+  /usr/bin/cut    ix,
+  /usr/bin/logger ix,
+  /usr/bin/sort   ix,
+
+  /usr/bin/dash Cx -> dash,
+  profile dash {
+    #include <abstractions/base>
+    /usr/bin/dash       rm,
+    /usr/bin/hostname   ix,
+    /usr/bin/find       ix,
+    /usr/bin/sort       ix,
+    /usr/bin/ssh-keygen PUx,
+    /usr/bin/gitolite   Px -> gitolite-shell,
+    /usr/bin/git        Px -> gitolite-shell,
+    /usr/lib/git-core/* Px -> gitolite-shell//git_core,
+
+    owner @{GITOLITE_HOME}/ r,
+    owner @{GITOLITE_HOME}/** rw,
+  }
+
+  #include <local/gitolite-shell>
+}
