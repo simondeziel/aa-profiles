@@ -6,7 +6,7 @@
 # following:
 # watch -n 1 'dmesg | tail -5'
 
-/usr/sbin/rsyslogd flags=(attach_disconnected) {
+profile rsyslogd /usr/sbin/rsyslogd flags=(attach_disconnected) {
   #include <abstractions/base>
   #include <abstractions/nameservice>
 
