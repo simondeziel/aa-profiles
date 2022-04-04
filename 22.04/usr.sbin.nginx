@@ -1,0 +1,66 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+#include <tunables/global>
+
+# XXX: attach_disconnected needed if using systemd Protect{Home,System}
+profile nginx /usr/sbin/nginx flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/ssl_keys>
+
+  network inet stream,
+  network inet6 stream,
+
+  capability chown,
+  capability setuid,
+  capability setgid,
+  capability dac_override,
+
+  /etc/nginx/**                r,
+  owner @{PROC}/[0-9]*/auxv    r,
+  /var/log/nginx/*.log         w,
+  /var/log/nginx/**/*.log      w,
+  /run/nginx.pid               rw,
+  /run/nginx.pid.oldbin        rw,
+  /usr/{,local/}lib/nginx/modules/*.so* mr,
+
+  # document root
+  /var/www/                 r,
+  /var/www/**               r,
+  /usr/share/nginx/**       r,
+
+  # php*admin
+  /usr/share/php*admin/{,**} r,
+
+  # backend unix sockets
+  /run/php*.sock            rw,
+  /run/php/*.sock           rw,
+  /run/php/**/*.sock        rw,
+  /run/thin/*.sock          rw,
+  /run/thin/**/*.sock       rw,
+  /run/uwsgi/**/socket      rw,
+
+  # cache
+  /var/cache/nginx/               r,
+  owner /var/cache/nginx/**       rw,
+  /dev/shm/nginx-cache/           r,
+  owner /dev/shm/nginx-cache/**   rw,
+
+  # reexec during upgrade
+  /usr/sbin/nginx           rix,
+  /var/lib/nginx/**         rw,
+
+  # certbot / letsencrypt
+  /etc/letsencrypt/archive/*/cert*.pem r,
+  /etc/letsencrypt/archive/*/chain*.pem r,
+  /etc/letsencrypt/archive/*/fullchain*.pem r,
+  owner /etc/letsencrypt/archive/*/privkey*.pem r,
+  /etc/letsencrypt/le_*_cert_challenge.conf r,
+  /var/lib/letsencrypt/.well-known/** r,
+
+  # dehydrated
+  /var/lib/dehydrated/acme-challenges/* r,
+
+  #include <local/usr.sbin.nginx>
+}
