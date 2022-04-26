@@ -13,5 +13,8 @@ profile curl /usr/bin/curl flags=(attach_disconnected) {
 
   /usr/bin/curl mr,
 
+  # LXD snap
+  /var/snap/lxd/common/lxd/unix.socket rw,
+
   #include <local/usr.bin.curl>
 }
