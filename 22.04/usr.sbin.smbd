@@ -27,6 +27,8 @@ profile smbd /usr/{bin,sbin}/smbd flags=(attach_disconnected) {
 
   signal send set=term peer=samba-bgqd,
 
+  /run/systemd/notify w,
+
   /etc/mtab r,
   /etc/netgroup r,
   /etc/printcap r,
