@@ -1,0 +1,150 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+profile apt-dater-host-wrapper /usr/local/bin/apt-dater-host-wrapper {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+
+  /{,usr/}bin/dash mr,
+
+  # for confirmation prompts
+  owner /dev/pts/[0-9]* rw,
+
+  /usr/local/bin/apt-dater-host-wrapper ixr,
+
+  @{PROC}/version   r,
+  /{,usr/}bin/sleep ixr,
+  /usr/bin/basename ix,
+  /usr/bin/logger   ix,
+
+  # logger needs to read loginuid
+  owner @{PROC}/@{pid}/loginuid r,
+
+  /usr/local/bin/apt-dater-host Cx -> aptdater,
+
+  profile aptdater {
+    #include <abstractions/base>
+    #include <abstractions/perl>
+
+    /etc/apt-dater-host.conf      r,
+    /etc/apt-dater-host.uuid      r,
+    /usr/local/bin/apt-dater-host r,
+    /usr/lib/@{multiarch}/perl-base/auto/List/Util/Util.so m,
+    owner /var/lib/aptdater/ r,
+
+    /usr/bin/sudo Px -> apt-dater-host-wrapper//sudo_aptdater,
+    /usr/lib/ubuntu-advantage/* Px -> apt-dater-host-wrapper//ubuntu_advantage,
+    unix (send, receive) type=stream peer=(label=apt-dater-host-wrapper//ubuntu_advantage),
+
+    /{,usr/}bin/cat   ix,
+    /{,usr/}bin/dash  ix,
+    /{,usr/}bin/grep  ix,
+    /{,usr/}bin/uname ix,
+
+    /usr/bin/imvirt      PUx,
+    /usr/bin/lsb_release PUx,
+
+    @{PROC}/version           r,
+    @{PROC}/version_signature r,
+    owner @{PROC}/@{pid}/fd/  r,
+
+    /etc/apt/**       r,
+    /var/cache/apt/** r,
+    /var/lib/apt/**   r,
+    /usr/bin/apt-get  ix,
+    /usr/lib/apt/methods/* ix,
+
+    /etc/dpkg/**        r,
+    /usr/share/dpkg/**  r,
+    /var/lib/dpkg/**    r,
+    /usr/bin/dpkg       ix,
+    /usr/bin/dpkg-query ix,
+
+    /var/log/apt/eipp.log.xz rw,
+
+    # for confirmation prompts
+    owner /dev/pts/[0-9]* rw,
+
+    owner /tmp/{clearsigned,fileutl}.message.?????? rw,
+  }
+
+  profile sudo_aptdater {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    #include <abstractions/authentication>
+    #include <abstractions/wutmp>
+
+    dbus (send)
+         bus=system
+         path=/org/freedesktop/systemd1
+         interface=org.freedesktop.systemd1.Manager
+         member=GetDynamicUsers
+         peer=(name=(org.freedesktop.systemd1)),
+
+    capability audit_write,
+    capability sys_ptrace,
+    capability sys_resource,
+    capability setuid,
+    capability setgid,
+
+    # silence noise
+    # https://github.com/fedora-selinux/selinux-policy/blob/rawhide/policy/modules/admin/sudo.te
+    deny capability net_admin,
+
+    /etc/sudoers r,
+    /etc/sudoers.d/ r,
+    /etc/sudoers.d/* r,
+    /etc/environment r,
+    /etc/default/locale r,
+
+    /usr/bin/sudo mr,
+    /usr/lib/sudo/*.so m,
+
+    /dev/tty rw,
+
+    # for confirmation prompts
+    /dev/pts/[0-9]* rw,
+
+    owner @{PROC}/@{pid}/stat r,
+    owner @{PROC}/@{pid}/fd/ r,
+
+    /usr/bin/apt-get PUx,
+  }
+
+  profile ubuntu_advantage {
+    #include <abstractions/base>
+    ptrace (read) peer=apt-dater-host-wrapper//aptdater,
+    unix (send, receive) type=stream peer=(label=apt-dater-host-wrapper//aptdater),
+
+    owner @{PROC}/@{pids}/cmdline r,
+    owner /var/lib/ubuntu-advantage/** rw,
+
+    @{PROC}/version           r,
+    @{PROC}/version_signature r,
+    owner @{PROC}/@{pid}/fd/  r,
+    /sys/kernel/mm/transparent_hugepage/hpage_pmd_size r,
+
+    /etc/apt/**       r,
+    /var/cache/apt/** r,
+    /var/lib/apt/**   r,
+    /usr/bin/apt-get  ix,
+    /usr/lib/apt/methods/* ix,
+
+    /etc/dpkg/**        r,
+    /usr/share/dpkg/**  r,
+    /var/lib/dpkg/**    r,
+    /usr/bin/dpkg       ix,
+    /usr/bin/dpkg-query ix,
+
+    /var/log/apt/eipp.log.xz rw,
+
+    # for confirmation prompts
+    owner /dev/pts/[0-9]* rw,
+
+    owner /tmp/{clearsigned,fileutl}.message.?????? rw,
+  }
+
+  # Site-specific additions and overrides. See local/README for details.
+  #include <local/usr.local.bin.apt-dater-host-wrapper>
+}
