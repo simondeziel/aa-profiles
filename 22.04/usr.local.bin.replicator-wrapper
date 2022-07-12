@@ -1,0 +1,35 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+#include <tunables/global>
+profile replicator-wrapper /usr/local/bin/replicator-wrapper {
+  #include <abstractions/base>
+
+  # ps wants ptrace
+  deny ptrace,
+
+  /usr/local/bin/replicator-wrapper r,
+
+  /etc/mbuffer.rc  r,
+  /usr/bin/mbuffer ixr,
+
+  /{,usr/}bin/ps   ixr,
+  /usr/bin/which   ixr,
+
+  # unconfined
+  /{,usr/}sbin/zfs   PUx,
+  /{,usr/}sbin/zpool PUx,
+
+  /dev/tty                     rw,
+  /dev/zfs                     rw,
+  @{PROC}/                     r,
+  @{PROC}/sys/kernel/osrelease r,
+  @{PROC}/uptime               r,
+  /sys/module/zfs/version      r,
+
+  owner @{PROC}/@{pid}/cmdline r,
+  owner @{PROC}/@{pid}/mounts  r,
+  owner @{PROC}/@{pid}/stat    r,
+
+  #include <local/usr.local.bin.replicator-wrapper>
+}
