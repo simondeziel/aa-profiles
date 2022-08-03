@@ -1,0 +1,179 @@
+# Site-specific additions and overrides for usr.bin.firefox.
+# For more details, please see /etc/apparmor.d/local/README.
+
+  dbus (send)
+	bus=system
+	path=/org/freedesktop/UPower/devices/{line_power_AC,battery_BAT[0-9]*}
+	interface=org.freedesktop.DBus.Properties
+	member=GetAll
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=system
+	path=/org/freedesktop/hostname1
+	interface=org.freedesktop.DBus.Properties
+	member=GetAll
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=system
+	path=/org/freedesktop/RealtimeKit1
+	interface=org.freedesktop.DBus.Properties
+	member=Get
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/freedesktop/portal/desktop
+	interface=org.freedesktop.DBus.Properties
+	member=GetAll
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/freedesktop/portal/desktop
+	interface=org.freedesktop.portal.Settings
+	member=Read
+	peer=(label=unconfined),
+
+  dbus (receive)
+	bus=session
+	path=/{,com{,/canonical{,/**}}}
+	interface=org.freedesktop.DBus.Introspectable
+	member=Introspect
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/freedesktop/DBus
+	interface=org.freedesktop.DBus
+	member=RequestName
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/gtk/vfs/Daemon
+	interface=org.gtk.vfs.Daemon
+	member={GetConnection,ListMonitorImplementations}
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/gtk/vfs/mount/1
+	interface=org.gtk.vfs.Mount
+	member={Enumerate,QueryInfo}
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/gtk/vfs/mounttracker
+	interface=org.gtk.vfs.MountTracker
+	member={ListMounts2,LookupMount}
+	peer=(label=unconfined),
+
+  dbus (receive)
+	bus=session
+	path=/org/gtk/vfs/mounttracker
+	interface=org.gtk.vfs.MountTracker
+	member=Mounted
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/gtk/Private/RemoteVolumeMonitor
+	interface=org.gtk.Private.RemoteVolumeMonitor
+	member={IsSupported,List}
+	peer=(label=unconfined),
+
+  dbus (receive)
+	bus=session
+	path=/org/gtk/Private/RemoteVolumeMonitor
+	interface=org.gtk.Private.RemoteVolumeMonitor
+	member={DriveChanged,DriveConnected,MountAdded,MountChanged,MountPreUnmount,MountRemoved,VolumeAdded,VolumeChanged,VolumeRemoved}
+	peer=(label=unconfined),
+
+  dbus (send)
+	bus=session
+	path=/org/gtk/vfs/metadata
+	interface=org.gtk.vfs.Metadata
+	member={GetTreeFromDevice,Set}
+	peer=(label=unconfined),
+
+  # XXX: needed to write to dconf
+  #      http://manpages.ubuntu.com/manpages/bionic/en/man1/dconf-service.1.html
+  dbus (send)
+	bus=session
+	path=/ca/desrt/dconf/Writer/user
+	interface=ca.desrt.dconf.Writer
+	member=Change
+	peer=(label=unconfined),
+
+  dbus (receive)
+	bus=session
+	path=/ca/desrt/dconf/Writer/user
+	interface=ca.desrt.dconf.Writer
+	member=Notify
+	peer=(label=unconfined),
+
+  dbus (bind)
+	bus=session
+        name=org.mozilla.firefox.*,
+
+  dbus (receive)
+	bus=session
+	path=/org/freedesktop/Notifications
+	interface=org.freedesktop.Notifications
+	member=ActionInvoked
+	peer=(label=unconfined),
+
+  # new with FF 60
+  capability sys_admin,
+  capability sys_chroot,
+  capability sys_ptrace,
+  owner @{PROC}/@{pid}/{u,g}id_map w,
+  owner @{PROC}/@{pid}/setgroups   w,
+
+  # FF 99
+  owner @{PROC}/@{pid}/task/[0-9]*/comm r,
+
+  # new with FF 91.0.1
+  owner @{HOME}/.fontconfig/* k,
+
+  # FF 86 on 20.04
+  /sys/fs/cgroup/cpu,cpuacct/user.slice/cpu.cfs_quota_us r,
+
+  # FF 85 on 20.04
+  /sys/devices/pci*/**/class r,
+  /sys/devices/pci*/**/irq r,
+  /sys/devices/pci*/**/resource r,
+
+  # FF 84 on 20.04 (88 now requires MakeThreadRealtimeWithPID)
+  owner @{HOME}/.cache/mesa_shader_cache/*/* k,
+  dbus (send)
+        bus=system
+        path=/org/freedesktop/RealtimeKit1
+        interface=org.freedesktop.RealtimeKit1
+        member={MakeThreadRealtime,MakeThreadRealtimeWithPID}
+        peer=(label=unconfined),
+
+  # FF 83 on 20.04
+  /proc/sys/dev/i915/perf_stream_paranoid r,
+
+  # missing from abstractions/X (https://gitlab.com/apparmor/apparmor/-/commit/1abe10173407c649dd0c604e83d102487223a126)
+  owner /run/user/[0-9]*/ICEauthority r,
+
+  # new with FF 79
+  /sys/fs/cgroup/cpu,cpuacct/cpu.cfs_quota_us r,
+
+  # new with FF 78
+  owner @{PROC}/@{pid}/cgroup r,
+
+  # new with FF 61
+  /run/mount/utab r,
+
+  # new with FF 64
+  owner @{HOME}/.cache/fontconfig/* k,
+
+  # for crash reports?
+  ptrace (trace) peer=@{profile_name},
+  owner @{PROC}/@{pid}/comm r,
