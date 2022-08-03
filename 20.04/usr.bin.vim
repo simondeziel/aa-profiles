@@ -5,6 +5,7 @@
 profile vim /usr/bin/vim.{basic,tiny} {
   #include <abstractions/base>
 
+  / r,
   /** r,
   owner /** w,
 
