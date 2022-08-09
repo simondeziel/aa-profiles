@@ -177,3 +177,6 @@
   # for crash reports?
   ptrace (trace) peer=@{profile_name},
   owner @{PROC}/@{pid}/comm r,
+
+  # when FF is restarted after a crash
+  /usr/bin/which rix,
