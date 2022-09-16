@@ -38,6 +38,7 @@ profile ssh /usr/bin/ssh {
   owner /tmp/ssh-*/agent.@{pid} rw,
   owner /run/user/[0-9]*/keyring*/ssh rw,
   owner /run/user/[0-9]*/ssh-*.sock* rwl,
+  owner /run/user/[0-9]*/openssh_agent rw,
   owner @{PROC}/@{pid}/fd/ r,
 
   # human users
