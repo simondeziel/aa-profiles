@@ -27,6 +27,8 @@
     #include <abstractions/base>
     #include <abstractions/perl>
 
+    owner /var/lib/aptdater/ r,
+
     /bin/cat   ix,
     /bin/dash  ix,
     /bin/grep  ix,
