@@ -34,6 +34,7 @@ profile postfix-smtp /usr/lib/postfix/{bin/,sbin/,}smtp {
   /{var/spool/postfix/,}private/rewrite                 w,
   /{var/spool/postfix/,}private/scache                  w,
   /{var/spool/postfix/,}private/tlsmgr                  w,
+  /{var/spool/postfix/,}private/tlsproxy                wr,
   /{var/spool/postfix/,}private/trace                   w,
   /{var/spool/postfix/,}public/flush                    w,
   /{var/spool/postfix/,}pid/unix.smtp            rwk,
