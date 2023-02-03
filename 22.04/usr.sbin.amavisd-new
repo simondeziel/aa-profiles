@@ -1,0 +1,130 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+#include <tunables/global>
+
+profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
+  #include <abstractions/base>
+  #include <abstractions/nameservice>
+  #include <abstractions/perl>
+
+  capability setgid,
+  capability setuid,
+
+  # config
+  /etc/amavis/** r,
+  /etc/mailname  r,
+  /etc/ssl/openssl.cnf r,
+  /usr/sbin/amavisd-new rm,
+  /usr/share/amavis/**  r,
+  owner /var/lib/amavis/**    rw,
+  owner /var/lib/amavis/.spamassassin/bayes.mutex rwk,
+  owner /var/lib/amavis/.spamassassin/bayes.lock* rwkl,
+  /run/amavis/amavisd.{pid,lock} rwlk,
+
+  # SA integration
+  /etc/spamassassin/   r,
+  /etc/spamassassin/** r,
+  /usr/share/spamassassin/   r,
+  /usr/share/spamassassin/** r,
+  /var/lib/spamassassin/**   r,
+
+  @{PROC}/uptime r,
+
+  # noise
+  deny /etc/shadow	    r,
+  deny /etc/amavis/**       w,
+  deny /usr/share/amavis/** w,
+
+  /usr/bin/hostname   ix,
+  /usr/bin/head   ix,
+  /usr/bin/uptime ix,
+
+  signal (send) set=("term") peer=amavisd-new//*,
+
+  /usr/bin/dash Cx -> dash,
+  profile dash flags=(attach_disconnected) {
+    #include <abstractions/base>
+    /usr/bin/dash  rm,
+
+    /etc/amavis/** r,
+    /usr/share/amavis/** r,
+
+    /usr/bin/run-parts ix,
+    /usr/bin/uname     ix,
+  }
+
+  # uncompress is a shell wrapper around 'gzip -d' so use it instead
+  deny /usr/bin/uncompress rx,
+
+  /usr/bin/bzip2   Cx -> extractor,
+  /usr/bin/gzip    Cx -> extractor,
+  /usr/bin/bin/7zr Cx -> extractor,
+  /usr/bin/bin/ar  Cx -> extractor,
+  /usr/bin/xz      Cx -> extractor,
+  profile extractor flags=(attach_disconnected) {
+    #include <abstractions/base>
+    audit deny ptrace,
+
+    /usr/bin/bzip2 rm,
+    /usr/bin/gzip  rm,
+    /usr/bin/7zr   rm,
+    /usr/bin/ar    rm,
+    /usr/bin/xz    rm,
+
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
+  }
+
+  /usr/bin/pax Cx -> pax,
+  profile pax flags=(attach_disconnected) {
+    #include <abstractions/base>
+    audit deny ptrace,
+
+    /etc/default/nss   r,
+    /etc/nsswitch.conf r,
+    /etc/group         r,
+    /etc/passwd        r,
+
+    /usr/bin/pax rm,
+    deny /dev/tty rw,
+
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** rw,
+  }
+
+  /usr/bin/file Cx -> filebin,
+  profile filebin flags=(attach_disconnected) {
+    #include <abstractions/base>
+    audit deny ptrace,
+
+    /etc/magic r,
+    /usr/bin/file rm,
+    /usr/share/file/** r,
+    /usr/lib/libmagic.so* ix,
+
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** r,
+  }
+
+  /usr/bin/pyzor Cx -> pyzor,
+  profile pyzor flags=(attach_disconnected) {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+    #include <abstractions/python>
+    # not included in <abstractions/python>
+    /usr/bin/python3.8 ixr,
+
+    audit deny ptrace,
+
+    signal (receive) set=("term") peer=amavisd-new,
+
+    owner /{,var/}tmp/** rw,
+    owner /var/lib/amavis/tmp/.spamassassin*tmp r,
+    owner /var/lib/amavis/tmp/amavis-*/ r,
+    owner /var/lib/amavis/tmp/amavis-*/parts/** r,
+    owner /var/lib/amavis/.pyzor/** r,
+    /usr/bin/pyzor rm,
+  }
+
+  #include <local/usr.sbin.amavisd-new>
+}
