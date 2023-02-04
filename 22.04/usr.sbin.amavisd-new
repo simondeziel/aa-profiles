@@ -7,14 +7,11 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   #include <abstractions/nameservice>
   #include <abstractions/perl>
 
-  capability setgid,
-  capability setuid,
-
   # config
   /etc/amavis/** r,
   /etc/mailname  r,
   /etc/ssl/openssl.cnf r,
-  /usr/sbin/amavisd-new rm,
+  /usr/sbin/amavisd-new rmix,
   /usr/share/amavis/**  r,
   owner /var/lib/amavis/**    rw,
   owner /var/lib/amavis/.spamassassin/bayes.mutex rwk,
@@ -111,8 +108,6 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
     #include <abstractions/base>
     #include <abstractions/nameservice>
     #include <abstractions/python>
-    # not included in <abstractions/python>
-    /usr/bin/python3.8 ixr,
 
     audit deny ptrace,
 
