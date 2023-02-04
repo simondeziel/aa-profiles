@@ -11,6 +11,9 @@ profile curl /usr/bin/curl flags=(attach_disconnected) {
   #include <abstractions/openssl>
   #include <abstractions/ssl_certs>
 
+  # XXX: missing from <abstractions/ldapclient>?
+  /etc/ldap/ldap.conf r,
+
   /usr/bin/curl mr,
 
   # LXD snap
