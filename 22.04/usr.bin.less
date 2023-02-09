@@ -1,0 +1,17 @@
+# Author: Simon Deziel <simon.deziel@gmail.com>
+
+include <tunables/global>
+
+profile less /usr/bin/less {
+  include <abstractions/base>
+
+  /usr/bin/less rmix,
+
+  # less history
+  owner @{HOME}/.lesshst rw,
+  owner @{HOME}/.lesshsQ w,
+
+  /** r,
+
+  include <local/usr.bin.less>
+}
