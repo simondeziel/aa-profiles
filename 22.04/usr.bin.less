@@ -5,6 +5,11 @@ include <tunables/global>
 profile less /usr/bin/less {
   include <abstractions/base>
 
+  capability dac_read_search,
+
+  # prevent "live" decompression or shell exec
+  deny /usr/bin/dash x,
+
   /usr/bin/less rmix,
 
   # less history
