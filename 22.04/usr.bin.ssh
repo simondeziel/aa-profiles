@@ -63,7 +63,7 @@ profile ssh /usr/bin/ssh {
   owner /tmp/uvt-kvm.known_hoststmp?????? r,
 
   # syncoid
-  owner /tmp/syncoid-*@* rwl,
+  owner /tmp/syncoid-* rwl,
 
   # for ProxyCommand
   /{,usr/}bin/bash  Cx -> proxycommand,
