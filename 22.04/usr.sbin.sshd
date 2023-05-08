@@ -14,16 +14,19 @@
 #
 # vim:syntax=apparmor
 
-#include <tunables/global>
+abi <abi/3.0>,
+
+include <tunables/global>
 
 profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
-  #include <abstractions/authentication>
-  #include <abstractions/base>
-  #include <abstractions/consoles>
-  #include <abstractions/libpam-systemd>
-  #include <abstractions/nameservice>
-  #include <abstractions/openssl>
-  #include <abstractions/wutmp>
+  include <abstractions/authentication>
+  include <abstractions/base>
+  include <abstractions/consoles>
+  include <abstractions/libpam-systemd>
+  include <abstractions/nameservice>
+  include <abstractions/openssl>
+  include <abstractions/wutmp>
+  include <abstractions/hosts_access>
 
   capability sys_chroot,
   capability sys_resource,
@@ -55,8 +58,6 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /etc/environment r,
   /etc/gss/mech.d/ r,
   /etc/gss/mech.d/** r,
-  /etc/hosts.allow r,
-  /etc/hosts.deny r,
   /etc/issue.net r,
   /etc/modules.conf r,
   /etc/security/** r,
@@ -111,9 +112,9 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   # to set memory protection for passwd
   @{PROC}/@{pid}/task/@{pid}/attr/exec w,
   profile passwd {
-    #include <abstractions/authentication>
-    #include <abstractions/base>
-    #include <abstractions/nameservice>
+    include <abstractions/authentication>
+    include <abstractions/base>
+    include <abstractions/nameservice>
 
     capability audit_write,
     capability chown,
@@ -143,7 +144,7 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /usr/bin/gnome-keyring-daemon Cx -> gnome_keyring_daemon,
 
   profile gnome_keyring_daemon {
-    #include <abstractions/base>
+    include <abstractions/base>
   }
 
   dbus (send)
@@ -166,5 +167,5 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /run/systemd/notify w,
 
   # Site-specific additions and overrides. See local/README for details.
-  #include <local/usr.sbin.sshd>
+  include if exists <local/usr.sbin.sshd>
 }
