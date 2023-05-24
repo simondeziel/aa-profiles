@@ -1,0 +1,45 @@
+# vim:syntax=apparmor
+# Last Modified: Sun Sep 05 16:48:05 2021
+
+abi <abi/3.0>,
+
+#include <tunables/global>
+
+profile systemd-resolved /{usr/,}lib/systemd/systemd-resolved flags=(attach_disconnected) {
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/dbus-strict>
+
+  capability setpcap,
+  capability net_raw,
+  capability net_bind_service,
+
+  @{PROC}/cmdline r,
+  @{PROC}/sys/kernel/hostname r,
+  @{PROC}/sys/kernel/osrelease r,
+
+  /etc/systemd/resolved.conf            r,
+  /etc/systemd/resolved.conf.d/*        r,
+  /run/systemd/resolved.conf.d/*        r,
+  /{usr/,}lib/systemd/resolved.conf.d/* r,
+
+  /run/systemd/notify w,
+
+  owner /run/systemd/resolve/** rw,
+
+  dbus bind
+	bus=system
+	name=org.freedesktop.resolve1,
+  dbus send
+	bus=system
+	path=/org/freedesktop/DBus
+	interface=org.freedesktop.DBus
+	member={GetConnectionUnixUser,RequestName,},
+  dbus receive
+	bus=system
+	path=/org/freedesktop/resolve1
+	interface=org.freedesktop.resolve1.Manager,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/systemd-resolved>
+}
