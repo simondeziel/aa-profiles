@@ -23,8 +23,10 @@ profile systemd-resolved /{usr/,}lib/systemd/systemd-resolved flags=(attach_disc
   /run/systemd/resolved.conf.d/*        r,
   /{usr/,}lib/systemd/resolved.conf.d/* r,
 
+  /run/systemd/container r,
   /run/systemd/notify w,
 
+  /run/systemd/netif/links/**   r,
   owner /run/systemd/resolve/** rw,
 
   dbus bind
