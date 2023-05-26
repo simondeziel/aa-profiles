@@ -30,17 +30,22 @@ profile systemd-resolved /{usr/,}lib/systemd/systemd-resolved flags=(attach_disc
   owner /run/systemd/resolve/** rw,
 
   dbus bind
-	bus=system
-	name=org.freedesktop.resolve1,
+    bus=system
+    name=org.freedesktop.resolve1,
   dbus send
-	bus=system
-	path=/org/freedesktop/DBus
-	interface=org.freedesktop.DBus
-	member={GetConnectionUnixUser,RequestName,},
+    bus=system
+    path=/org/freedesktop/DBus
+    interface=org.freedesktop.DBus
+    member={GetConnectionUnixUser,RequestName,},
   dbus receive
-	bus=system
-	path=/org/freedesktop/resolve1
-	interface=org.freedesktop.resolve1.Manager,
+    bus=system
+    path=/org/freedesktop/resolve1
+    interface=org.freedesktop.resolve1.Manager,
+  dbus receive
+    bus=system
+    path=/org/freedesktop/resolve1{,**}
+    interface=org.freedesktop.DBus.Properties
+    member=GetAll,
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/systemd-resolved>
