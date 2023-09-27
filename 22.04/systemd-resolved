@@ -45,7 +45,7 @@ profile systemd-resolved /{usr/,}lib/systemd/systemd-resolved flags=(attach_disc
     bus=system
     path=/org/freedesktop/resolve1{,**}
     interface=org.freedesktop.DBus.Properties
-    member=GetAll,
+    member={Get,GetAll},
 
   # Site-specific additions and overrides. See local/README for details.
   include if exists <local/systemd-resolved>
