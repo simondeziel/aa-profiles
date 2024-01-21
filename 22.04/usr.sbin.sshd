@@ -15,7 +15,6 @@
 # vim:syntax=apparmor
 
 abi <abi/3.0>,
-
 include <tunables/global>
 
 profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
@@ -90,18 +89,18 @@ profile sshd /usr/sbin/sshd flags=(attach_disconnected) {
   /sys/fs/cgroup/*/user/*/[0-9]*/ rw,
   /sys/fs/cgroup/systemd/user.slice/user-[0-9]*.slice/session-c[0-9]*.scope/ rw,
 
-  /{,usr/}bin/ash      Uxr,
+  #/{,usr/}bin/ash      Uxr,
   /{,usr/}bin/bash     Uxr,
-  /{,usr/}bin/bash2    Uxr,
-  /{,usr/}bin/bsh      Uxr,
-  /{,usr/}bin/csh      Uxr,
+  #/{,usr/}bin/bash2    Uxr,
+  #/{,usr/}bin/bsh      Uxr,
+  #/{,usr/}bin/csh      Uxr,
   /{,usr/}bin/dash     Uxr,
-  /{,usr/}bin/ksh      Uxr,
+  #/{,usr/}bin/ksh      Uxr,
   /{,usr/}bin/sh       Uxr,
-  /{,usr/}bin/tcsh     Uxr,
-  /{,usr/}bin/zsh      Uxr,
-  /{,usr/}bin/zsh4     Uxr,
-  /{,usr/}bin/zsh5     Uxr,
+  #/{,usr/}bin/tcsh     Uxr,
+  #/{,usr/}bin/zsh      Uxr,
+  #/{,usr/}bin/zsh4     Uxr,
+  #/{,usr/}bin/zsh5     Uxr,
   /{,usr/}sbin/nologin Uxr,
   /{,usr/}bin/false    Uxr,
 
