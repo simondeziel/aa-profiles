@@ -21,5 +21,5 @@ profile curl /usr/bin/curl flags=(attach_disconnected) {
   # LXD snap
   /var/snap/lxd/common/lxd/unix.socket rw,
 
-  include <local/usr.bin.curl>
+  include if exists <local/usr.bin.curl>
 }

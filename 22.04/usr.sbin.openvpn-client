@@ -51,5 +51,5 @@ profile openvpn-client flags=(attach_disconnected) {
   /var/log/openvpn/*.log w,
 
   # Site-specific additions and overrides. See local/README for details.
-  include <local/usr.sbin.openvpn-client>
+  include if exists <local/usr.sbin.openvpn-client>
 }

@@ -64,5 +64,5 @@ profile nginx /usr/sbin/nginx flags=(attach_disconnected) {
   # dehydrated
   /var/lib/dehydrated/acme-challenges/* r,
 
-  include <local/usr.sbin.nginx>
+  include if exists <local/usr.sbin.nginx>
 }

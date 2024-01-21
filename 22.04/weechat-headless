@@ -13,5 +13,5 @@ profile weechat-headless /usr/bin/weechat-headless flags=(attach_disconnected) {
   owner /var/lib/weechat/**log rwk,
 
   # Site-specific additions and overrides. See local/README for details.
-  include <local/weechat-headless>
+  include if exists <local/weechat-headless>
 }

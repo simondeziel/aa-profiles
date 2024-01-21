@@ -81,5 +81,5 @@ profile gitolite-shell /usr/share/gitolite3/gitolite-shell {
     owner @{GITOLITE_HOME}/** rw,
   }
 
-  include <local/gitolite-shell>
+  include if exists <local/gitolite-shell>
 }

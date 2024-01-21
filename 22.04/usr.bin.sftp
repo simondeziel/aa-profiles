@@ -34,5 +34,5 @@ profile sftp /usr/bin/sftp {
   /   r,
   /** r,
 
-  include <local/usr.bin.sftp>
+  include if exists <local/usr.bin.sftp>
 }

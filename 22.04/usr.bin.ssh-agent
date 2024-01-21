@@ -23,5 +23,5 @@ profile ssh-agent /usr/bin/ssh-agent flags=(attach_disconnected) {
   /usr/bin/ssh-askpass-fullscreen    PUx,
   /usr/lib/openssh/gnome-ssh-askpass PUx,
 
-  include <local/usr.bin.ssh-agent>
+  include if exists <local/usr.bin.ssh-agent>
 }

@@ -113,5 +113,5 @@ profile ssh /usr/bin/ssh {
     owner @{HOME}/.Xauthority-c w,
   }
 
-  include <local/usr.bin.ssh>
+  include if exists <local/usr.bin.ssh>
 }

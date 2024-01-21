@@ -41,5 +41,5 @@ profile nsd /usr/sbin/nsd flags=(attach_disconnected) {
   /{,var/}run/nsd/nsd.ctl rw,
 
   # Site-specific additions and overrides. See local/README for details.
-  include <local/usr.sbin.nsd>
+  include if exists <local/usr.sbin.nsd>
 }

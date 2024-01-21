@@ -34,5 +34,5 @@ profile haproxy /usr/sbin/haproxy flags=(attach_disconnected) {
   # workaround LP: #1641236
   /dev/pts/[0-9]* rw,
 
-  include <local/usr.sbin.haproxy>
+  include if exists <local/usr.sbin.haproxy>
 }

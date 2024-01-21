@@ -123,5 +123,5 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
     /usr/bin/pyzor rm,
   }
 
-  include <local/usr.sbin.amavisd-new>
+  include if exists <local/usr.sbin.amavisd-new>
 }

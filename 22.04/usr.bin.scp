@@ -31,5 +31,5 @@ profile scp /usr/bin/scp {
     /** r,
   }
 
-  include <local/usr.bin.scp>
+  include if exists <local/usr.bin.scp>
 }

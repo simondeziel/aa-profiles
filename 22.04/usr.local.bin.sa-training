@@ -17,5 +17,5 @@ profile sa-training /usr/local/bin/sa-training {
   /usr/bin/sa-learn     PUx,
   /usr/bin/spamassassin PUx,
 
-  include <local/usr.local.bin.sa-training>
+  include if exists <local/usr.local.bin.sa-training>
 }

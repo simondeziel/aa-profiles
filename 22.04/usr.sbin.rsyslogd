@@ -58,5 +58,5 @@ profile rsyslogd /usr/sbin/rsyslogd flags=(attach_disconnected) {
   #/{,var/}run/postgresql/.s.PGSQL.*[0-9] rw,
 
   # Site-specific additions and overrides. See local/README for details.
-  include <local/usr.sbin.rsyslogd>
+  include if exists <local/usr.sbin.rsyslogd>
 }
