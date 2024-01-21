@@ -6,6 +6,5 @@
 
   # XXX: pinger not used here
   deny capability net_raw,
-  # pinger
   deny network inet raw,
   deny network inet6 raw,
