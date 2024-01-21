@@ -1,6 +1,7 @@
 # Author: Simon Deziel
 # vim:syntax=apparmor
 
+abi <abi/3.0>,
 include <tunables/global>
 profile replicator-wrapper /usr/local/bin/replicator-wrapper {
   include <abstractions/base>

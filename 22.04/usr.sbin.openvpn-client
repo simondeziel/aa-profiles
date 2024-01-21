@@ -1,5 +1,7 @@
-# vim:syntax=apparmor
 # Source: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/662861/+attachment/1700207/+files/apparmor-openvpn-reproducer.sh
+# vim:syntax=apparmor
+
+abi <abi/3.0>,
 include <tunables/global>
 
 # XXX: attach_disconnected needed because of Protect{Home,System}

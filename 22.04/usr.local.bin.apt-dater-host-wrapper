@@ -1,6 +1,7 @@
 # Author: Simon Deziel
 # vim:syntax=apparmor
 
+abi <abi/3.0>,
 include <tunables/global>
 profile apt-dater-host-wrapper /usr/local/bin/apt-dater-host-wrapper {
   include <abstractions/base>

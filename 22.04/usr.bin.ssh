@@ -1,5 +1,7 @@
-# Author: Simon Deziel <simon.deziel@gmail.com>
+# Author: Simon Deziel
+# vim:syntax=apparmor
 
+abi <abi/3.0>,
 include <tunables/global>
 
 profile ssh /usr/bin/ssh {

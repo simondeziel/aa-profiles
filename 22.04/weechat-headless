@@ -1,5 +1,7 @@
 # Author: Simon Deziel
+# vim:syntax=apparmor
 
+abi <abi/3.0>,
 include <tunables/global>
 
 profile weechat-headless /usr/bin/weechat-headless flags=(attach_disconnected) {

@@ -1,3 +1,7 @@
+# Author: Simon Deziel
+# vim:syntax=apparmor
+
+abi <abi/3.0>,
 include <tunables/global>
 
 profile sa-training /usr/local/bin/sa-training {
