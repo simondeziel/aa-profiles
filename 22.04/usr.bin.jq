@@ -2,7 +2,7 @@
 
 abi <abi/3.0>,
 
-#include <tunables/global>
+include <tunables/global>
 
 profile jq /usr/bin/jq {
   include <abstractions/base>

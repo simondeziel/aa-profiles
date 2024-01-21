@@ -1,12 +1,12 @@
 # Author: Simon Deziel <simon@sdeziel.info>
 
-#include <tunables/global>
+include <tunables/global>
 
 # XXX: attach_disconnected needed if using systemd Protect{Home,System}
 profile haproxy /usr/sbin/haproxy flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/openssl>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/openssl>
 
   network inet stream,
   network inet6 stream,
@@ -32,5 +32,5 @@ profile haproxy /usr/sbin/haproxy flags=(attach_disconnected) {
   # workaround LP: #1641236
   /dev/pts/[0-9]* rw,
 
-  #include <local/usr.sbin.haproxy>
+  include <local/usr.sbin.haproxy>
 }

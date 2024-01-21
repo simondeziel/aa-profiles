@@ -1,9 +1,9 @@
 # Author: Simon Deziel <simon.deziel@gmail.com>
 
-#include <tunables/global>
+include <tunables/global>
 
 profile scp /usr/bin/scp {
-  #include <abstractions/base>
+  include <abstractions/base>
 
   signal (send) set=(int,stp,term,winch) peer=ssh,
 
@@ -19,7 +19,7 @@ profile scp /usr/bin/scp {
   # can fallback to cp if only local paths are provided
   /{,usr/}bin/cp Cx -> cp_fallback,
   profile cp_fallback {
-    #include <abstractions/base>
+    include <abstractions/base>
     capability chown,
     capability fowner,
 
@@ -29,5 +29,5 @@ profile scp /usr/bin/scp {
     /** r,
   }
 
-  #include <local/usr.bin.scp>
+  include <local/usr.bin.scp>
 }

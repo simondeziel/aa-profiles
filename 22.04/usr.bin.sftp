@@ -1,9 +1,9 @@
 # Author: Simon Deziel <simon.deziel@gmail.com>
 
-#include <tunables/global>
+include <tunables/global>
 
 profile sftp /usr/bin/sftp {
-  #include <abstractions/base>
+  include <abstractions/base>
 
   signal (send) set=(int,stp,term,winch) peer=ssh,
 
@@ -32,5 +32,5 @@ profile sftp /usr/bin/sftp {
   /   r,
   /** r,
 
-  #include <local/usr.bin.sftp>
+  include <local/usr.bin.sftp>
 }

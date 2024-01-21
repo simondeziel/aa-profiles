@@ -1,9 +1,9 @@
 # Author: Simon Deziel
 # vim:syntax=apparmor
 
-#include <tunables/global>
+include <tunables/global>
 profile replicator-wrapper /usr/local/bin/replicator-wrapper {
-  #include <abstractions/base>
+  include <abstractions/base>
 
   # ps wants ptrace
   deny ptrace,
@@ -31,5 +31,5 @@ profile replicator-wrapper /usr/local/bin/replicator-wrapper {
   owner @{PROC}/@{pid}/mounts  r,
   owner @{PROC}/@{pid}/stat    r,
 
-  #include <local/usr.local.bin.replicator-wrapper>
+  include <local/usr.local.bin.replicator-wrapper>
 }

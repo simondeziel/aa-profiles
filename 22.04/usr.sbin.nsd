@@ -1,12 +1,12 @@
 # Author: Simon Deziel
 # vim:syntax=apparmor
-#include <tunables/global>
+include <tunables/global>
 
 # XXX: attach_disconnected needed because of Protect{Home,System}
 profile nsd /usr/sbin/nsd flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/openssl>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/openssl>
 
   capability net_admin,
   capability net_bind_service,
@@ -39,5 +39,5 @@ profile nsd /usr/sbin/nsd flags=(attach_disconnected) {
   /{,var/}run/nsd/nsd.ctl rw,
 
   # Site-specific additions and overrides. See local/README for details.
-  #include <local/usr.sbin.nsd>
+  include <local/usr.sbin.nsd>
 }

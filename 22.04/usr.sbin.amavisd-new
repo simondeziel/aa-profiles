@@ -1,11 +1,11 @@
 # Author: Simon Deziel
 # vim:syntax=apparmor
-#include <tunables/global>
+include <tunables/global>
 
 profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/perl>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/perl>
 
   # config
   /etc/amavis/** r,
@@ -40,7 +40,7 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
 
   /usr/bin/dash Cx -> dash,
   profile dash flags=(attach_disconnected) {
-    #include <abstractions/base>
+    include <abstractions/base>
     /usr/bin/dash  rm,
 
     /etc/amavis/** r,
@@ -59,7 +59,7 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
   /usr/bin/bin/ar  Cx -> extractor,
   /usr/bin/xz      Cx -> extractor,
   profile extractor flags=(attach_disconnected) {
-    #include <abstractions/base>
+    include <abstractions/base>
     audit deny ptrace,
 
     /usr/bin/bzip2 rm,
@@ -74,7 +74,7 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
 
   /usr/bin/pax Cx -> pax,
   profile pax flags=(attach_disconnected) {
-    #include <abstractions/base>
+    include <abstractions/base>
     audit deny ptrace,
 
     /etc/default/nss   r,
@@ -91,7 +91,7 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
 
   /usr/bin/file Cx -> filebin,
   profile filebin flags=(attach_disconnected) {
-    #include <abstractions/base>
+    include <abstractions/base>
     audit deny ptrace,
 
     /etc/magic r,
@@ -105,9 +105,9 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
 
   /usr/bin/pyzor Cx -> pyzor,
   profile pyzor flags=(attach_disconnected) {
-    #include <abstractions/base>
-    #include <abstractions/nameservice>
-    #include <abstractions/python>
+    include <abstractions/base>
+    include <abstractions/nameservice>
+    include <abstractions/python>
 
     audit deny ptrace,
 
@@ -121,5 +121,5 @@ profile amavisd-new /usr/sbin/amavisd-new flags=(attach_disconnected) {
     /usr/bin/pyzor rm,
   }
 
-  #include <local/usr.sbin.amavisd-new>
+  include <local/usr.sbin.amavisd-new>
 }

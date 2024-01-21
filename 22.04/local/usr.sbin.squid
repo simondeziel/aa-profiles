@@ -2,7 +2,7 @@
 # For more details, please see /etc/apparmor.d/local/README.
 
   # XXX: https://salsa.debian.org/squid-team/squid/-/merge_requests/19
-  #include <abstractions/openssl>
+  include <abstractions/openssl>
 
   # XXX: pinger not used here
   deny capability net_raw,

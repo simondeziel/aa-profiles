@@ -3,7 +3,7 @@
 
 abi <abi/3.0>,
 
-#include <tunables/global>
+include <tunables/global>
 
 profile systemd-resolved /{usr/,}lib/systemd/systemd-resolved flags=(attach_disconnected) {
   include <abstractions/base>

@@ -1,12 +1,12 @@
 # Author: Simon Deziel
 
-#include <tunables/global>
+include <tunables/global>
 
 @{GITOLITE_HOME}=/var/lib/gitolite3
 
 profile gitolite-shell /usr/share/gitolite3/gitolite-shell {
-  #include <abstractions/base>
-  #include <abstractions/perl>
+  include <abstractions/base>
+  include <abstractions/perl>
 
   /etc/gitconfig                      r,
   /etc/gitolite3/gitolite.rc          r,
@@ -38,7 +38,7 @@ profile gitolite-shell /usr/share/gitolite3/gitolite-shell {
   /usr/bin/git        ix,
   /usr/lib/git-core/* Cx -> git_core,
   profile git_core {
-    #include <abstractions/base>
+    include <abstractions/base>
     /usr/lib/git-core/* ix,
 
     owner @{GITOLITE_HOME}/ r,
@@ -65,7 +65,7 @@ profile gitolite-shell /usr/share/gitolite3/gitolite-shell {
 
   /usr/bin/dash Cx -> dash,
   profile dash {
-    #include <abstractions/base>
+    include <abstractions/base>
     /usr/bin/dash       rm,
     /usr/bin/hostname   ix,
     /usr/bin/find       ix,
@@ -79,5 +79,5 @@ profile gitolite-shell /usr/share/gitolite3/gitolite-shell {
     owner @{GITOLITE_HOME}/** rw,
   }
 
-  #include <local/gitolite-shell>
+  include <local/gitolite-shell>
 }

@@ -1,13 +1,13 @@
 # Author: Simon Deziel <simon.deziel@gmail.com>
 
-#include <tunables/global>
+include <tunables/global>
 
 # XXX: attach_disconnected needed if using systemd Protect{Home,System}
 profile nginx /usr/sbin/nginx flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/ssl_certs>
-  #include <abstractions/ssl_keys>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/ssl_certs>
+  include <abstractions/ssl_keys>
 
   network inet stream,
   network inet6 stream,
@@ -62,5 +62,5 @@ profile nginx /usr/sbin/nginx flags=(attach_disconnected) {
   # dehydrated
   /var/lib/dehydrated/acme-challenges/* r,
 
-  #include <local/usr.sbin.nginx>
+  include <local/usr.sbin.nginx>
 }

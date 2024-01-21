@@ -1,12 +1,12 @@
 # Author: Simon Deziel <simon.deziel@gmail.com>
 
-#include <tunables/global>
+include <tunables/global>
 
 profile ssh /usr/bin/ssh {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/openssl>
-  #include <abstractions/X>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/openssl>
+  include <abstractions/X>
 
   capability setuid,
   capability setgid,
@@ -71,7 +71,7 @@ profile ssh /usr/bin/ssh {
   /usr/bin/ssh      mr,
 
   profile proxycommand {
-    #include <abstractions/base>
+    include <abstractions/base>
 
     unix (send,receive) type=stream peer=(label=ssh),
 
@@ -91,8 +91,8 @@ profile ssh /usr/bin/ssh {
   /tmp/.X11-unix/* r,
   owner /tmp/ssh-*/xauthfile w,
   profile xauth {
-    #include <abstractions/base>
-    #include <abstractions/X>
+    include <abstractions/base>
+    include <abstractions/X>
 
     unix (send,receive) type=stream peer=(label=ssh),
 
@@ -111,5 +111,5 @@ profile ssh /usr/bin/ssh {
     owner @{HOME}/.Xauthority-c w,
   }
 
-  #include <local/usr.bin.ssh>
+  include <local/usr.bin.ssh>
 }

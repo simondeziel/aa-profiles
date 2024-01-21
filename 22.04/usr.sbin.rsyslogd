@@ -1,5 +1,5 @@
 # Last Modified: Sun Sep 25 08:58:35 2011
-#include <tunables/global>
+include <tunables/global>
 
 # Debugging the syslogger can be difficult if it can't write to the file
 # that the kernel is logging denials to. In these cases, you can do the
@@ -7,8 +7,8 @@
 # watch -n 1 'dmesg | tail -5'
 
 profile rsyslogd /usr/sbin/rsyslogd flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
+  include <abstractions/base>
+  include <abstractions/nameservice>
 
   capability sys_tty_config,
   capability dac_override,
@@ -55,5 +55,5 @@ profile rsyslogd /usr/sbin/rsyslogd flags=(attach_disconnected) {
   #/{,var/}run/postgresql/.s.PGSQL.*[0-9] rw,
 
   # Site-specific additions and overrides. See local/README for details.
-  #include <local/usr.sbin.rsyslogd>
+  include <local/usr.sbin.rsyslogd>
 }

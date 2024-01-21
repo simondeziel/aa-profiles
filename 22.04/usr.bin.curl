@@ -1,15 +1,15 @@
 # Author: Simon Deziel <simon@sdeziel.info>
 
-#include <tunables/global>
+include <tunables/global>
 
 profile curl /usr/bin/curl flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/user-tmp>
-  #include <abstractions/user-write>
-  #include <abstractions/ubuntu-browsers.d/user-files>
-  #include <abstractions/openssl>
-  #include <abstractions/ssl_certs>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/user-tmp>
+  include <abstractions/user-write>
+  include <abstractions/ubuntu-browsers.d/user-files>
+  include <abstractions/openssl>
+  include <abstractions/ssl_certs>
 
   # XXX: missing from <abstractions/ldapclient>?
   /etc/ldap/ldap.conf r,
@@ -19,5 +19,5 @@ profile curl /usr/bin/curl flags=(attach_disconnected) {
   # LXD snap
   /var/snap/lxd/common/lxd/unix.socket rw,
 
-  #include <local/usr.bin.curl>
+  include <local/usr.bin.curl>
 }

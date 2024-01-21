@@ -1,12 +1,12 @@
 # vim:syntax=apparmor
 # Source: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/662861/+attachment/1700207/+files/apparmor-openvpn-reproducer.sh
-#include <tunables/global>
+include <tunables/global>
 
 # XXX: attach_disconnected needed because of Protect{Home,System}
 profile openvpn-server flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/openssl>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/openssl>
 
   capability net_admin,
   capability setuid,
@@ -39,5 +39,5 @@ profile openvpn-server flags=(attach_disconnected) {
   /var/log/openvpn/*.log w,
 
   # Site-specific additions and overrides. See local/README for details.
-  #include <local/usr.sbin.openvpn-server>
+  include <local/usr.sbin.openvpn-server>
 }

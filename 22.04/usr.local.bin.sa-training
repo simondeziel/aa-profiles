@@ -1,8 +1,8 @@
-#include <tunables/global>
+include <tunables/global>
 
 profile sa-training /usr/local/bin/sa-training {
-  #include <abstractions/base>
-  #include <abstractions/perl>
+  include <abstractions/base>
+  include <abstractions/perl>
 
   /usr/local/bin/sa-training r,
 
@@ -13,5 +13,5 @@ profile sa-training /usr/local/bin/sa-training {
   /usr/bin/sa-learn     PUx,
   /usr/bin/spamassassin PUx,
 
-  #include <local/usr.local.bin.sa-training>
+  include <local/usr.local.bin.sa-training>
 }

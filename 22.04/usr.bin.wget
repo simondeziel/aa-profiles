@@ -1,15 +1,15 @@
 # Author: Simon Deziel <simon@sdeziel.info>
 
-#include <tunables/global>
+include <tunables/global>
 
 profile wget /usr/bin/wget flags=(attach_disconnected) {
-  #include <abstractions/base>
-  #include <abstractions/nameservice>
-  #include <abstractions/user-tmp>
-  #include <abstractions/user-write>
-  #include <abstractions/ubuntu-browsers.d/user-files>
-  #include <abstractions/openssl>
-  #include <abstractions/ssl_certs>
+  include <abstractions/base>
+  include <abstractions/nameservice>
+  include <abstractions/user-tmp>
+  include <abstractions/user-write>
+  include <abstractions/ubuntu-browsers.d/user-files>
+  include <abstractions/openssl>
+  include <abstractions/ssl_certs>
 
   /etc/wgetrc              r,
   owner @{HOME}/.wgetrc    r,
@@ -18,5 +18,5 @@ profile wget /usr/bin/wget flags=(attach_disconnected) {
   /usr/bin/wget             mr,
   /usr/share/publicsuffix/* r,
 
-  #include <local/usr.bin.wget>
+  include <local/usr.bin.wget>
 }
